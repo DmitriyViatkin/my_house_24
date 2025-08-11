@@ -1,0 +1,64 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Новая статья</h1>
+      <ul class="breadcrumb">
+        <li>
+          {# Используем {% url %} для динамической ссылки на главную страницу #}
+          <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          {# Используем {% url %} для динамической ссылки на список статей #}
+          <a href="{% url 'transaction_purpose_index' %}">Статьи приходов/расходов</a>
+        </li>
+        <li class="active">Новая статья</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          {# Используем {% url %} для динамического URL-адреса формы #}
+          <form id="w0" action="{% url 'create_transaction_purpose' %}" method="post">
+            <input type="hidden"
+                   name="_csrf-backend"
+                   value="LQvl7uVrmb8YS9cE6741ytchFdv9ERErZrmOva3lN6Z8OL-cll3B8FUvtnC7_Bio5Xl9kb4nWGolzffaxL0BwA==" />
+            <div class="row">
+              <div class="col-xs-12 col-lg-7">
+                <div class="form-group field-transactionpurpose-name required">
+                  <label class="control-label" for="transactionpurpose-name">Название</label>
+                  <input type="text"
+                         id="transactionpurpose-name"
+                         class="form-control"
+                         name="TransactionPurpose[name]"
+                         aria-required="true" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-transactionpurpose-type">
+                  <label class="control-label" for="transactionpurpose-type">Приход/расход</label>
+                  <select id="transactionpurpose-type"
+                          class="form-control"
+                          name="TransactionPurpose[type]">
+                    <option value="in">Приход</option>
+                    <option value="out">Расход</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  {# Используем {% url %} для динамической ссылки на кнопку "Отменить" #}
+                  <a href="{% url 'transaction_purpose_index' %}" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

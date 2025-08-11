@@ -1,0 +1,641 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Редактирование страницы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Редактирование страницы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Редактирование страницы "Услуги"</h3>
+            </div>
+            <div class="box-body">
+              <form id="w0"
+                    action="/admin/website/services"
+                    method="post"
+                    enctype="multipart/form-data">
+                <input type="hidden"
+                       name="_csrf-backend"
+                       value="miVVMPIhHPb_7BoM0Lvx88Lk6M2zYn2jFJ5KfPsbR7DLFg9CgRdEubKIe3iA-dyR8LyAh_BUNOJX6jMbkkNx1g==" />
+                <div class="row near-img">
+                  <div class="col-xs-12">
+                    <h3 class="page-header">Услуги</h3>
+                  </div>
+                  <div id="form-websiteservice-rows">
+                    <div id="form-websiteservice-0" class="col-md-4 form-websiteservice">
+                      <h4>
+                        Услуга 1                    <a href="/admin/website/delete-service/117"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteService%2F117%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websiteservice-0-id"
+                             name="WebsiteService[0][id]"
+                             value="117" />
+                      <div class="form-group">
+                        <label for="websiteservice-0-imageFile">Рекомендуемый размер: (650x300)</label>
+                        <input type="hidden" name="WebsiteService[0][imageFile]" value="" />
+                        <input type="file"
+                               id="websiteservice-0-imagefile"
+                               class="form-control"
+                               name="WebsiteService[0][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websiteservice-0-title">Название услуги</label>
+                        <input type="text"
+                               id="websiteservice-0-title"
+                               class="form-control"
+                               name="WebsiteService[0][title]"
+                               value="Услуги по вывозу бытовых отходов" />
+                      </div>
+                      <div class="form-group margin-bottom-30">
+                        <label for="websiteservice-0-description">Описание услуги</label>
+                        <ul class="wysihtml5-toolbar" style="">
+                          <li class="dropdown">
+                            <a class="btn btn-default dropdown-toggle btn-none"
+                               data-toggle="dropdown">
+                              <span class="fa fa-font"></span>
+                              <span class="current-font">Обычный текст</span>
+                              <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="p"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Обычный текст</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h1"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 1</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h2"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 2</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h3"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 3</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h4"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 4</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h5"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 5</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h6"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 6</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="bold"
+                                 title="CTRL+B"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Полужирный</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="italic"
+                                 title="CTRL+I"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Курсив</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="underline"
+                                 title="CTRL+U"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Подчёркнутый</a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertUnorderedList"
+                                 title="Маркированный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ul"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertOrderedList"
+                                 title="Нумерованный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ol"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Outdent"
+                                 title="Уменьшить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-outdent"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Indent"
+                                 title="Увеличить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-indent"></span>
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                        <textarea id="websiteservice-0-description" class="compose-textarea form-control" name="WebsiteService[0][description]" style="display: none;" placeholder="Текст описания">&lt;p&gt;
+&lt;p&gt;В состав услуги по управлению бытовыми отходами входят операции по сбору, перевозке, восстановлению и удалению бытовых отходов, а также деятельность, связанная с организацией работы системы управления бытовыми отходами, которая осуществляется нами.&lt;/p&gt;&lt;/p&gt;</textarea>
+                        <input type="hidden" name="_wysihtml5_mode" value="1" />
+                        <iframe class="wysihtml5-sandbox"
+                                security="restricted"
+                                allowtransparency="true"
+                                frameborder="0"
+                                width="0"
+                                height="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                style="display: block;
+                                       background-color: rgb(255, 255, 255);
+                                       border-collapse: separate;
+                                       border-color: rgb(210, 214, 222);
+                                       border-style: solid;
+                                       border-width: 1px;
+                                       clear: none;
+                                       float: none;
+                                       margin: 0px;
+                                       outline: rgb(85, 85, 85) none 0px;
+                                       outline-offset: 0px;
+                                       padding: 6px 12px;
+                                       position: static;
+                                       inset: auto;
+                                       z-index: auto;
+                                       vertical-align: baseline;
+                                       text-align: start;
+                                       box-sizing: border-box;
+                                       box-shadow: none;
+                                       border-radius: 0px;
+                                       width: 100%;
+                                       height: auto"></iframe>
+                      </div>
+                    </div>
+                    <div id="form-websiteservice-1" class="col-md-4 form-websiteservice">
+                      <h4>
+                        Услуга 2                    <a href="/admin/website/delete-service/115"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteService%2F115%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websiteservice-1-id"
+                             name="WebsiteService[1][id]"
+                             value="115" />
+                      <div class="form-group">
+                        <label for="websiteservice-1-imageFile">Рекомендуемый размер: (650x300)</label>
+                        <input type="hidden" name="WebsiteService[1][imageFile]" value="" />
+                        <input type="file"
+                               id="websiteservice-1-imagefile"
+                               class="form-control"
+                               name="WebsiteService[1][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websiteservice-1-title">Название услуги</label>
+                        <input type="text"
+                               id="websiteservice-1-title"
+                               class="form-control"
+                               name="WebsiteService[1][title]"
+                               value="Паркинг" />
+                      </div>
+                      <div class="form-group margin-bottom-30">
+                        <label for="websiteservice-1-description">Описание услуги</label>
+                        <ul class="wysihtml5-toolbar" style="">
+                          <li class="dropdown">
+                            <a class="btn btn-default dropdown-toggle btn-none"
+                               data-toggle="dropdown">
+                              <span class="fa fa-font"></span>
+                              <span class="current-font">Обычный текст</span>
+                              <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="p"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Обычный текст</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h1"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 1</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h2"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 2</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h3"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 3</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h4"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 4</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h5"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 5</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h6"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 6</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="bold"
+                                 title="CTRL+B"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Полужирный</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="italic"
+                                 title="CTRL+I"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Курсив</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="underline"
+                                 title="CTRL+U"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Подчёркнутый</a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertUnorderedList"
+                                 title="Маркированный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ul"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertOrderedList"
+                                 title="Нумерованный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ol"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Outdent"
+                                 title="Уменьшить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-outdent"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Indent"
+                                 title="Увеличить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-indent"></span>
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                        <textarea id="websiteservice-1-description" class="compose-textarea form-control" name="WebsiteService[1][description]" style="display: none;" placeholder="Текст описания">&lt;p&gt;&lt;b&gt;Воспользуйтесь стоянкой или подземным паркингом&lt;/b&gt;&lt;/p&gt;
+Мы предоставляем услуги паркинга с круглосуточной охраной всех автомобилей жильцов.&amp;nbsp;&lt;br&gt;</textarea>
+                        <input type="hidden" name="_wysihtml5_mode" value="1" />
+                        <iframe class="wysihtml5-sandbox"
+                                security="restricted"
+                                allowtransparency="true"
+                                frameborder="0"
+                                width="0"
+                                height="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                style="display: block;
+                                       background-color: rgb(255, 255, 255);
+                                       border-collapse: separate;
+                                       border-color: rgb(210, 214, 222);
+                                       border-style: solid;
+                                       border-width: 1px;
+                                       clear: none;
+                                       float: none;
+                                       margin: 0px;
+                                       outline: rgb(85, 85, 85) none 0px;
+                                       outline-offset: 0px;
+                                       padding: 6px 12px;
+                                       position: static;
+                                       inset: auto;
+                                       z-index: auto;
+                                       vertical-align: baseline;
+                                       text-align: start;
+                                       box-sizing: border-box;
+                                       box-shadow: none;
+                                       border-radius: 0px;
+                                       width: 100%;
+                                       height: auto"></iframe>
+                      </div>
+                    </div>
+                    <div id="form-websiteservice-2" class="col-md-4 form-websiteservice">
+                      <h4>
+                        Услуга 3                    <a href="/admin/website/delete-service/116"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteService%2F116%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websiteservice-2-id"
+                             name="WebsiteService[2][id]"
+                             value="116" />
+                      <div class="form-group">
+                        <label for="websiteservice-2-imageFile">Рекомендуемый размер: (650x300)</label>
+                        <input type="hidden" name="WebsiteService[2][imageFile]" value="" />
+                        <input type="file"
+                               id="websiteservice-2-imagefile"
+                               class="form-control"
+                               name="WebsiteService[2][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websiteservice-2-title">Название услуги</label>
+                        <input type="text"
+                               id="websiteservice-2-title"
+                               class="form-control"
+                               name="WebsiteService[2][title]"
+                               value="Выгул собак" />
+                      </div>
+                      <div class="form-group margin-bottom-30">
+                        <label for="websiteservice-2-description">Описание услуги</label>
+                        <ul class="wysihtml5-toolbar" style="">
+                          <li class="dropdown">
+                            <a class="btn btn-default dropdown-toggle btn-none"
+                               data-toggle="dropdown">
+                              <span class="fa fa-font"></span>
+                              <span class="current-font">Обычный текст</span>
+                              <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="p"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Обычный текст</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h1"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 1</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h2"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 2</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h3"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 3</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h4"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 4</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h5"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 5</a>
+                              </li>
+                              <li>
+                                <a data-wysihtml5-command="formatBlock"
+                                   data-wysihtml5-command-value="h6"
+                                   tabindex="-1"
+                                   href="javascript:;"
+                                   unselectable="on">Заголовок 6</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="bold"
+                                 title="CTRL+B"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Полужирный</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="italic"
+                                 title="CTRL+I"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Курсив</a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="underline"
+                                 title="CTRL+U"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Подчёркнутый</a>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="btn-group">
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertUnorderedList"
+                                 title="Маркированный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ul"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="insertOrderedList"
+                                 title="Нумерованный список"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-list-ol"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Outdent"
+                                 title="Уменьшить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-outdent"></span>
+                              </a>
+                              <a class="btn btn-none btn-default"
+                                 data-wysihtml5-command="Indent"
+                                 title="Увеличить отступ"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">
+                                <span class="fa fa-indent"></span>
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                        <textarea id="websiteservice-2-description" class="compose-textarea form-control" name="WebsiteService[2][description]" style="display: none;" placeholder="Текст описания">&lt;p&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;Воспользуйтесь услугой выгула ваших питомцем&lt;/b&gt;&lt;br&gt;
+Мы предоставляем услуги выгула собак в Одессе с гарантией качества – питомец не убежит и получит достаточную физическую активность. Результат – счастливый хвостатый и довольный хозяин.&lt;/p&gt;</textarea>
+                        <input type="hidden" name="_wysihtml5_mode" value="1" />
+                        <iframe class="wysihtml5-sandbox"
+                                security="restricted"
+                                allowtransparency="true"
+                                frameborder="0"
+                                width="0"
+                                height="0"
+                                marginwidth="0"
+                                marginheight="0"
+                                style="display: block;
+                                       background-color: rgb(255, 255, 255);
+                                       border-collapse: separate;
+                                       border-color: rgb(210, 214, 222);
+                                       border-style: solid;
+                                       border-width: 1px;
+                                       clear: none;
+                                       float: none;
+                                       margin: 0px;
+                                       outline: rgb(85, 85, 85) none 0px;
+                                       outline-offset: 0px;
+                                       padding: 6px 12px;
+                                       position: static;
+                                       inset: auto;
+                                       z-index: auto;
+                                       vertical-align: baseline;
+                                       text-align: start;
+                                       box-sizing: border-box;
+                                       box-shadow: none;
+                                       border-radius: 0px;
+                                       width: 100%;
+                                       height: auto"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="page-header">Настройки SEO</h3>
+                    <div class="form-group field-websiteserviceform-servicemetatitle">
+                      <label class="control-label" for="websiteserviceform-servicemetatitle">Title</label>
+                      <input type="text"
+                             id="websiteserviceform-servicemetatitle"
+                             class="form-control"
+                             name="WebsiteServiceForm[serviceMetaTitle]"
+                             value="These are our services" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteserviceform-servicemetadescription">
+                      <label class="control-label" for="websiteserviceform-servicemetadescription">Description</label>
+                      <textarea id="websiteserviceform-servicemetadescription"
+                                class="form-control"
+                                name="WebsiteServiceForm[serviceMetaDescription]"
+                                rows="6">These are our services</textarea>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteserviceform-servicemetakeywords">
+                      <label class="control-label" for="websiteserviceform-servicemetakeywords">Keywords</label>
+                      <textarea id="websiteserviceform-servicemetakeywords"
+                                class="form-control"
+                                name="WebsiteServiceForm[serviceMetaKeywords]"
+                                rows="6">These are our services</textarea>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <div class="form-group">
+                      <a href="/admin/website/services" class="btn btn-default">Отменить</a>
+                      <button type="button"
+                              role="button"
+                              class="btn btn-success bg-green-active form-row-add-websiteservice-btn">
+                        Добавить услугу
+                      </button>
+                      <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,1573 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Квартиры</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Квартиры</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="/admin/flat/create">Добавить квартиру</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title"></h3>
+              <div class="box-tools">
+                <a href="/admin/flat/index" class="btn btn-default btn-sm">
+                  <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div id="w0" class="grid-view">
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th style="width: 120px; min-width: 120px">
+                        <a href="/admin/flat/index?sort=flat" data-sort="flat">№ квартиры</a>
+                      </th>
+                      <th style="min-width: 200px">
+                        <a href="/admin/flat/index?sort=house_id" data-sort="house_id">Дом</a>
+                      </th>
+                      <th style="width: 160px; min-width: 65px">
+                        <a href="/admin/flat/index?sort=section_id" data-sort="section_id">Секция</a>
+                      </th>
+                      <th style="width: 160px; min-width: 65px">
+                        <a href="/admin/flat/index?sort=floor_id" data-sort="floor_id">Этаж</a>
+                      </th>
+                      <th style="min-width: 200px">
+                        <a href="/admin/flat/index?sort=user_id" data-sort="user_id">Владелец</a>
+                      </th>
+                      <th style="width: 120px; min-width: 120px">Остаток (грн)</th>
+                      <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                    </tr>
+                    <tr id="w0-filters" class="filters">
+                      <td>
+                        <input type="text" class="form-control" name="FlatSearch[flat]" />
+                      </td>
+                      <td>
+                        <select id="flatsearch-house_id"
+                                class="form-control select2-hidden-accessible"
+                                name="FlatSearch[house_id]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_0d896465"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value=""></option>
+                          <option value="1">ЖК "Башня Чкалов"</option>
+                          <option value="2">ЖК "Морская Симфония"</option>
+                          <option value="3">ЖК "Дом Каркашадзе"</option>
+                          <option value="4">ЖК "Королевские сады"</option>
+                          <option value="6">ЖК "Балковский"</option>
+                          <option value="11">ЖК "Адмирал" Дом №11</option>
+                          <option value="12">ЖК "Адмирал" Дом №12</option>
+                          <option value="13">ЖК "Адмирал" Дом №13</option>
+                          <option value="14">ЖК "Новые Черемушки"</option>
+                          <option value="18">ЖК "Manhattan"</option>
+                          <option value="19">ЖК "Скай Сити"</option>
+                          <option value="20">ЖК "Альтаир 3"</option>
+                          <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                          <option value="24">Н-О</option>
+                          <option value="25">ЖК Искринский</option>
+                          <option value="51">ЖК Suncity-Солнечный город</option>
+                          <option value="56">Дом 56</option>
+                          <option value="61">Жилой район Приморские сады</option>
+                          <option value="78">Золотая Эра</option>
+                          <option value="85">Микрорайон «Таировские Сады»</option>
+                          <option value="100">ЖК "Удобний"</option>
+                          <option value="101">Житловий комплекс «Будинок №1»</option>
+                          <option value="105">ЖК "Луч"</option>
+                          <option value="106">Торговельний Центр «Афіна»</option>
+                          <option value="107">ЖК «Санторіні»</option>
+                          <option value="132">ЖК «Крит»</option>
+                          <option value="133">Континент</option>
+                          <option value="134">Континент</option>
+                          <option value="139">ЖК Чайка</option>
+                          <option value="142">Офісний центр на Французькому бульварі</option>
+                          <option value="145">БЦ на Глибочицькій</option>
+                          <option value="158">ЖК «Лімнос»</option>
+                          <option value="165">ЖК "Помидор"</option>
+                          <option value="170">Готельно-житловий комплекс «Міконос»</option>
+                          <option value="173">ЖК «Корфу»</option>
+                          <option value="174">Аквамарин</option>
+                          <option value="175">Генарёк хаус</option>
+                          <option value="183">ЖК «Мілос»</option>
+                          <option value="185">Аполлон на Карантинній</option>
+                          <option value="186">Апарт-комплекс «Каліпсо»</option>
+                          <option value="188">ЖК «Родос»</option>
+                          <option value="193">ЖК "Эдельвейс"</option>
+                          <option value="194">ЖК Авиньйон</option>
+                          <option value="196">Аполлон на Куликовському</option>
+                          <option value="197">Бізнес-Центр «Ольвія»</option>
+                          <option value="199">ЖК «Акрополь»</option>
+                          <option value="201">ЖК «Еллада»</option>
+                          <option value="202">Бізнес-Центр «Платон»</option>
+                          <option value="203">Апарт-комплекс «Ітака»</option>
+                          <option value="204">ЖК «Посейдон»</option>
+                          <option value="205">Житловий комплекс «Будинок №1»</option>
+                          <option value="206">Дом ЗЕЛЁНЫЙ</option>
+                          <option value="213">Апарт-комплекс «Aтлант»</option>
+                          <option value="216">ЖК "Україна"</option>
+                          <option value="219">ЖК "Котон"</option>
+                          <option value="220">Жк Комфорт таун</option>
+                          <option value="222">ЖК ''Перлина''</option>
+                          <option value="223">ЖК ''Перлина 2''</option>
+                          <option value="224">ЖК Перемога</option>
+                          <option value="225">ЖК Перемога України</option>
+                          <option value="226"></option>
+                          <option value="227">Акрополь</option>
+                          <option value="230">Перлина 3</option>
+                          <option value="233">ЖК "Україна"</option>
+                          <option value="236">ЖК House Of Bugs</option>
+                          <option value="237">Жк Комфорт таун</option>
+                          <option value="239">ЖК Independent</option>
+                          <option value="241">ЖК "Україна"</option>
+                          <option value="250">Світланин рай</option>
+                          <option value="251">ЖК "Зелень"</option>
+                          <option value="254">New House</option>
+                          <option value="257">ЖЖ Аркадия</option>
+                          <option value="260">Тестовый дом 1</option>
+                          <option value="262">ЖК "Світлании оазис"</option>
+                          <option value="263"></option>
+                          <option value="264">ЖК Місто Квітів</option>
+                          <option value="265">ЖК Місто Квітів2</option>
+                          <option value="266">ЖК "Котон"</option>
+                          <option value="267">Вільний ЖК</option>
+                          <option value="268"></option>
+                          <option value="270">Будинок</option>
+                          <option value="273">New House</option>
+                          <option value="274">ЖК Місто Квітів</option>
+                          <option value="275">Ррррррррррррррррррррррррр</option>
+                          <option value="276">Вільний ЖК</option>
+                          <option value="278">Ннннннннннннн</option>
+                          <option value="279">22</option>
+                          <option value="282">Вільний ЖК 2</option>
+                          <option value="284">ЖК Місто Квітів</option>
+                          <option value="285">ЖК "Котон"</option>
+                          <option value="287">ЖК "Проблем нема"</option>
+                          <option value="290">ЖК "Рожевий рай"</option>
+                          <option value="291">ЖК "Рожевий рай"</option>
+                          <option value="294"></option>
+                          <option value="296">ЖК "Рожевий рай"</option>
+                          <option value="297">ЖК "Рожевий рай"</option>
+                          <option value="301">Тест</option>
+                          <option value="304">ЖК Атлант</option>
+                          <option value="305">ЖК Атлант</option>
+                          <option value="315">ЖК Молодість</option>
+                          <option value="316">Відпочинок</option>
+                          <option value="319">ЖК Атлант</option>
+                          <option value="321">ЖК Будинок</option>
+                          <option value="325">ЖК Молодіжний</option>
+                          <option value="326">ЖК новий</option>
+                          <option value="328">Вільний ЖК 3</option>
+                          <option value="329">ранок</option>
+                          <option value="339">dx</option>
+                          <option value="342">Мій1</option>
+                          <option value="346">ЖК OZONE</option>
+                          <option value="351">ЖК Санторіні</option>
+                          <option value="354">ЖК Кімолос</option>
+                          <option value="357">Unity Towers</option>
+                          <option value="360">ЖК Еллада</option>
+                          <option value="361">Апарт-комплекс Breeze Marine</option>
+                          <option value="364">Апарт-комплекс Итака</option>
+                          <option value="370">ЖК Прохоровський квартал</option>
+                          <option value="372">Радужний</option>
+                          <option value="373">ЖК "Евро+"</option>
+                          <option value="374">ЖК "Калипсо"</option>
+                          <option value="376">ЖК Клубная резиденция</option>
+                          <option value="377">ЖК Акрополь</option>
+                          <option value="378">ЖК Посейдон</option>
+                          <option value="379">Аврора</option>
+                          <option value="380">ЖК Золотая Ера</option>
+                          <option value="388">Стрела</option>
+                          <option value="389">ЖК Modern</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-flatsearch-house_id-container"><span class="select2-selection__rendered"
+      id="select2-flatsearch-house_id-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>
+                        <select id="flatsearch-section_id"
+                                class="form-control select2-hidden-accessible"
+                                name="FlatSearch[section_id]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_00d9e7b8"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value="">Выберите дом</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-flatsearch-section_id-container"><span class="select2-selection__rendered"
+      id="select2-flatsearch-section_id-container"><span class="select2-selection__placeholder">Выберите дом</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>
+                        <select id="flatsearch-floor_id"
+                                class="form-control select2-hidden-accessible"
+                                name="FlatSearch[floor_id]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_00d9e7b8"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value="">Выберите дом</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-flatsearch-floor_id-container"><span class="select2-selection__rendered"
+      id="select2-flatsearch-floor_id-container"><span class="select2-selection__placeholder">Выберите дом</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>
+                        <select id="flatsearch-user_id"
+                                class="form-control select2-hidden-accessible"
+                                name="FlatSearch[user_id]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_ea5d4d6f"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value=""></option>
+                          <option value="174">Полищук</option>
+                          <option value="193">Запашный</option>
+                          <option value="10">Громов Павел</option>
+                          <option value="3">Булгаков Михаил Афанасьевич</option>
+                          <option value="224">Тарасюк</option>
+                          <option value="2">Иванов Иван  Сидорович</option>
+                          <option value="5">Купер Джеймс Фенимор</option>
+                          <option value="1">Лисенко Павел Михайлович</option>
+                          <option value="228">Зеленський Володимир Олександрович</option>
+                          <option value="232">Хома Михайло Степанович</option>
+                          <option value="233">Пилипчук Юлія Андріївна</option>
+                          <option value="234">Олександрааа Олександраа Олександрівнаа</option>
+                          <option value="240">Yuraу Matsakу Vladimirovichу</option>
+                          <option value="244">Віка Вік Вікторівна</option>
+                          <option value="247">Маркушин Марк Степанович</option>
+                          <option value="246">Пантелеєв Іван Іванович</option>
+                          <option value="248">Власник 1 Власник 1</option>
+                          <option value="249">Власник 2</option>
+                          <option value="250">Власник 3</option>
+                          <option value="239">Букатов Никита Александрович</option>
+                          <option value="257">Любов Антон</option>
+                          <option value="264">Романенко Влада Олеговна</option>
+                          <option value="229">onufriienko</option>
+                          <option value="266">Мазуров Степан Петрович</option>
+                          <option value="267">Куджо Джотаро Жожович</option>
+                          <option value="6">Кант Иммануил</option>
+                          <option value="265">Зеленська Олена Володимирiвна</option>
+                          <option value="251">Тестерович Данил Сергеевич</option>
+                          <option value="275">Yurka Yurii Yurievich</option>
+                          <option value="226">Мороз Яна  Вікторівна</option>
+                          <option value="242">Смирнов Павел Викторович</option>
+                          <option value="180">Кучма</option>
+                          <option value="278">Світланенко Руслан Васильович</option>
+                          <option value="280">Тест Тест</option>
+                          <option value="285">Миколаїв Микола 2 Миколайович</option>
+                          <option value="286">rfgtrf.n@gmail.com</option>
+                          <option value="274">Стартовий Олег Олегович</option>
+                          <option value="260">Просто  Саша Вікторівна</option>
+                          <option value="294">Любитель Макс Максимович</option>
+                          <option value="230">Потапенко Іван Степанович</option>
+                          <option value="298">Єй Я Й</option>
+                          <option value="299">Безпроблемний Іван</option>
+                          <option value="231">Прокопенко Іван Степанович</option>
+                          <option value="227">Полько Марк  Володимирович</option>
+                          <option value="302">Первый рембо анатольевич</option>
+                          <option value="303">Атаманчук Петр Алексеевич</option>
+                          <option value="304">чорний чорнявий</option>
+                          <option value="305">Мазурова Вероника Андреевна</option>
+                          <option value="306">Борисов Влад Денисович</option>
+                          <option value="307">Андрей Триска</option>
+                          <option value="315">Мартынов Олег Батькович</option>
+                          <option value="320">Огурцов Игорь Викторович</option>
+                          <option value="319">Елена Шаренко</option>
+                          <option value="322">Огурцов Миша Игоревич</option>
+                          <option value="329">Чернецкий Никита</option>
+                          <option value="330">Владимиров Артем</option>
+                          <option value="332">Булкин Аркадий Ефграфович</option>
+                          <option value="331">Таранюк  Катерина Миколаївна</option>
+                          <option value="334">Дрозд Ангелина Власовна</option>
+                          <option value="353">Орлов Денис Олегович</option>
+                          <option value="0">Неназначенные</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-flatsearch-user_id-container"><span class="select2-selection__rendered"
+      id="select2-flatsearch-user_id-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>
+                        <select id="flatsearch-searchhasdebt"
+                                class="form-control select2-hidden-accessible"
+                                name="FlatSearch[searchHasDebt]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_0d896465"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value=""></option>
+                          <option value="1">Есть долг</option>
+                          <option value="0">Нет долга</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-flatsearch-searchhasdebt-container"><span class="select2-selection__rendered"
+      id="select2-flatsearch-searchhasdebt-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-href="/admin/flat/659" data-key="659">
+                      <td>23</td>
+                      <td>Аврора</td>
+                      <td>зелёная</td>
+                      <td>Этаж 3</td>
+                      <td>Орлов Денис Олегович</td>
+                      <td>
+                        <span class="text-green">8 000.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/659"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/659"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/658" data-key="658">
+                      <td>777</td>
+                      <td>Стрела</td>
+                      <td>центральная</td>
+                      <td>жилой_4</td>
+                      <td>Дрозд Ангелина Власовна</td>
+                      <td>
+                        <span class="text-red">-1 700.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/658"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/658"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/646" data-key="646">
+                      <td>25</td>
+                      <td>Аврора</td>
+                      <td>зелёная</td>
+                      <td>Этаж 0 (магазины/офисы)</td>
+                      <td>Булкин Аркадий Ефграфович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/646"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/646"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/645" data-key="645">
+                      <td>155</td>
+                      <td>Аврора</td>
+                      <td>зелёная</td>
+                      <td>Этаж 2</td>
+                      <td>Дрозд Ангелина Власовна</td>
+                      <td>
+                        <span class="text-red">-2 000.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/645"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/645"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/644" data-key="644">
+                      <td>12</td>
+                      <td>ЖК "Альтаир 3"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Таранюк  Катерина Миколаївна</td>
+                      <td>
+                        <span class="text-default">0.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/644"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/644"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/643" data-key="643">
+                      <td>101</td>
+                      <td>Аврора</td>
+                      <td>жёлтая</td>
+                      <td>Этаж 2</td>
+                      <td>Булкин Аркадий Ефграфович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/643"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/643"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/642" data-key="642">
+                      <td>30</td>
+                      <td>ЖК Посейдон</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 3</td>
+                      <td>Владимиров Артем</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/642"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/642"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/641" data-key="641">
+                      <td>29</td>
+                      <td>ЖК Посейдон</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Владимиров Артем</td>
+                      <td>
+                        <span class="text-default">0.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/641"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/641"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/639" data-key="639">
+                      <td>2</td>
+                      <td>ЖК Посейдон</td>
+                      <td>Секция 2</td>
+                      <td>Этаж 2</td>
+                      <td>Владимиров Артем</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/639"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/639"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/638" data-key="638">
+                      <td>1</td>
+                      <td>ЖК Посейдон</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/638"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/638"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/637" data-key="637">
+                      <td>1</td>
+                      <td>ЖК "Морская Симфония"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Чернецкий Никита</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/637"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/637"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/634" data-key="634">
+                      <td>111</td>
+                      <td>ЖК "Башня Чкалов"</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Елена Шаренко</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/634"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/634"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/633" data-key="633">
+                      <td>56</td>
+                      <td>ЖК "Калипсо"</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/633"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/633"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/632" data-key="632">
+                      <td>32</td>
+                      <td>ЖК "Калипсо"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 3</td>
+                      <td>Огурцов Миша Игоревич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/632"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/632"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/631" data-key="631">
+                      <td>33</td>
+                      <td>ЖК "Королевские сады"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 10</td>
+                      <td>Елена Шаренко</td>
+                      <td>
+                        <span class="text-default">0.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/631"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/631"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/630" data-key="630">
+                      <td>31</td>
+                      <td>ЖК "Калипсо"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 3</td>
+                      <td>Елена Шаренко</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/630"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/630"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/629" data-key="629">
+                      <td>21</td>
+                      <td>ЖК "Калипсо"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 2</td>
+                      <td>Огурцов Игорь Викторович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/629"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/629"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/627" data-key="627">
+                      <td>10</td>
+                      <td>ЖК "Калипсо"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Мартынов Олег Батькович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/627"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/627"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/625" data-key="625">
+                      <td>-300000</td>
+                      <td>ЖК "Евро+"</td>
+                      <td>Секция 2</td>
+                      <td>Этаж 1</td>
+                      <td>Борисов Влад Денисович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/625"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/625"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/624" data-key="624">
+                      <td>61</td>
+                      <td>ЖК "Морская Симфония"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Андрей Триска</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/624"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/624"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/623" data-key="623">
+                      <td>1902</td>
+                      <td>ЖК "Евро+"</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Борисов Влад Денисович</td>
+                      <td>
+                        <span class="text-default">0.00</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/623"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/623"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/621" data-key="621">
+                      <td>1245</td>
+                      <td>Апарт-комплекс Итака</td>
+                      <td>подьезд 1</td>
+                      <td>2</td>
+                      <td>Мазурова Вероника Андреевна</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/621"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/621"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/620" data-key="620">
+                      <td>122</td>
+                      <td>Апарт-комплекс Итака</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Атаманчук Петр Алексеевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/620"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/620"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/618" data-key="618">
+                      <td>99</td>
+                      <td>ЖК OZONE</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Атаманчук Петр Алексеевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/618"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/618"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/617" data-key="617">
+                      <td>11</td>
+                      <td>ЖК Прохоровський квартал</td>
+                      <td>Секция 7</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>чорний чорнявий</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/617"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/617"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/615" data-key="615">
+                      <td>33</td>
+                      <td>ЖК Місто Квітів</td>
+                      <td>Секция 4</td>
+                      <td>Этаж 88</td>
+                      <td>Стартовий Олег Олегович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/615"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/615"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/614" data-key="614">
+                      <td>12121</td>
+                      <td>ЖК OZONE</td>
+                      <td>Секция 71</td>
+                      <td>Этаж 5</td>
+                      <td>Атаманчук Петр Алексеевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/614"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/614"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/613" data-key="613">
+                      <td>2147483647</td>
+                      <td>Апарт-комплекс Итака</td>
+                      <td>подьезд 1</td>
+                      <td>1</td>
+                      <td>Атаманчук Петр Алексеевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/613"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/613"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/607" data-key="607">
+                      <td>3</td>
+                      <td>Апарт-комплекс Итака</td>
+                      <td>Секция 4</td>
+                      <td>Этаж 5</td>
+                      <td>Атаманчук Петр Алексеевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/607"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/607"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/606" data-key="606">
+                      <td>2</td>
+                      <td>ЖК OZONE</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Этаж 2</td>
+                      <td>Любитель Макс Максимович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/606"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/606"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/605" data-key="605">
+                      <td>1</td>
+                      <td>ЖК OZONE</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Этаж 1</td>
+                      <td>Первый рембо анатольевич</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/605"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/605"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/603" data-key="603">
+                      <td>12</td>
+                      <td>ЖК "Морская Симфония"</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Иванов Иван  Сидорович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/603"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/603"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/602" data-key="602">
+                      <td>1</td>
+                      <td>Апарт-комплекс Breeze Marine</td>
+                      <td>Секция 2</td>
+                      <td>Этаж 2</td>
+                      <td>Полько Марк  Володимирович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/602"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/602"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/600" data-key="600">
+                      <td>12</td>
+                      <td>Апарт-комплекс Breeze Marine</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/600"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/600"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/599" data-key="599">
+                      <td>14</td>
+                      <td>ЖК "Скай Сити"</td>
+                      <td>Секция 3</td>
+                      <td>Этаж 5</td>
+                      <td>Смирнов Павел Викторович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/599"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/599"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/597" data-key="597">
+                      <td>1</td>
+                      <td>ЖК Санторіні</td>
+                      <td>Секція 1</td>
+                      <td>Этаж 21</td>
+                      <td>Прокопенко Іван Степанович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/597"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/597"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/596" data-key="596">
+                      <td>99</td>
+                      <td>ЖК Місто Квітів</td>
+                      <td>Секция 4</td>
+                      <td>Этаж 8</td>
+                      <td>Стартовий Олег Олегович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/596"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/596"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/595" data-key="595">
+                      <td>55</td>
+                      <td>ЖК Місто Квітів</td>
+                      <td>Секция 4</td>
+                      <td>Этаж 8</td>
+                      <td>Стартовий Олег Олегович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/595"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/595"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/593" data-key="593">
+                      <td>0</td>
+                      <td>ЖК Будинок</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/593"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/593"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/592" data-key="592">
+                      <td>123456793</td>
+                      <td>ЖК Искринский</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/592"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/592"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/591" data-key="591">
+                      <td>123456792</td>
+                      <td>ЖК Искринский</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/591"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/591"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/590" data-key="590">
+                      <td>5555</td>
+                      <td>ЖК Искринский</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/590"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/590"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/589" data-key="589">
+                      <td>1234</td>
+                      <td>ЖК Будинок</td>
+                      <td>Секция 2</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>Безпроблемний Іван</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/589"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/589"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/585" data-key="585">
+                      <td>2</td>
+                      <td>ЖК Перемога</td>
+                      <td>Під'їзд 3</td>
+                      <td>Поверх 22</td>
+                      <td>Пилипчук Юлія Андріївна</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/585"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/585"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/584" data-key="584">
+                      <td>2</td>
+                      <td>Unity Towers</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Маркушин Марк Степанович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/584"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/584"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/583" data-key="583">
+                      <td>1</td>
+                      <td>Unity Towers</td>
+                      <td>Секция 1</td>
+                      <td>Этаж 1</td>
+                      <td>Єй Я Й</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/583"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/583"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/582" data-key="582">
+                      <td>1</td>
+                      <td>ЖК Молодіжний</td>
+                      <td>Секція 20</td>
+                      <td>Этаж 10</td>
+                      <td>Пилипчук Юлія Андріївна</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/582"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/582"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/581" data-key="581">
+                      <td>121</td>
+                      <td>ЖК Молодіжний</td>
+                      <td>Секція 20</td>
+                      <td>Этаж 10</td>
+                      <td>
+                        <span class="not-set">(не задано)</span>
+                      </td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/581"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/581"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/575" data-key="575">
+                      <td>163</td>
+                      <td>ЖК Санторіні</td>
+                      <td>Секція 21</td>
+                      <td>Этаж 10</td>
+                      <td>Пилипчук Юлія Андріївна</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/575"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/575"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/flat/574" data-key="574">
+                      <td>159</td>
+                      <td>ЖК Санторіні</td>
+                      <td>Секція 30</td>
+                      <td>Этаж 20</td>
+                      <td>Потапенко Іван Степанович</td>
+                      <td>(нет счета)</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/flat/update/574"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/flat/delete/574"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                  <li class="prev disabled">
+                    <span>«</span>
+                  </li>
+                  <li class="active">
+                    <a href="/admin/flat/index?page=1&amp;per-page=50" data-page="0">1</a>
+                  </li>
+                  <li>
+                    <a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">2</a>
+                  </li>
+                  <li>
+                    <a href="/admin/flat/index?page=3&amp;per-page=50" data-page="2">3</a>
+                  </li>
+                  <li class="next">
+                    <a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">»</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="box-footer">
+              <div>
+                Количество квартир: <span class="text-bold">139</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

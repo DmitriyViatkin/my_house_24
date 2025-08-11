@@ -1,0 +1,54 @@
+exclude: '^docs/|/migrations/|devcontainer.json|^static|/templates/|^staticfiles_collected/|manage.py'
+default_stages: [pre-commit]
+
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: detect-private-key
+      - id: check-ast
+      - id: check-merge-conflict
+      - id: forbid-new-submodules
+      - id: pretty-format-json
+        args:
+          - --autofix
+          - --indent=4
+          - --no-ensure-ascii
+          - --no-sort-keys
+      - id: trailing-whitespace
+        args: [ --markdown-linebreak-ext=md ]  # Preserve Markdown hard linebreaks
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: '1.25.0'
+    hooks:
+      - id: django-upgrade
+        args: ['--target-version', '4.2']
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.7
+    hooks:
+      # Linter
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      # Formatter
+      - id: ruff-format
+
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.36.4
+    hooks:
+      - id: djlint-reformat-django
+        exclude: '^templates/'
+      - id: djlint-django
+        exclude: '^templates/'

@@ -1,0 +1,135 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Новый дом</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="/admin/house/index">Дома</a>
+        </li>
+        <li class="active">Новый дом</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form id="w0"
+                action="/admin/house/create"
+                method="post"
+                enctype="multipart/form-data">
+            <input type="hidden"
+                   name="_csrf-backend"
+                   value="Iwe54d-mXFwCU7FK6gAZhRJZHfuTBVP1ROcfs6qAkrtyNOOTrJAEE0830D66QjTnIAF1sdAzGrQHk2bUw9ik3Q==" />
+            <div class="row">
+              <div class="col-xs-12 col-lg-4">
+                <div class="form-group field-houseform-name">
+                  <label class="control-label" for="houseform-name">Название</label>
+                  <input type="text"
+                         id="houseform-name"
+                         class="form-control"
+                         name="HouseForm[name]" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-address">
+                  <label class="control-label" for="houseform-address">Адрес</label>
+                  <input type="text"
+                         id="houseform-address"
+                         class="form-control"
+                         name="HouseForm[address]" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-image1">
+                  <label class="control-label" for="houseform-image1">Изображение #1. Размер: (522x350)</label>
+                  <input type="hidden" name="HouseForm[image1]" value="" />
+                  <input type="file"
+                         id="houseform-image1"
+                         name="HouseForm[image1]"
+                         accept="image/*" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-image2">
+                  <label class="control-label" for="houseform-image2">Изображение #2. Размер: (248x160)</label>
+                  <input type="hidden" name="HouseForm[image2]" value="" />
+                  <input type="file"
+                         id="houseform-image2"
+                         name="HouseForm[image2]"
+                         accept="image/*" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-image3">
+                  <label class="control-label" for="houseform-image3">Изображение #3. Размер: (248x160)</label>
+                  <input type="hidden" name="HouseForm[image3]" value="" />
+                  <input type="file"
+                         id="houseform-image3"
+                         name="HouseForm[image3]"
+                         accept="image/*" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-image4">
+                  <label class="control-label" for="houseform-image4">Изображение #4. Размер: (248x160)</label>
+                  <input type="hidden" name="HouseForm[image4]" value="" />
+                  <input type="file"
+                         id="houseform-image4"
+                         name="HouseForm[image4]"
+                         accept="image/*" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-houseform-image5">
+                  <label class="control-label" for="houseform-image5">Изображение #5. Размер: (248x160)</label>
+                  <input type="hidden" name="HouseForm[image5]" value="" />
+                  <input type="file"
+                         id="houseform-image5"
+                         name="HouseForm[image5]"
+                         accept="image/*" />
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-lg-8">
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="Изображение #1. Размер: (522x350)" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="Изображение #2. Размер: (248x160)" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="Изображение #3. Размер: (248x160)" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="Изображение #4. Размер: (248x160)" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="Изображение #5. Размер: (248x160)" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% include 'house/tab_box' %}
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <a href="/admin/house/index" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

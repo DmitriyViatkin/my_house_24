@@ -1,0 +1,203 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Новая заявка</h1>
+      <ul class="breadcrumb">
+        <li>
+          {# Используем тег `url` для ссылки на главную страницу админки #}
+          <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          {# Используем тег `url` для ссылки на список заявок мастера #}
+          <a href="{% url 'master_request_index' %}">Вызов мастера</a>
+        </li>
+        <li class="active">Новая заявка</li>
+      </ul>
+    </section>
+    <section class="content">
+      {# Используем тег `url` для действия формы #}
+      <form id="w0" action="{% url 'create_master_request' %}" method="post">
+        <input type="hidden"
+               name="_csrf-backend"
+               value="e8x7yjMmQtGJ-FlOTdab2ZHNw5LHk6lwz54D2JoRgM0q_yG4QBAansScODodlLa7o5Wr2ISl4DGM6nq_80m2qw==" />
+        <div class="row">
+          <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+              <div class="form-group field-masterrequest-date_request">
+                <div id="masterrequest-date_request-kvdate" class="input-group date">
+                  <input type="text"
+                         id="masterrequest-date_request"
+                         class="form-control krajee-datepicker"
+                         name="MasterRequest[date_request]"
+                         value="03.08.2025"
+                         data-datepicker-source="masterrequest-date_request-kvdate"
+                         data-datepicker-type="3"
+                         data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
+                  <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+              </div>
+              <span class="label-mid">от</span>
+              <div class="form-group field-masterrequest-time_request has-success">
+                <div class="input-group bootstrap-timepicker">
+                  <div class="bootstrap-timepicker-widget dropdown-menu">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          </td>
+                          <td class="separator">&nbsp;</td>
+                          <td>
+                            <a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span class="bootstrap-timepicker-hour">14</span>
+                          </td>
+                          <td class="separator">:</td>
+                          <td>
+                            <span class="bootstrap-timepicker-minute">15</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                          </td>
+                          <td class="separator"></td>
+                          <td>
+                            <a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <input type="text"
+                         id="masterrequest-time_request"
+                         class="form-control"
+                         name="MasterRequest[time_request]"
+                         aria-invalid="false" />
+                  <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                  <label for="user_id">Владелец квартиры</label>
+                  {# Убраны встроенные стили, заменен на класс #}
+                  <select id="w1"
+                          class="form-control select2-hidden-accessible custom-select-style"
+                          name="user_id"
+                          onchange=" $.get(&quot;{% url 'get_lists_by_user' %}?user_id=&quot;+$(this).val(), function( data ) { $(&quot;select#masterrequest-flat_id&quot;).html(data.flats); console.log(data); }); "
+                          data-s2-options="s2options_7ebc6538"
+                          data-krajee-select2="select2_cbc543bf"
+                          tabindex="-1"
+                          aria-hidden="true">
+                    <option value="">Выберите...</option>
+                    ...
+                  </select>
+                  {# Убраны встроенные стили, заменен на класс #}
+                  <span class="select2 select2-container select2-container--default custom-select-width"
+                        dir="ltr"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-w1-container"><span class="select2-selection__rendered" id="select2-w1-container"><span class="select2-selection__placeholder">Выберите...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6"></div>
+              <div class="clearfix"></div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-masterrequest-description required">
+                  <label class="control-label" for="masterrequest-description">Описание</label>
+                  <textarea id="masterrequest-description"
+                            class="form-control"
+                            name="MasterRequest[description]"
+                            rows="8"
+                            aria-required="true"></textarea>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-masterrequest-flat_id required">
+                  <label class="control-label" for="masterrequest-flat_id">Квартира</label>
+                  {# Убраны встроенные стили #}
+                  <select id="masterrequest-flat_id"
+                          class="form-control select2-hidden-accessible custom-select-style"
+                          name="MasterRequest[flat_id]"
+                          aria-required="true"
+                          data-s2-options="s2options_7ebc6538"
+                          data-krajee-select2="select2_cbc543bf"
+                          tabindex="-1"
+                          aria-hidden="true">
+                    <option value="">Выберите...</option>
+                    ...
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-masterrequest-comment">
+                  <label class="control-label" for="masterrequest-comment">Комментарий</label>
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <button type="button"
+                              class="btn btn-default dropdown-toggle"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#" class="btn btn-default btn-xs">
+                            <span class="hidden-xs">Выполнено</span><i class="fa fa-eraser visible-xs"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" class="btn btn-default btn-xs">
+                            <span class="hidden-xs">Отменено</span><i class="fa fa-eraser visible-xs"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <textarea id="masterrequest-comment"
+                            class="form-control"
+                            name="MasterRequest[comment]"
+                            rows="8"
+                            aria-required="true"></textarea>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-footer">
+          <div class="row">
+            <div class="col-xs-12">
+              {# Используем тег `url` для ссылки "Отмена" #}
+              <a class="btn btn-default" href="{% url 'master_request_index' %}">Отмена</a>
+              <button type="submit" class="btn btn-success pull-right">Сохранить</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock content %}

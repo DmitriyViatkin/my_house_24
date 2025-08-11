@@ -1,0 +1,443 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Сообщения</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Сообщения</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Владельцы квартир</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="/admin/message/create">Отправить сообщение</a>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+          <div class="box-tools pull-right">
+            <div class="has-feedback">
+              <form action="" method="get">
+                <input type="text"
+                       name="search"
+                       value=""
+                       class="form-control input-sm"
+                       placeholder="Поиск" />
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="box-body no-padding">
+          <div id="w0" class="grid-view">
+            <div class="mailbox-controls">
+              <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                <i class="fa fa-square-o"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-sm delete-many">
+                <i class="fa fa-trash-o"></i>
+              </button>
+              <div class="pull-right"></div>
+            </div>
+            <div class="table-responsive mailbox-messages">
+              <table class="table table-hover table-striped linkedRow">
+                <thead>
+                  <tr>
+                    <th>&nbsp;</th>
+                    <th style="min-width: 200px">Получатели</th>
+                    <th>Текст</th>
+                    <th style="width: 135px; min-width: 135px">Дата</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-href="/admin/message/638" data-key="638">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="638"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/638">ОСМД 1002 ЖК "Альтаир 2", Секция 1</a>
+                    </td>
+                    <td>
+                      <b>1234</b> - 123
+                    </td>
+                    <td>08.05.2025 - 06:02</td>
+                  </tr>
+                  <tr data-href="/admin/message/637" data-key="637">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="637"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/637">Стрела, центральная, жилой_4, кв.777</a>
+                    </td>
+                    <td>
+                      <b>Тест</b> - тест
+                    </td>
+                    <td>14.04.2025 - 09:09</td>
+                  </tr>
+                  <tr data-href="/admin/message/636" data-key="636">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="636"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/636">Всем</a>
+                    </td>
+                    <td>
+                      <b>1</b> - 123
+                    </td>
+                    <td>10.04.2025 - 00:46</td>
+                  </tr>
+                  <tr data-href="/admin/message/635" data-key="635">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="635"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/635">Всем</a>
+                    </td>
+                    <td>
+                      <b>12</b> - 123
+                    </td>
+                    <td>10.04.2025 - 00:44</td>
+                  </tr>
+                  <tr data-href="/admin/message/634" data-key="634">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="634"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/634">ЖК "Луч", Секция 3, Этаж 1</a>
+                    </td>
+                    <td>
+                      <b>Комуналка</b> - &#xFEFF;123
+                    </td>
+                    <td>09.04.2025 - 06:26</td>
+                  </tr>
+                  <tr data-href="/admin/message/633" data-key="633">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="633"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/633">ЖК Посейдон, Секция 1, Этаж 3, кв.30</a>
+                    </td>
+                    <td>
+                      <b>skibidi</b> - skibidi
+                    </td>
+                    <td>03.04.2025 - 06:38</td>
+                  </tr>
+                  <tr data-href="/admin/message/632" data-key="632">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="632"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/632">Всем</a>
+                    </td>
+                    <td>
+                      <b>тест 7</b> - с задолженностями
+                    </td>
+                    <td>02.04.2025 - 08:40</td>
+                  </tr>
+                  <tr data-href="/admin/message/631" data-key="631">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="631"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/631">Всем</a>
+                    </td>
+                    <td>
+                      <b>тест 6</b> - текст сообщения
+                    </td>
+                    <td>02.04.2025 - 08:37</td>
+                  </tr>
+                  <tr data-href="/admin/message/630" data-key="630">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="630"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/630">ЖК "Башня Чкалов", Секция 2, Этаж 1, кв.13</a>
+                    </td>
+                    <td>
+                      <b>test 4 :0)</b> - ❤️❤️❤️❤️
+                    </td>
+                    <td>02.04.2025 - 07:46</td>
+                  </tr>
+                  <tr data-href="/admin/message/629" data-key="629">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="629"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/629">ЖК "Морская Симфония", Секция 2, Этаж 2, кв.100</a>
+                    </td>
+                    <td>
+                      <b>тест  2</b> - текст сообщения
+                    </td>
+                    <td>02.04.2025 - 07:38</td>
+                  </tr>
+                  <tr data-href="/admin/message/628" data-key="628">
+                    <td>
+                      <div class="icheckbox_flat-blue"
+                           aria-checked="false"
+                           aria-disabled="false"
+                           style="position: relative">
+                        <input type="checkbox"
+                               name="selection[]"
+                               value="628"
+                               style="position: absolute;
+                                      opacity: 0" />
+                        <ins class="iCheck-helper"
+                             style="position: absolute;
+                                    top: 0%;
+                                    left: 0%;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    background: rgb(255, 255, 255);
+                                    border: 0px;
+                                    opacity: 0"></ins>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="/admin/message/628">Всем</a>
+                    </td>
+                    <td>
+                      <b>тест1 </b> - текст сообщения
+                    </td>
+                    <td>02.04.2025 - 07:34</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mailbox-controls">
+              <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                <i class="fa fa-square-o"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-sm delete-many">
+                <i class="fa fa-trash-o"></i>
+              </button>
+              <div class="pull-right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

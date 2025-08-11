@@ -1,0 +1,505 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <h1>Квитанции на оплату</h1>
+  <ul class="breadcrumb">
+    <li>
+      <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+    </li>
+    <li class="active">Квитанции на оплату</li>
+  </ul>
+</section>
+<section class="content">
+  <div class="row">
+    <!--<div class="col-xs-12 col-sm-6">-->
+    <!--<h2 class="page-header">Квитанции</h2>-->
+    <!--</div>-->
+    <div class="col-xs-12 col-lg-9">
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <div class="small-box bg-green overflow-hidden">
+            <div class="inner">
+              <h3>17 450.00 грн</h3>
+              <p>Состояние кассы</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <!--<span class="small-box-footer">&nbsp;</span>-->
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <div class="small-box bg-blue overflow-hidden">
+            <div class="inner">
+              <h3>8 000.00 грн</h3>
+              <p>Баланс по счетам</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <!--<span class="small-box-footer">&nbsp;</span>-->
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <div class="small-box bg-red overflow-hidden">
+            <div class="inner">
+              <h3>3 700.00 грн</h3>
+              <p>Задолженность по счетам</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <!--<span class="small-box-footer">&nbsp;</span>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-lg-3">
+      <div class="btn-group pull-right margin-bottom">
+        <button type="button"
+                class="btn btn-success dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+          Выберите действие <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/admin/invoice/create">Создать общую квитанцию</a>
+          </li>
+          <!--                <li><a href="#!">Создать квитанцию на оплату за ЭЭ</a></li>
+                <li><a href="#!">Создать квитанцию на оплату за ГАЗ</a></li>-->
+          <li>
+            <a href="#!" class="delete-many">Удалить</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <a href="/admin/invoice/index" class="btn btn-default btn-sm">
+              <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div id="w0" class="grid-view">
+          <div class="box-body table-responsive no-padding">
+            <table class="table table-bordered table-hover table-striped linkedRow">
+              <thead>
+                <tr>
+                  <th style="width: 40px; min-width: 40px">
+                    <input type="checkbox"
+                           class="select-on-check-all"
+                           name="selection_all"
+                           value="1" />
+                  </th>
+                  <th style="width: 125px; min-width: 125px">№ квитанции</th>
+                  <th style="width: 100px; min-width: 100px">Статус</th>
+                  <th style="width: 125px; min-width: 125px">
+                    <a href="/admin/invoice/index?sort=searchUidDate"
+                       data-sort="searchUidDate">Дата</a>
+                  </th>
+                  <th style="width: 135px; min-width: 135px">
+                    <a href="/admin/invoice/index?sort=period_end" data-sort="period_end">Месяц</a>
+                  </th>
+                  <th>Квартира</th>
+                  <th style="min-width: 200px">Владелец</th>
+                  <th style="width: 120px; min-width: 120px">Проведена</th>
+                  <th style="width: 100px; min-width: 100px">Сумма (грн)</th>
+                  <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                </tr>
+                <tr id="w0-filters" class="filters">
+                  <td>&nbsp;</td>
+                  <td>
+                    <input type="text" class="form-control" name="InvoiceSearch[uid]" />
+                  </td>
+                  <td>
+                    <select id="invoicesearch-status"
+                            class="form-control select2-hidden-accessible"
+                            name="InvoiceSearch[status]"
+                            data-s2-options="s2options_7ebc6538"
+                            data-krajee-select2="select2_0d896465"
+                            style="display:none"
+                            tabindex="-1"
+                            aria-hidden="true">
+                      <option value=""></option>
+                      <option value="10">Оплачена</option>
+                      <option value="6">Частично оплачена</option>
+                      <option value="5">Неоплачена</option>
+                    </select>
+                    <span class="select2 select2-container select2-container--default"
+                          dir="ltr"
+                          style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-invoicesearch-status-container"><span class="select2-selection__rendered"
+      id="select2-invoicesearch-status-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                  </td>
+                  <td>
+                    <input type="text"
+                           id="invoicesearch-searchuiddaterange"
+                           class="form-control"
+                           name="InvoiceSearch[searchUidDateRange]"
+                           data-krajee-daterangepicker="daterangepicker_c8dff207" />
+                  </td>
+                  <td>
+                    <input type="text"
+                           id="invoicesearch-searchmonthyear"
+                           class="form-control krajee-datepicker"
+                           name="InvoiceSearch[searchMonthYear]"
+                           data-datepicker-source="invoicesearch-searchmonthyear"
+                           data-datepicker-type="1"
+                           data-krajee-kvdatepicker="kvDatepicker_27df5828" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="InvoiceSearch[searchFlat]" />
+                  </td>
+                  <td>
+                    <select id="invoicesearch-searchuserid"
+                            class="form-control select2-hidden-accessible"
+                            name="InvoiceSearch[searchUserId]"
+                            data-s2-options="s2options_7ebc6538"
+                            data-krajee-select2="select2_ea5d4d6f"
+                            style="display:none"
+                            tabindex="-1"
+                            aria-hidden="true">
+                      <option value=""></option>
+                      <option value="174">Полищук</option>
+                      <option value="193">Запашный</option>
+                      <option value="10">Громов Павел</option>
+                      <option value="3">Булгаков Михаил Афанасьевич</option>
+                      <option value="224">Тарасюк</option>
+                      <option value="2">Иванов Иван  Сидорович</option>
+                      <option value="5">Купер Джеймс Фенимор</option>
+                      <option value="1">Лисенко Павел Михайлович</option>
+                      <option value="228">Зеленський Володимир Олександрович</option>
+                      <option value="232">Хома Михайло Степанович</option>
+                      <option value="233">Пилипчук Юлія Андріївна</option>
+                      <option value="234">Олександрааа Олександраа Олександрівнаа</option>
+                      <option value="240">Yuraу Matsakу Vladimirovichу</option>
+                      <option value="244">Віка Вік Вікторівна</option>
+                      <option value="247">Маркушин Марк Степанович</option>
+                      <option value="246">Пантелеєв Іван Іванович</option>
+                      <option value="248">Власник 1 Власник 1</option>
+                      <option value="249">Власник 2</option>
+                      <option value="250">Власник 3</option>
+                      <option value="239">Букатов Никита Александрович</option>
+                      <option value="257">Любов Антон</option>
+                      <option value="264">Романенко Влада Олеговна</option>
+                      <option value="229">onufriienko</option>
+                      <option value="266">Мазуров Степан Петрович</option>
+                      <option value="267">Куджо Джотаро Жожович</option>
+                      <option value="6">Кант Иммануил</option>
+                      <option value="265">Зеленська Олена Володимирiвна</option>
+                      <option value="251">Тестерович Данил Сергеевич</option>
+                      <option value="275">Yurka Yurii Yurievich</option>
+                      <option value="226">Мороз Яна  Вікторівна</option>
+                      <option value="242">Смирнов Павел Викторович</option>
+                      <option value="180">Кучма</option>
+                      <option value="278">Світланенко Руслан Васильович</option>
+                      <option value="280">Тест Тест</option>
+                      <option value="285">Миколаїв Микола 2 Миколайович</option>
+                      <option value="286">rfgtrf.n@gmail.com</option>
+                      <option value="274">Стартовий Олег Олегович</option>
+                      <option value="260">Просто  Саша Вікторівна</option>
+                      <option value="294">Любитель Макс Максимович</option>
+                      <option value="230">Потапенко Іван Степанович</option>
+                      <option value="298">Єй Я Й</option>
+                      <option value="299">Безпроблемний Іван</option>
+                      <option value="231">Прокопенко Іван Степанович</option>
+                      <option value="227">Полько Марк  Володимирович</option>
+                      <option value="302">Первый рембо анатольевич</option>
+                      <option value="303">Атаманчук Петр Алексеевич</option>
+                      <option value="304">чорний чорнявий</option>
+                      <option value="305">Мазурова Вероника Андреевна</option>
+                      <option value="306">Борисов Влад Денисович</option>
+                      <option value="307">Андрей Триска</option>
+                      <option value="315">Мартынов Олег Батькович</option>
+                      <option value="320">Огурцов Игорь Викторович</option>
+                      <option value="319">Елена Шаренко</option>
+                      <option value="322">Огурцов Миша Игоревич</option>
+                      <option value="329">Чернецкий Никита</option>
+                      <option value="330">Владимиров Артем</option>
+                      <option value="332">Булкин Аркадий Ефграфович</option>
+                      <option value="331">Таранюк  Катерина Миколаївна</option>
+                      <option value="334">Дрозд Ангелина Власовна</option>
+                      <option value="353">Орлов Денис Олегович</option>
+                    </select>
+                    <span class="select2 select2-container select2-container--default"
+                          dir="ltr"
+                          style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-invoicesearch-searchuserid-container"><span class="select2-selection__rendered"
+      id="select2-invoicesearch-searchuserid-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                  </td>
+                  <td>
+                    <select id="invoicesearch-is_checked"
+                            class="form-control select2-hidden-accessible"
+                            name="InvoiceSearch[is_checked]"
+                            data-s2-options="s2options_7ebc6538"
+                            data-krajee-select2="select2_0d896465"
+                            style="display:none"
+                            tabindex="-1"
+                            aria-hidden="true">
+                      <option value=""></option>
+                      <option value="1">Проведена</option>
+                      <option value="0">Не проведена</option>
+                    </select>
+                    <span class="select2 select2-container select2-container--default"
+                          dir="ltr"
+                          style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-invoicesearch-is_checked-container"><span class="select2-selection__rendered"
+      id="select2-invoicesearch-is_checked-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-href="/admin/invoice/1397" data-key="1397">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1397" />
+                  </td>
+                  <td>23042501397</td>
+                  <td>
+                    <small class="label label-warning">Частично оплачена</small>
+                  </td>
+                  <td>23.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>23, Аврора</td>
+                  <td>Орлов Денис Олегович</td>
+                  <td>Проведена</td>
+                  <td>1 000.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1397"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1397"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1397"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1396" data-key="1396">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1396" />
+                  </td>
+                  <td>23042501388</td>
+                  <td>
+                    <small class="label label-warning">Частично оплачена</small>
+                  </td>
+                  <td>23.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>23, Аврора</td>
+                  <td>Орлов Денис Олегович</td>
+                  <td>Проведена</td>
+                  <td>1 000.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1396"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1396"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1396"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1387" data-key="1387">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1387" />
+                  </td>
+                  <td>18042501387</td>
+                  <td>
+                    <small class="label label-success">Оплачена</small>
+                  </td>
+                  <td>18.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>777, Стрела</td>
+                  <td>Дрозд Ангелина Власовна</td>
+                  <td>Проведена</td>
+                  <td>125.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1387"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1387"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1387"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1386" data-key="1386">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1386" />
+                  </td>
+                  <td>15042501386</td>
+                  <td>
+                    <small class="label label-danger">Неоплачена</small>
+                  </td>
+                  <td>15.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>155, Аврора</td>
+                  <td>Дрозд Ангелина Власовна</td>
+                  <td>Не проведена</td>
+                  <td>1 190.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1386"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1386"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1386"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1385" data-key="1385">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1385" />
+                  </td>
+                  <td>15042501385</td>
+                  <td>
+                    <small class="label label-warning">Частично оплачена</small>
+                  </td>
+                  <td>15.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>155, Аврора</td>
+                  <td>Дрозд Ангелина Власовна</td>
+                  <td>Проведена</td>
+                  <td>6 025.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1385"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1385"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1385"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1384" data-key="1384">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1384" />
+                  </td>
+                  <td>14042501378</td>
+                  <td>
+                    <small class="label label-success">Оплачена</small>
+                  </td>
+                  <td>14.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>777, Стрела</td>
+                  <td>Дрозд Ангелина Власовна</td>
+                  <td>Проведена</td>
+                  <td>4 300.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1384"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1384"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1384"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-href="/admin/invoice/1377" data-key="1377">
+                  <td>
+                    <input type="checkbox" name="selection[]" value="1377" />
+                  </td>
+                  <td>11042500001</td>
+                  <td>
+                    <small class="label label-danger">Неоплачена</small>
+                  </td>
+                  <td>11.04.2025</td>
+                  <td>Апрель 2025</td>
+                  <td>777, Стрела</td>
+                  <td>Дрозд Ангелина Власовна</td>
+                  <td>Проведена</td>
+                  <td>1 700.00</td>
+                  <td>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-default btn-sm"
+                         href="/admin/invoice/create?invoice_id=1377"
+                         title="Копировать"
+                         data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/update/1377"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/invoice/delete/1377"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="box-footer clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

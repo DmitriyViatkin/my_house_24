@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box clearfix">
+            <div class="page-header">
+              <h1>Наша миссия</h1>
+            </div>
+            <img src="{% url 'glide_image' path='/upload/Website/about_image.png' w=250 %}"
+                 class="img-responsive imgFloatRight"
+                 alt="Изображение о нашей миссии" />
+            <h2>
+              <b>
+                Компания-застройщик не только создала этот объект для своих покупателей, но и после окончания строительства взяла на себя все услуги по обеспечению удобного проживания своих жильцов. Для этого была организована управляющая компания «Морская симфония», которая осуществляет комплексное обслуживание коммунальной сферы жизнедеятельности своих клиентов.
+              </b>
+            </h2>
+            <p>
+              <i>
+                Миссией управляющей компании является такая схема взаимодействия с жильцами дома, при которой услуги компании не отвлекают их от проживания и отдыха и создают максимально комфортную экосистему в доме. Незаметный сервис и максимально эффективная работа являются визитной карточкой компании.
+              </i>
+            </p>
+            <p>
+              <br />
+              <b>
+                <i>
+                  В функции управляющей компании входят как содержание и управление хозяйством комплекса, так и охраняемой придомовой территории – уборка, техническое обслуживание лифтового хозяйства, системы электро и водоснабжения дома, котельной и пожарной систем, диспетчеризация, охрана, содержание придомовой территории и многое другое. В штате компании собраны только профессионалы своего дела, которые помогут жильцам в самых трудных и критических ситуациях решить их жилищно-коммунальные проблемы семь дней в неделю круглосуточно – электрики и сантехники, инженеры, монтеры и другие специалисты имеют многолетний опыт и высокий уровень квалификации.
+                </i>
+              </b>
+            </p>
+            <p>
+              <b>
+                <i>
+                  Все это делает жилой комплекс уникальным, комфортным и безопасным местом для проживания и отдыха всей семьи круглый год. Доверьте заботу о вашем доме и вашей квартире управляющей компании и вы сможете круглый год наслаждаться проживанием на берегу моря и прекрасной природой Одессы.
+                </i>
+              </b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gallery g1">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/220/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/220/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/220/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 1"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/221/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/221/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/221/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 2"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/222/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/222/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/222/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 3"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/223/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/223/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/223/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 4"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box clearfix">
+            <div class="page-header">
+              <h3>мы предоставляем такие услуги</h3>
+            </div>
+            <p>
+              <b>Главное желание</b> нашей управляющей компании - это поддержка комфортных условий для жильцов, оперативное реагирование на их просьбы и пожелания.
+            </p>
+            <p>
+              <b>К дополнительным услугам управляющей компании также относятся:</b> 24-часовая охрана придомовой территории и паркинга, уборка территории и вывоз мусора, обслуживание пирса и пляжа. Также при желании жильцы дома могут заказать любые строительно-ремонтные работы от штатной бригады компании.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gallery g2">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/224/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/224/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/224/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 5"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/225/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/225/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/225/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 6"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/226/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/226/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/226/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 7"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{% url 'gallery_image' path='/upload/WebsiteAboutImage/227/image.png' %}">
+          <a href="{% url 'gallery_image' path='/upload/WebsiteAboutImage/227/image.png' %}"
+             class="big">
+            <img src="{% url 'glide_image' path='/upload/WebsiteAboutImage/227/image.png' w=720 h=250 fit='crop' %}"
+                 alt="Изображение 8"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="documents">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="page-header">
+              <h3>Документы</h3>
+            </div>
+            <div class="media">
+              <div class="media-left">
+                <div class="media-object">
+                  <img src="{% url 'glide_image' path='/upload/WebsiteDocument/78/file78_202409191429.jpg' w=32 h=42 fit='crop' %}"
+                       alt="Документ 1" />
+                </div>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading"></h4>
+                <a href="{% url 'document_download' path='/upload/WebsiteDocument/78/file78_202409191429.jpg' %}"
+                   download=""><i class="fa fa-download" aria-hidden="true"></i> Скачать</a>
+              </div>
+            </div>
+            <div class="media">
+              <div class="media-left">
+                <div class="media-object">
+                  <i class="far fa-file-pdf fa-3x"></i>
+                </div>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading"></h4>
+                <a href="{% url 'document_download' path='/upload/WebsiteDocument/81/file81_202504160923.pdf' %}"
+                   download=""><i class="fa fa-download" aria-hidden="true"></i> Скачать</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

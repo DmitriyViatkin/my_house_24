@@ -1,0 +1,200 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Статьи приходов/расходов</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Статьи приходов/расходов</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="{% url 'create_transaction_purpose' %}">Добавить статью</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div id="w0" class="grid-view">
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th>Название</th>
+                      <th>
+                        <a href="{% url 'transaction_purpose_index' %}?sort=type"
+                           data-sort="type">Приход/расход</a>
+                      </th>
+                      <th class="table-actions-cell">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=105 %}"
+                        data-key="105">
+                      <td>Прочее</td>
+                      <td>
+                        <span class="text text-green">Приход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=105 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=105 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=103 %}"
+                        data-key="103">
+                      <td>Озеленение</td>
+                      <td>
+                        <span class="text text-red">Расход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=103 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=103 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=101 %}"
+                        data-key="101">
+                      <td>Вывоз мусора</td>
+                      <td>
+                        <span class="text text-red">Расход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=101 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=101 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=47 %}"
+                        data-key="47">
+                      <td>Коммунальный платёж</td>
+                      <td>
+                        <span class="text text-green">Приход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=47 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=47 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=45 %}"
+                        data-key="45">
+                      <td>Бытовые расходы</td>
+                      <td>
+                        <span class="text text-red">Расход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=45 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=45 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=39 %}"
+                        data-key="39">
+                      <td>Оплата за паркоместо</td>
+                      <td>
+                        <span class="text text-green">Приход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=39 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'delete_transaction_purpose' purpose_id=39 %}"
+                             title="Удалить"
+                             data-toggle="tooltip"
+                             data-pjax="0"
+                             data-method="post"
+                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="{% url 'update_transaction_purpose' purpose_id=2 %}"
+                        data-key="2">
+                      <td>Прочее</td>
+                      <td>
+                        <span class="text text-green">Приход</span>
+                      </td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="{% url 'update_transaction_purpose' purpose_id=2 %}"
+                             title="Редактировать"
+                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                          <button class="btn btn-default btn-sm disabled"
+                                  data-confirm="Этот элемент используется в системе. Его нельзя удалить.">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="box-footer clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

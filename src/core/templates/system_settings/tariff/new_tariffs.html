@@ -1,0 +1,61 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Новый тариф</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="/admin/tariff/index">Тарифы</a>
+        </li>
+        <li class="active">Новый тариф</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form id="w0" action="/admin/tariff/create" method="post">
+            <input type="hidden"
+                   name="_csrf-backend"
+                   value="Tz5rZbWcf8lvokxGWsEBtbMefUFgqfs0ozQXv_DIqFIeDTEXxqonhiLGLTIKgyzXgUYVCyOfsnXgQG7YmZCeNA==" />
+            <div class="row">
+              <div class="col-xs-12 col-lg-7">
+                <div class="form-group field-tariff-name">
+                  <label class="control-label" for="tariff-name">Название тарифа</label>
+                  <input type="text" id="tariff-name" class="form-control" name="Tariff[name]" />
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-tariff-description">
+                  <label class="control-label" for="tariff-description">Описание тарифа</label>
+                  <textarea id="tariff-description"
+                            class="form-control"
+                            name="Tariff[description]"
+                            rows="5"></textarea>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-lg-7">
+                <div id="form-tariffservice-rows"></div>
+                <button type="button"
+                        class="btn btn-default btn-hover-change pull-left margin-bottom-15 form-row-add-tariffservice-btn">
+                  Добавить услугу
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-lg-7 text-right">
+                <div class="form-group">
+                  <a href="/admin/tariff/index" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,618 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 819px;">
+    <section class="content-header">
+      <h1>Новая приходная ведомость</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="/admin/account-transaction/index">Платежи</a>
+        </li>
+        <li class="active">Новая приходная ведомость</li>
+      </ul>
+    </section>
+    <section class="content">
+      <form id="w0"
+            action="/admin/account-transaction/create?type=in"
+            method="post">
+        <input type="hidden"
+               name="_csrf-backend"
+               value="CfUEWTPssfUFTtU03QvyCV1geH6NbQoBeOOmyDhxx5lYxl4rQNrpukgqtECNSd9rbzgQNM5bQ0A7l9-vUSnx_w==" />
+        <div class="row">
+          <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+              <div class="form-group field-accounttransaction-uid required">
+                <div class="input-group">
+                  <div class="input-group-addon">№</div>
+                  <input type="text"
+                         id="accounttransaction-uid"
+                         class="form-control"
+                         name="AccountTransaction[uid]"
+                         value="02082502504"
+                         aria-required="true" />
+                </div>
+              </div>
+              <span class="label-mid">от</span>
+              <div class="form-group field-accounttransaction-uid_date required">
+                <div id="accounttransaction-uid_date-kvdate" class="input-group  date">
+                  <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
+                  <input type="text"
+                         id="accounttransaction-uid_date"
+                         class="form-control krajee-datepicker"
+                         name="AccountTransaction[uid_date]"
+                         value="02.08.2025"
+                         data-datepicker-source="accounttransaction-uid_date-kvdate"
+                         data-datepicker-type="2"
+                         data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <input type="hidden"
+                   id="accounttransaction-id"
+                   name="AccountTransaction[id]" />
+            <input type="hidden"
+                   id="accounttransaction-type"
+                   name="AccountTransaction[type]"
+                   value="in" />
+            <input type="hidden"
+                   id="accounttransaction-currency_id"
+                   name="AccountTransaction[currency_id]"
+                   value="1" />
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-sm-offset-6">
+                <input type="checkbox"
+                       id="is_complete"
+                       name="is_complete"
+                       value="1"
+                       checked=""
+                       onchange="if (this.checked) { $(&quot;#accounttransaction-status&quot;).val(&quot;10&quot;); } else { $(&quot;#accounttransaction-status&quot;).val(&quot;5&quot;); }" />
+                <label for="is_complete">Проведен</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                  <label for="user_id">Владелец квартиры</label>
+                  <select id="w1"
+                          class="form-control select2-hidden-accessible"
+                          name="user_id"
+                          onchange=" $.get(&quot;/admin/account/get-lists-by-user?user_id=&quot;+$(this).val(), function( data ) { $(&quot;select#accounttransaction-account_id&quot;).html(data.accounts); $(&quot;select#accounttransaction-invoice_id&quot;).html(data.invoices); console.log(data); }); "
+                          data-s2-options="s2options_7ebc6538"
+                          data-krajee-select2="select2_cbc543bf"
+                          style="display:none"
+                          tabindex="-1"
+                          aria-hidden="true">
+                    <option value="">Выберите...</option>
+                    <option value="1">Лисенко Павел Михайлович</option>
+                    <option value="2">Иванов Иван  Сидорович</option>
+                    <option value="3">Булгаков Михаил Афанасьевич</option>
+                    <option value="4">Гоголь Николай Васильевич</option>
+                    <option value="5">Купер Джеймс Фенимор</option>
+                    <option value="6">Кант Иммануил</option>
+                    <option value="9">Петросян Иван</option>
+                    <option value="10">Громов Павел</option>
+                    <option value="99">Баранов Егор Андреевич</option>
+                    <option value="100">Сидоренко Илья Антонович</option>
+                    <option value="101">Test User</option>
+                    <option value="102">Ефросинин Аристарх Петрович</option>
+                    <option value="103">Коваль Борис Сергеевич</option>
+                    <option value="104">Кузьменко Оксана Дмитриевна</option>
+                    <option value="105">hehe@som.com</option>
+                    <option value="106">Петро Петрович Петренко</option>
+                    <option value="107">123@123.com</option>
+                    <option value="108">1petro@petrenko.com</option>
+                    <option value="109">Вася</option>
+                    <option value="110">pro100moneyfarmer@gmail.com</option>
+                    <option value="111">qwe@gmail.com</option>
+                    <option value="112">333@333.com</option>
+                    <option value="113">1@1.com</option>
+                    <option value="114">2@2.com</option>
+                    <option value="115">3@3.com</option>
+                    <option value="116">4@4.com</option>
+                    <option value="117">5@5.com</option>
+                    <option value="118">6@6.com</option>
+                    <option value="119">7@7.com</option>
+                    <option value="120">8@8.com</option>
+                    <option value="121">9@9.com</option>
+                    <option value="122">10@10.com</option>
+                    <option value="123">11@11.com</option>
+                    <option value="124">12@12.com</option>
+                    <option value="125">13@13.com</option>
+                    <option value="126">14@14.com</option>
+                    <option value="127">15@15.com</option>
+                    <option value="128">16@16.com</option>
+                    <option value="129">17@17.com</option>
+                    <option value="130">18@18.com</option>
+                    <option value="131">19@19.com</option>
+                    <option value="132">20@20.com</option>
+                    <option value="133">21@21.com</option>
+                    <option value="134">22@22.com</option>
+                    <option value="135">23@23.com</option>
+                    <option value="136">24@24.com</option>
+                    <option value="137">25@25.com</option>
+                    <option value="138">26@26.com</option>
+                    <option value="139">йцуке фіва нрт</option>
+                    <option value="140">28@28.com</option>
+                    <option value="141">29@29.com</option>
+                    <option value="142">Цекало</option>
+                    <option value="143">444444@gmail.com</option>
+                    <option value="144">adminfdgd@admin.com</option>
+                    <option value="145">adminius@admin.com</option>
+                    <option value="146">owner233@admin.com</option>
+                    <option value="147">bogdan24ro@gmail.com</option>
+                    <option value="148">Торишний</option>
+                    <option value="149">Титаренко</option>
+                    <option value="151">test@tse.com</option>
+                    <option value="152">Артем</option>
+                    <option value="153">Порох! Микола! Микола!</option>
+                    <option value="156">Зеля Вова Петрович</option>
+                    <option value="157">Боря Петя Толя</option>
+                    <option value="158">Иванов Иван  Иванович</option>
+                    <option value="159">22povileiolena@gmail.com</option>
+                    <option value="160">Руденко</option>
+                    <option value="161">Приходько</option>
+                    <option value="162">Kasparov Alexandr</option>
+                    <option value="164">Коля Микола Константинович</option>
+                    <option value="170">Полищук</option>
+                    <option value="171">Палагута</option>
+                    <option value="172">rty@gmail.com</option>
+                    <option value="173">Пазюра</option>
+                    <option value="174">Полищук</option>
+                    <option value="175">Фамилия Имя Отчество</option>
+                    <option value="176">Паламарчук</option>
+                    <option value="177">Негода</option>
+                    <option value="178">Лановой</option>
+                    <option value="179">Леша Леша</option>
+                    <option value="180">Кучма</option>
+                    <option value="181">Еревин Кирилл Потапыч</option>
+                    <option value="182">Кравец Иван</option>
+                    <option value="183">Кошевой</option>
+                    <option value="184">Костенко</option>
+                    <option value="186">Лымар Андрей</option>
+                    <option value="187">Корсун</option>
+                    <option value="188">Артем Артем Артем</option>
+                    <option value="189">Коломиец</option>
+                    <option value="190">John Doe Man</option>
+                    <option value="191">Завирюха</option>
+                    <option value="192">Журба</option>
+                    <option value="193">Запашный</option>
+                    <option value="194">Довгаль</option>
+                    <option value="195">Гудзь</option>
+                    <option value="196">Величко</option>
+                    <option value="197">Горбань</option>
+                    <option value="198">Матвиенко</option>
+                    <option value="199">Бутко</option>
+                    <option value="200">Ковальчук</option>
+                    <option value="201">Кравчук</option>
+                    <option value="202">Коваль</option>
+                    <option value="203">Беконович</option>
+                    <option value="204">Горбацевич</option>
+                    <option value="206">Коганович</option>
+                    <option value="207">nikitin</option>
+                    <option value="208">Мишкевич</option>
+                    <option value="209">Гузенко</option>
+                    <option value="210">Онищенко</option>
+                    <option value="211">Романюк Николай Владимирович</option>
+                    <option value="212">Тимошенко</option>
+                    <option value="213">Винниченко</option>
+                    <option value="214">Тищенко</option>
+                    <option value="215">Гончаренко</option>
+                    <option value="216">Хитрук Артур</option>
+                    <option value="217">Скрипко</option>
+                    <option value="218">Лещенко</option>
+                    <option value="219">Плющенко</option>
+                    <option value="220">Степаненко</option>
+                    <option value="221">Ткаченко</option>
+                    <option value="222">Сердюк</option>
+                    <option value="223">Вичук</option>
+                    <option value="224">Тарасюк</option>
+                    <option value="225">Полищук</option>
+                    <option value="226">Мороз Яна  Вікторівна</option>
+                    <option value="227">Полько Марк  Володимирович</option>
+                    <option value="228">Зеленський Володимир Олександрович</option>
+                    <option value="229">onufriienko</option>
+                    <option value="230">Потапенко Іван Степанович</option>
+                    <option value="231">Прокопенко Іван Степанович</option>
+                    <option value="232">Хома Михайло Степанович</option>
+                    <option value="233">Пилипчук Юлія Андріївна</option>
+                    <option value="234">Олександрааа Олександраа Олександрівнаа</option>
+                    <option value="235">veronikasviezhentsea@gmail.com</option>
+                    <option value="236">test123@test.com</option>
+                    <option value="238">testtest123@test.com</option>
+                    <option value="239">Букатов Никита Александрович</option>
+                    <option value="240">Yuraу Matsakу Vladimirovichу</option>
+                    <option value="241">Yura Matsak Vladimirovich</option>
+                    <option value="242">Смирнов Павел Викторович</option>
+                    <option value="243">Тестеров Иван Иванович</option>
+                    <option value="244">Віка Вік Вікторівна</option>
+                    <option value="245">Андрій Андре Андрійович</option>
+                    <option value="246">Пантелеєв Іван Іванович</option>
+                    <option value="247">Маркушин Марк Степанович</option>
+                    <option value="248">Власник 1 Власник 1</option>
+                    <option value="249">Власник 2</option>
+                    <option value="250">Власник 3</option>
+                    <option value="251">Тестерович Данил Сергеевич</option>
+                    <option value="252">Ірина Іра Ігорівна</option>
+                    <option value="253">Вікторов Віктор Вікторович</option>
+                    <option value="254"></option>
+                    <option value="255">Волков Андрей</option>
+                    <option value="256">Кулибин Сергей</option>
+                    <option value="257">Любов Антон</option>
+                    <option value="258">в в в</option>
+                    <option value="259">ф ф ф</option>
+                    <option value="260">Просто  Саша Вікторівна</option>
+                    <option value="261">prosto20@gmail.com</option>
+                    <option value="262">procto53@gmail.com</option>
+                    <option value="263">fcnroie@gmail.com</option>
+                    <option value="264">Романенко Влада Олеговна</option>
+                    <option value="265">Зеленська Олена Володимирiвна</option>
+                    <option value="266">Мазуров Степан Петрович</option>
+                    <option value="267">Куджо Джотаро Жожович</option>
+                    <option value="268">vero@gmail.com</option>
+                    <option value="269">svit@gmail.com</option>
+                    <option value="270">asdf@gmail.com</option>
+                    <option value="271">maru@gmail.com</option>
+                    <option value="272">Maruna Kate</option>
+                    <option value="273">Maruin@gmail.com</option>
+                    <option value="274">Стартовий Олег Олегович</option>
+                    <option value="275">Yurka Yurii Yurievich</option>
+                    <option value="276">66 66 666</option>
+                    <option value="277">Олександрова Олександра Юріївна</option>
+                    <option value="278">Світланенко Руслан Васильович</option>
+                    <option value="279">Безпроблемний Руслан</option>
+                    <option value="280">Тест Тест</option>
+                    <option value="281">Вольова Наталія Ігорівна</option>
+                    <option value="282">Світланенко Руслан</option>
+                    <option value="283">Олександрова Олександра Олександрівна</option>
+                    <option value="284">&nbsp;Світоана</option>
+                    <option value="285">Миколаїв Микола 2 Миколайович</option>
+                    <option value="286">rfgtrf.n@gmail.com</option>
+                    <option value="287">пані людмила  Вікторівна</option>
+                    <option value="288">ТестМакса Вася Петрович</option>
+                    <option value="289">2112121 !qRYv%KT0cGQmD</option>
+                    <option value="290">gotovo@gmail.com</option>
+                    <option value="291">талпа катя</option>
+                    <option value="292">тестсчетчика тест тест</option>
+                    <option value="293">test1@test.test</option>
+                    <option value="294">Любитель Макс Максимович</option>
+                    <option value="295">Бандера Стефан</option>
+                    <option value="296">Ласкавий Валентин</option>
+                    <option value="297">Матросов Іван</option>
+                    <option value="298">Єй Я Й</option>
+                    <option value="299">Безпроблемний Іван</option>
+                    <option value="300">Сори Пришлость Очистить</option>
+                    <option value="301">yay@i.ua</option>
+                    <option value="302">Первый рембо анатольевич</option>
+                    <option value="303">Атаманчук Петр Алексеевич</option>
+                    <option value="304">чорний чорнявий</option>
+                    <option value="305">Мазурова Вероника Андреевна</option>
+                    <option value="306">Борисов Влад Денисович</option>
+                    <option value="307">Андрей Триска</option>
+                    <option value="315">Мартынов Олег Батькович</option>
+                    <option value="316">Шаренко Елена</option>
+                    <option value="317">Шаренко Елена</option>
+                    <option value="318">Шаренко111111  Елена11111111112  111111111122222</option>
+                    <option value="319">Елена Шаренко</option>
+                    <option value="320">Огурцов Игорь Викторович</option>
+                    <option value="321">Огурцова Оля Валерия</option>
+                    <option value="322">Огурцов Миша Игоревич</option>
+                    <option value="323">Шабашный Александр 123</option>
+                    <option value="324">qwe@qweqwe.com</option>
+                    <option value="325">asdfghjjk@gmail.com</option>
+                    <option value="326">Виктор</option>
+                    <option value="327">Паша</option>
+                    <option value="328">анл три</option>
+                    <option value="329">Чернецкий Никита</option>
+                    <option value="330">Владимиров Артем</option>
+                    <option value="331">Таранюк  Катерина Миколаївна</option>
+                    <option value="332">Булкин Аркадий Ефграфович</option>
+                    <option value="333">оооо 111 111</option>
+                    <option value="334">Дрозд Ангелина Власовна</option>
+                    <option value="335">2234475546%^&amp;×26""": ^^&amp;&amp;₴₴ 5гаро з 3456</option>
+                    <option value="336">Таранюк  Каткрина Миколаївна</option>
+                    <option value="337">Чарна Валентина</option>
+                    <option value="338">Полищук Юлия</option>
+                    <option value="339">Бобров Юрий</option>
+                    <option value="340">Таранюк  Максим</option>
+                    <option value="341">Юрченко Роман</option>
+                    <option value="342">Маслова Мария Сергеевна</option>
+                    <option value="343">Марчук Анастасия</option>
+                    <option value="344">Степанова Ольга</option>
+                    <option value="345">Ильчук Андрей</option>
+                    <option value="347">Тарасюк Сергей</option>
+                    <option value="348">Шершнев Игорь</option>
+                    <option value="349">Сухарева Владлена</option>
+                    <option value="350">Марков Андрей</option>
+                    <option value="351">Зоря Алина</option>
+                    <option value="353">Орлов Денис Олегович</option>
+                    <option value="354">Степанова Алена</option>
+                  </select>
+                  <span class="select2 select2-container select2-container--default"
+                        dir="ltr"
+                        style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-w1-container"><span class="select2-selection__rendered" id="select2-w1-container"><span class="select2-selection__placeholder">Выберите...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                </div>
+                <div class="form-group field-accounttransaction-account_id">
+                  <label class="control-label" for="accounttransaction-account_id">Лицевой счет</label>
+                  <select id="accounttransaction-account_id"
+                          class="form-control select2-hidden-accessible"
+                          name="AccountTransaction[account_id]"
+                          onchange=" $.get(&quot;/admin/account/get-lists-by-account?account_id=&quot;+$(this).val(), function( data ) { $(&quot;select#accounttransaction-invoice_id&quot;).html(data.invoices); console.log(data); }); "
+                          data-s2-options="s2options_7ebc6538"
+                          data-krajee-select2="select2_cbc543bf"
+                          style="display:none"
+                          tabindex="-1"
+                          aria-hidden="true">
+                    <option value="">Выберите...</option>
+                    <option value="442">01082300443</option>
+                    <option value="460">0001234567</option>
+                    <option value="659">СТ-0001</option>
+                    <option value="660">АВ-0003</option>
+                    <option value="662">14042500662</option>
+                    <option value="663">14042500663</option>
+                    <option value="665">14042500665</option>
+                    <option value="666">14042500666</option>
+                    <option value="667">15042500667</option>
+                    <option value="668">22042500668</option>
+                    <option value="669">21052500669</option>
+                  </select>
+                  <span class="select2 select2-container select2-container--default"
+                        dir="ltr"
+                        style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-accounttransaction-account_id-container"><span class="select2-selection__rendered"
+      id="select2-accounttransaction-account_id-container"><span class="select2-selection__placeholder">Выберите...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-accounttransaction-transaction_purpose_id">
+                  <label class="control-label" for="accounttransaction-transaction_purpose_id">Статья</label>
+                  <select id="accounttransaction-transaction_purpose_id"
+                          class="form-control"
+                          name="AccountTransaction[transaction_purpose_id]">
+                    <option value="">Выберите...</option>
+                    <option value="39">Оплата за паркоместо</option>
+                    <option value="47">Коммунальный платёж</option>
+                    <option value="105">Прочее</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-accounttransaction-amount required">
+                  <label class="control-label" for="accounttransaction-amount">Сумма</label>
+                  <input type="number"
+                         id="accounttransaction-amount"
+                         class="form-control"
+                         name="AccountTransaction[amount]"
+                         style="font-size: 24px"
+                         step="any"
+                         aria-required="true" />
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <input type="hidden"
+                       id="accounttransaction-status"
+                       name="AccountTransaction[status]"
+                       value="10" />
+                <input type="hidden"
+                       id="accounttransaction-invoice_id"
+                       name="AccountTransaction[invoice_id]" />
+                <div class="form-group field-accounttransaction-user_admin_id">
+                  <label class="control-label" for="accounttransaction-user_admin_id">Менеджер</label>
+                  <select id="accounttransaction-user_admin_id"
+                          class="form-control"
+                          name="AccountTransaction[user_admin_id]">
+                    <option value="">Выберите...</option>
+                    <option value="18">Бухгалтер - Григорий</option>
+                    <option value="20">Бухгалтер - Арнольд</option>
+                    <option value="39">Бухгалтер - Марина Карина</option>
+                    <option value="48">Бухгалтер - 0987@gmail.com</option>
+                    <option value="62">Бухгалтер - Проба Тела</option>
+                    <option value="70">Бухгалтер - Катя</option>
+                    <option value="94">Бухгалтер - ВІкторрія Вік</option>
+                    <option value="98">Бухгалтер - Панас Федорів</option>
+                    <option value="106">Бухгалтер - Антуан Экзюпери</option>
+                    <option value="115">Бухгалтер - ВІкторрія  Андріївна</option>
+                    <option value="123">Бухгалтер - Евстегней Панкратов</option>
+                    <option value="128">Бухгалтер - Бухгалтер Букатов</option>
+                    <option value="129">Бухгалтер - Вероника Свеженцева</option>
+                    <option value="143">Бухгалтер - Мир Світ</option>
+                    <option value="144">Бухгалтер - Мир Світ</option>
+                    <option value="146">Бухгалтер - Олена Василівна</option>
+                    <option value="152">Бухгалтер - Микола Миколаїв</option>
+                    <option value="162">Бухгалтер - Роман Ром</option>
+                    <option value="167">Бухгалтер - Надія Найденко</option>
+                    <option value="170">Бухгалтер - Катерина  Маркушина</option>
+                    <option value="177">Бухгалтер - Бух</option>
+                    <option value="183">Бухгалтер - Счетовод 1</option>
+                    <option value="222">Бухгалтер - n@i.ua</option>
+                    <option value="223">Бухгалтер - Катерина Таранюк</option>
+                    <option value="224">Бухгалтер - Катерина Таранюк</option>
+                    <option value="225">Бухгалтер - Катерина Таранюк</option>
+                    <option value="226">Бухгалтер - Катерина Таранюк</option>
+                    <option value="1" selected="">Директор - Elon Musk</option>
+                    <option value="8">Директор - Сергей</option>
+                    <option value="10">Директор - Михаил Калита</option>
+                    <option value="12">Директор - Кристина</option>
+                    <option value="14">Директор - Никита Тищенко</option>
+                    <option value="17">Директор - Богдан</option>
+                    <option value="21">Директор - dawemo76d60@lenfly.com</option>
+                    <option value="22">Директор - fosoned290@kahase.com</option>
+                    <option value="23">Директор - Марти Макфлай</option>
+                    <option value="24">Директор - Дима</option>
+                    <option value="25">Директор - Тестовый! Админ!</option>
+                    <option value="26">Директор - Админ Админ</option>
+                    <option value="30">Директор - sda@dssg.com</option>
+                    <option value="31">Директор - Артём Иванов</option>
+                    <option value="32">Директор - Міський Культури</option>
+                    <option value="40">Директор - Василий</option>
+                    <option value="42">Директор - bbb@gmail.com</option>
+                    <option value="43">Директор - Александр</option>
+                    <option value="44">Директор - Николай Васильев</option>
+                    <option value="45">Директор - Саша</option>
+                    <option value="46">Директор - руслан іванов</option>
+                    <option value="51">Директор - neadmin@admin.com</option>
+                    <option value="52">Директор - oooneadmin@admin.com</option>
+                    <option value="54">Директор - Эрхарт</option>
+                    <option value="55">Директор - Жан Кусто</option>
+                    <option value="56">Директор - admin34@admin.com</option>
+                    <option value="57">Директор - Пользователь Который Электрик</option>
+                    <option value="58">Директор - Энтони</option>
+                    <option value="59">Директор - Директор Тестовый</option>
+                    <option value="60">Директор - admin1111@admin.com</option>
+                    <option value="64">Директор - Володар  сер</option>
+                    <option value="65">Директор - Антон</option>
+                    <option value="66">Директор - НЕ МЕНЯТЬ</option>
+                    <option value="68">Директор - Dima</option>
+                    <option value="71">Директор - Valera Valera</option>
+                    <option value="74">Директор - Владимир</option>
+                    <option value="75">Директор - Валерий</option>
+                    <option value="76">Директор - Dima Rubets</option>
+                    <option value="77">Директор - Роберт</option>
+                    <option value="78">Директор - ad534534min@admin.com</option>
+                    <option value="79">Директор - ad555min@admin.com</option>
+                    <option value="80">Директор - Федор</option>
+                    <option value="82">Директор - dhushchyn@gmail.com</option>
+                    <option value="83">Директор - Никита</option>
+                    <option value="84">Директор - Наст Молодченк</option>
+                    <option value="85">Директор - Вероніка  Свєженцева</option>
+                    <option value="86">Директор - Світлана Онуфрієнко</option>
+                    <option value="87">Директор - Василь  Недашківський</option>
+                    <option value="88">Директор - Юлія Юлія</option>
+                    <option value="89">Директор - Роман Романчук</option>
+                    <option value="90">Директор - Никита Букатов</option>
+                    <option value="91">Директор - Yura Matsak</option>
+                    <option value="92">Директор - Павел Смирнов</option>
+                    <option value="93">Директор - Дим Дим</option>
+                    <option value="95">Директор - Пилипчук Юлія</option>
+                    <option value="102">Директор - Валерій  Фамілійович</option>
+                    <option value="103">Директор - Адмін Антонович</option>
+                    <option value="107">Директор - Ktoto Tam</option>
+                    <option value="108">Директор - Petya Petrovchenko</option>
+                    <option value="109">Директор - Петя Петька</option>
+                    <option value="110">Директор - Петя Петя</option>
+                    <option value="111">Директор - poshta@gmail.com</option>
+                    <option value="112">Директор - prosto@gmail.com</option>
+                    <option value="113">Директор - Анастасія Молодченко</option>
+                    <option value="114">Директор - dThjrztsju</option>
+                    <option value="116">Директор - Ігор Ігоров</option>
+                    <option value="117">Директор - йцуке  йцйцйц</option>
+                    <option value="118">Директор - Аліса (づ ◕‿◕ )づ</option>
+                    <option value="119">Директор - Світлана Видалена</option>
+                    <option value="122">Директор - Андрій  Ворон</option>
+                    <option value="130">Директор - Світлана Видалена</option>
+                    <option value="131">Директор - Світлана Приіда</option>
+                    <option value="132">Директор - Марина ВІКНЕНКО</option>
+                    <option value="134">Директор - Test Admin</option>
+                    <option value="147">Директор - Fjfe@gmail.com</option>
+                    <option value="149">Директор - Veronika Sviezhentseva</option>
+                    <option value="151">Директор - Тест Тест</option>
+                    <option value="153">Директор - Василій Вась</option>
+                    <option value="154">Директор - Ігор Ігоров</option>
+                    <option value="155">Директор - Tesr@test.com</option>
+                    <option value="156">Директор - безпроблемний руслан</option>
+                    <option value="158">Директор - Світланенко Руслан</option>
+                    <option value="159">Директор - Віктор Вік</option>
+                    <option value="160">Директор - Віктор Віктор</option>
+                    <option value="171">Директор - Максим Ярмак</option>
+                    <option value="172">Директор - Карина Кардашьян</option>
+                    <option value="173">Директор - Marina mARINA</option>
+                    <option value="175">Директор - Pavel Pava</option>
+                    <option value="176">Директор - Степан Бандера</option>
+                    <option value="178">Директор - Костенко Андрій</option>
+                    <option value="179">Директор - Костенко Андрій</option>
+                    <option value="180">Директор - bbbbbb</option>
+                    <option value="185">Директор - тестировщик</option>
+                    <option value="187">Директор - Вероника Тест</option>
+                    <option value="188">Директор - Андрей Триска</option>
+                    <option value="189">Директор - Елена Шаренко</option>
+                    <option value="190">Директор - Vlad</option>
+                    <option value="195">Директор - Елена Шаренко</option>
+                    <option value="196">Директор - Елена Шаренко</option>
+                    <option value="197">Директор - qwe@qwe.qweqwe</option>
+                    <option value="198">Директор - qwe123@qwe.qwe</option>
+                    <option value="199">Директор - qwe22@mail.com</option>
+                    <option value="200">Директор - qwe@qwe.qq</option>
+                    <option value="201">Директор - ghfg dh</option>
+                    <option value="202">Директор - Виктор</option>
+                    <option value="203">Директор - Николай</option>
+                    <option value="204">Директор - Никита Чернецкий</option>
+                    <option value="206">Директор - тетс тест</option>
+                    <option value="207">Директор - Kaleriia Startseva</option>
+                    <option value="208">Директор - Ангелина Дрозд</option>
+                    <option value="209">Директор - Оленка Черньонок</option>
+                    <option value="210">Директор - Земфира Зефир</option>
+                    <option value="211">Директор - Земфира Зефир</option>
+                    <option value="212">Директор - test1@test.com</option>
+                    <option value="221">Директор - bu@i.ua</option>
+                    <option value="7">Управляющий - Владимир Плющенко</option>
+                    <option value="11">Управляющий - Tim Widow</option>
+                    <option value="13">Управляющий - Дмитрий</option>
+                    <option value="16">Управляющий - Владислав</option>
+                    <option value="27">Управляющий - Лев Константинович</option>
+                    <option value="36">Управляющий - Вакар Вакар</option>
+                    <option value="38">Управляющий - Єлектрон</option>
+                    <option value="47">Управляющий - ivan sokolov</option>
+                    <option value="53">Управляющий - Миша</option>
+                    <option value="61">Управляющий - Володар</option>
+                    <option value="69">Управляющий - Владик</option>
+                    <option value="72">Управляющий - Максим</option>
+                    <option value="97">Управляющий - Федір Опанасенко</option>
+                    <option value="120">Управляющий - Світлана Фрієн</option>
+                    <option value="145">Управляющий - Гай Рей</option>
+                    <option value="148">Управляющий - Управляющий Букатов</option>
+                    <option value="150">Управляющий - Дмитро Дмитров</option>
+                    <option value="157">Управляющий - Василій Василів</option>
+                    <option value="165">Управляющий - Іван  Іванович</option>
+                    <option value="184">Управляющий - Главный 1</option>
+                    <option value="194">Управляющий - Олег Мартынов</option>
+                    <option value="205">Управляющий - Artem Vladimirov</option>
+                    <option value="220">Управляющий - Катерина Таранюк</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <a href="/admin/account-transaction/index"
+                     class="btn btn-default margin-bottom-15">Отменить</a>
+                  <input type="submit"
+                         class="btn btn-success margin-bottom-15"
+                         name="action_save"
+                         value="Сохранить" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group field-accounttransaction-description">
+                  <label class="control-label" for="accounttransaction-description">Комментарий</label>
+                  <textarea id="accounttransaction-description"
+                            class="form-control"
+                            name="AccountTransaction[description]"
+                            rows="5"></textarea>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

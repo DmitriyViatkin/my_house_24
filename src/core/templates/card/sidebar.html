@@ -1,0 +1,107 @@
+<!-- sidebar -->
+<div class="slimScrollDiv"
+     style="position: relative;
+            overflow: hidden;
+            width: auto;
+            height: 840px">
+  <section class="sidebar" style="overflow: hidden; width: auto; height: 840px;">
+    <ul class="sidebar-menu tree" data-widget="tree">
+      <li class="active">
+        <a href="{% url 'admin:dashboard' %}"><i class="fa fa-line-chart"></i>  <span>Статистика</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:cashbox' %}"><i class="fa fa-dollar"></i>  <span>Касса</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:invoice' %}"><i class="fa fa-files-o"></i>  <span>Квитанции на оплату</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:account' %}"><i class="fa fa-credit-card"></i>  <span>Лицевые счета</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:flat' %}"><i class="fa fa-key"></i>  <span>Квартиры</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:users' %}"><i class="fa fa-users"></i>  <span>Владельцы квартир</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:house' %}"><i class="fa fa-building"></i>  <span>Дома</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:message' %}"><i class="fa fa-envelope-o"></i>  <span>Сообщения</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:ticket' %}"><i class="fa fa-wrench"></i>  <span>Заявки вызова мастера</span></a>
+      </li>
+      <li>
+        <a href="{% url 'admin:counters' %}"><i class="fa fa-dashboard"></i>  <span>Показания счетчиков</span></a>
+      </li>
+      <li class="treeview">
+        <a href="#!"><i class="fa fa-desktop"></i>  <span>Управление сайтом</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'admin:home' %}"><i class="fa fa-circle-o"></i>  <span>Главная страница</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:about' %}"><i class="fa fa-circle-o"></i>  <span>О нас</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:services' %}"><i class="fa fa-circle-o"></i>  <span>Услуги</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:tariffs' %}"><i class="fa fa-circle-o"></i>  <span>Тарифы</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:contact' %}"><i class="fa fa-circle-o"></i>  <span>Контакты</span></a>
+          </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#!"><i class="fa fa-cogs"></i>  <span>Настройки системы</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'admin:service' %}"><i class="fa fa-briefcase"></i>  <span>Услуги</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:tariff' %}"><i class="fa fa-money"></i>  <span>Тарифы</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:role' %}"><i class="fa fa-user"></i>  <span>Роли</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:user-admin' %}"><i class="fa fa-user-plus"></i>  <span>Пользователи</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:payment-articles' %}"><i class="fa fa-credit-card"></i>  <span>Платежные реквизиты</span></a>
+          </li>
+          <li>
+            <a href="{% url 'admin:payment-articles' %}"><i class="fa fa-list-ol"></i>  <span>Статьи платежей</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <div class="slimScrollBar"
+       style="background: rgb(0, 0, 0);
+              width: 7px;
+              position: absolute;
+              top: 0px;
+              opacity: 0.4;
+              display: none;
+              border-radius: 7px;
+              z-index: 99;
+              right: 1px;
+              height: 840px"></div>
+  <div class="slimScrollRail"
+       style="width: 7px;
+              height: 100%;
+              position: absolute;
+              top: 0px;
+              display: none;
+              border-radius: 7px;
+              background: rgb(51, 51, 51);
+              opacity: 0.2;
+              z-index: 90;
+              right: 1px"></div>
+</div>
+<!-- /.sidebar -->

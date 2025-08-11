@@ -1,0 +1,400 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Новое сообщение</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="/admin/message/index">Сообщения</a>
+        </li>
+        <li class="active">Новое сообщение</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <form id="w0"
+              action="/admin/message/create?MessageAddress%5Buser_has_debt%5D=1"
+              method="post">
+          <input type="hidden"
+                 name="_csrf-backend"
+                 value="wFn-rHOIxs0uLPpljp-NHxmn4uTl5U9UuB6Iwot7RguRaqTeAL6egmNImxHe3aB9K_-KrqbTBhX7avGl4iNwbQ==" />
+          <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+          </div>
+          <div class="box-body">
+            <input type="hidden"
+                   id="message-user_admin_from_id"
+                   name="Message[user_admin_from_id]"
+                   value="1" />
+            <input type="hidden" id="message-status" name="Message[status]" value="5" />
+            <input type="hidden" id="message-type" name="Message[type]" value="default" />
+            <div class="form-group field-message-name required">
+              <input type="text"
+                     id="message-name"
+                     class="form-control"
+                     name="Message[name]"
+                     maxlength="255"
+                     placeholder="Тема сообщения:"
+                     aria-required="true" />
+              <div class="help-block"></div>
+            </div>
+            <div class="form-group field-message-description required">
+              <ul class="wysihtml5-toolbar" style="">
+                <li class="dropdown">
+                  <a class="btn btn-default dropdown-toggle btn-none"
+                     data-toggle="dropdown">
+                    <span class="fa fa-font"></span>
+                    <span class="current-font">Обычный текст</span>
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="p"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Обычный текст</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h1"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 1</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h2"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 2</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h3"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 3</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h4"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 4</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h5"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 5</a>
+                    </li>
+                    <li>
+                      <a data-wysihtml5-command="formatBlock"
+                         data-wysihtml5-command-value="h6"
+                         tabindex="-1"
+                         href="javascript:;"
+                         unselectable="on">Заголовок 6</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <div class="btn-group">
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="bold"
+                       title="CTRL+B"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">Полужирный</a>
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="italic"
+                       title="CTRL+I"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">Курсив</a>
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="underline"
+                       title="CTRL+U"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">Подчёркнутый</a>
+                  </div>
+                </li>
+                <li>
+                  <div class="btn-group">
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="insertUnorderedList"
+                       title="Маркированный список"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">
+                      <span class="fa fa-list-ul"></span>
+                    </a>
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="insertOrderedList"
+                       title="Нумерованный список"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">
+                      <span class="fa fa-list-ol"></span>
+                    </a>
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="Outdent"
+                       title="Уменьшить отступ"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">
+                      <span class="fa fa-outdent"></span>
+                    </a>
+                    <a class="btn btn-none btn-default"
+                       data-wysihtml5-command="Indent"
+                       title="Увеличить отступ"
+                       tabindex="-1"
+                       href="javascript:;"
+                       unselectable="on">
+                      <span class="fa fa-indent"></span>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+              <textarea id="message-description"
+                        class="compose-textarea form-control"
+                        name="Message[description]"
+                        rows="6"
+                        aria-required="true"
+                        style="display: none"
+                        placeholder="Текст сообщения:"></textarea>
+              <input type="hidden" name="_wysihtml5_mode" value="1" />
+              <iframe class="wysihtml5-sandbox"
+                      security="restricted"
+                      allowtransparency="true"
+                      frameborder="0"
+                      width="0"
+                      height="0"
+                      marginwidth="0"
+                      marginheight="0"
+                      style="display: block;
+                             background-color: rgb(255, 255, 255);
+                             border-collapse: separate;
+                             border-color: rgb(210, 214, 222);
+                             border-style: solid;
+                             border-width: 1px;
+                             clear: none;
+                             float: none;
+                             margin: 0px;
+                             outline: rgb(85, 85, 85) none 0px;
+                             outline-offset: 0px;
+                             padding: 6px 12px;
+                             position: static;
+                             inset: auto;
+                             z-index: auto;
+                             vertical-align: baseline;
+                             text-align: start;
+                             box-sizing: border-box;
+                             box-shadow: none;
+                             border-radius: 0px;
+                             width: 1015px;
+                             height: 134px"></iframe>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <h4>Кому отправить:</h4>
+                <div class="form-group field-messageaddress-user_has_debt">
+                  <input type="hidden" name="MessageAddress[user_has_debt]" value="0" />
+                  <label>
+                    <input type="checkbox"
+                           id="messageaddress-user_has_debt"
+                           class=""
+                           name="MessageAddress[user_has_debt]"
+                           value="1"
+                           checked="" />
+                    Владельцам с задолженностями
+                  </label>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-messageaddress-house_id">
+                  <label class="control-label" for="messageaddress-house_id">ЖК</label>
+                  <select id="messageaddress-house_id"
+                          class="form-control"
+                          name="MessageAddress[house_id]"
+                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?house_id=&quot;+$(this).val()+&quot;&amp;section_id=&quot;+$(&quot;select#messageaddress-section_id&quot;).val()+&quot;&amp;floor_id=&quot;+$(&quot;select#messageaddress-floor_id&quot;).val()+&quot;&amp;riser_id=&quot;+$(&quot;select#messageaddress-riser_id&quot;).val(), function( data ) { $(&quot;select#messageaddress-section_id&quot;).html(data.sections); $(&quot;select#messageaddress-riser_id&quot;).html(data.risers); $(&quot;select#messageaddress-floor_id&quot;).html(data.floors); $(&quot;select#messageaddress-flat_id&quot;).html(data.flats); }); ">
+                    <option value="">Всем...</option>
+                    <option value="1">ЖК "Башня Чкалов"</option>
+                    <option value="2">ЖК "Морская Симфония"</option>
+                    <option value="3">ЖК "Дом Каркашадзе"</option>
+                    <option value="4">ЖК "Королевские сады"</option>
+                    <option value="6">ЖК "Балковский"</option>
+                    <option value="11">ЖК "Адмирал" Дом №11</option>
+                    <option value="12">ЖК "Адмирал" Дом №12</option>
+                    <option value="13">ЖК "Адмирал" Дом №13</option>
+                    <option value="14">ЖК "Новые Черемушки"</option>
+                    <option value="18">ЖК "Manhattan"</option>
+                    <option value="19">ЖК "Скай Сити"</option>
+                    <option value="20">ЖК "Альтаир 3"</option>
+                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                    <option value="24">Н-О</option>
+                    <option value="25">ЖК Искринский</option>
+                    <option value="51">ЖК Suncity-Солнечный город</option>
+                    <option value="56">Дом 56</option>
+                    <option value="61">Жилой район Приморские сады</option>
+                    <option value="78">Золотая Эра</option>
+                    <option value="85">Микрорайон «Таировские Сады»</option>
+                    <option value="100">ЖК "Удобний"</option>
+                    <option value="101">Житловий комплекс «Будинок №1»</option>
+                    <option value="105">ЖК "Луч"</option>
+                    <option value="106">Торговельний Центр «Афіна»</option>
+                    <option value="107">ЖК «Санторіні»</option>
+                    <option value="132">ЖК «Крит»</option>
+                    <option value="133">Континент</option>
+                    <option value="134">Континент</option>
+                    <option value="139">ЖК Чайка</option>
+                    <option value="142">Офісний центр на Французькому бульварі</option>
+                    <option value="145">БЦ на Глибочицькій</option>
+                    <option value="158">ЖК «Лімнос»</option>
+                    <option value="165">ЖК "Помидор"</option>
+                    <option value="170">Готельно-житловий комплекс «Міконос»</option>
+                    <option value="173">ЖК «Корфу»</option>
+                    <option value="174">Аквамарин</option>
+                    <option value="175">Генарёк хаус</option>
+                    <option value="183">ЖК «Мілос»</option>
+                    <option value="185">Аполлон на Карантинній</option>
+                    <option value="186">Апарт-комплекс «Каліпсо»</option>
+                    <option value="188">ЖК «Родос»</option>
+                    <option value="193">ЖК "Эдельвейс"</option>
+                    <option value="194">ЖК Авиньйон</option>
+                    <option value="196">Аполлон на Куликовському</option>
+                    <option value="197">Бізнес-Центр «Ольвія»</option>
+                    <option value="199">ЖК «Акрополь»</option>
+                    <option value="201">ЖК «Еллада»</option>
+                    <option value="202">Бізнес-Центр «Платон»</option>
+                    <option value="203">Апарт-комплекс «Ітака»</option>
+                    <option value="204">ЖК «Посейдон»</option>
+                    <option value="205">Житловий комплекс «Будинок №1»</option>
+                    <option value="206">Дом ЗЕЛЁНЫЙ</option>
+                    <option value="213">Апарт-комплекс «Aтлант»</option>
+                    <option value="216">ЖК "Україна"</option>
+                    <option value="219">ЖК "Котон"</option>
+                    <option value="220">Жк Комфорт таун</option>
+                    <option value="222">ЖК ''Перлина''</option>
+                    <option value="223">ЖК ''Перлина 2''</option>
+                    <option value="224">ЖК Перемога</option>
+                    <option value="225">ЖК Перемога України</option>
+                    <option value="226"></option>
+                    <option value="227">Акрополь</option>
+                    <option value="230">Перлина 3</option>
+                    <option value="233">ЖК "Україна"</option>
+                    <option value="236">ЖК House Of Bugs</option>
+                    <option value="237">Жк Комфорт таун</option>
+                    <option value="239">ЖК Independent</option>
+                    <option value="241">ЖК "Україна"</option>
+                    <option value="250">Світланин рай</option>
+                    <option value="251">ЖК "Зелень"</option>
+                    <option value="254">New House</option>
+                    <option value="257">ЖЖ Аркадия</option>
+                    <option value="260">Тестовый дом 1</option>
+                    <option value="262">ЖК "Світлании оазис"</option>
+                    <option value="263"></option>
+                    <option value="264">ЖК Місто Квітів</option>
+                    <option value="265">ЖК Місто Квітів2</option>
+                    <option value="266">ЖК "Котон"</option>
+                    <option value="267">Вільний ЖК</option>
+                    <option value="268"></option>
+                    <option value="270">Будинок</option>
+                    <option value="273">New House</option>
+                    <option value="274">ЖК Місто Квітів</option>
+                    <option value="275">Ррррррррррррррррррррррррр</option>
+                    <option value="276">Вільний ЖК</option>
+                    <option value="278">Ннннннннннннн</option>
+                    <option value="279">22</option>
+                    <option value="282">Вільний ЖК 2</option>
+                    <option value="284">ЖК Місто Квітів</option>
+                    <option value="285">ЖК "Котон"</option>
+                    <option value="287">ЖК "Проблем нема"</option>
+                    <option value="290">ЖК "Рожевий рай"</option>
+                    <option value="291">ЖК "Рожевий рай"</option>
+                    <option value="294"></option>
+                    <option value="296">ЖК "Рожевий рай"</option>
+                    <option value="297">ЖК "Рожевий рай"</option>
+                    <option value="301">Тест</option>
+                    <option value="304">ЖК Атлант</option>
+                    <option value="305">ЖК Атлант</option>
+                    <option value="315">ЖК Молодість</option>
+                    <option value="316">Відпочинок</option>
+                    <option value="319">ЖК Атлант</option>
+                    <option value="321">ЖК Будинок</option>
+                    <option value="325">ЖК Молодіжний</option>
+                    <option value="326">ЖК новий</option>
+                    <option value="328">Вільний ЖК 3</option>
+                    <option value="329">ранок</option>
+                    <option value="339">dx</option>
+                    <option value="342">Мій1</option>
+                    <option value="346">ЖК OZONE</option>
+                    <option value="351">ЖК Санторіні</option>
+                    <option value="354">ЖК Кімолос</option>
+                    <option value="357">Unity Towers</option>
+                    <option value="360">ЖК Еллада</option>
+                    <option value="361">Апарт-комплекс Breeze Marine</option>
+                    <option value="364">Апарт-комплекс Итака</option>
+                    <option value="370">ЖК Прохоровський квартал</option>
+                    <option value="372">Радужний</option>
+                    <option value="373">ЖК "Евро+"</option>
+                    <option value="374">ЖК "Калипсо"</option>
+                    <option value="376">ЖК Клубная резиденция</option>
+                    <option value="377">ЖК Акрополь</option>
+                    <option value="378">ЖК Посейдон</option>
+                    <option value="379">Аврора</option>
+                    <option value="380">ЖК Золотая Ера</option>
+                    <option value="388">Стрела</option>
+                    <option value="389">ЖК Modern</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-messageaddress-section_id">
+                  <label class="control-label" for="messageaddress-section_id">Секция</label>
+                  <select id="messageaddress-section_id"
+                          class="form-control"
+                          name="MessageAddress[section_id]"
+                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?section_id=&quot;+$(this).val()+&quot;&amp;house_id=&quot;+$(&quot;select#messageaddress-house_id&quot;).val()+&quot;&amp;floor_id=&quot;+$(&quot;select#messageaddress-floor_id&quot;).val()+&quot;&amp;riser_id=&quot;+$(&quot;select#messageaddress-riser_id&quot;).val(), function( data ) { $(&quot;select#messageaddress-flat_id&quot;).html(data.flats); }); ">
+                    <option value="">Всем...</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-messageaddress-floor_id">
+                  <label class="control-label" for="messageaddress-floor_id">Этаж</label>
+                  <select id="messageaddress-floor_id"
+                          class="form-control"
+                          name="MessageAddress[floor_id]"
+                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?floor_id=&quot;+$(this).val()+&quot;&amp;house_id=&quot;+$(&quot;select#messageaddress-house_id&quot;).val()+&quot;&amp;section_id=&quot;+$(&quot;select#messageaddress-section_id&quot;).val()+&quot;&amp;riser_id=&quot;+$(&quot;select#messageaddress-riser_id&quot;).val(), function( data ) { $(&quot;select#messageaddress-flat_id&quot;).html(data.flats); }); ">
+                    <option value="">Всем...</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-messageaddress-flat_id">
+                  <label class="control-label" for="messageaddress-flat_id">Квартира</label>
+                  <select id="messageaddress-flat_id"
+                          class="form-control"
+                          name="MessageAddress[flat_id]">
+                    <option value="">Всем...</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="pull-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-envelope-o"></i> Отправить
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}

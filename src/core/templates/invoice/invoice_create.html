@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Новая квитанция</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'invoice_list' %}">Квитанции</a>
+        </li>
+        <li class="active">Новая квитанция</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="invoice-create">
+        <form id="invoice-form" action="{% url 'invoice_create' %}" method="post">
+          <input type="hidden"
+                 name="_csrf-backend"
+                 value="LI0PVNgKOWAGPN3VSJVJquNPM5zwFLK9Z5rOn45zE6l9vlUmqzxhL0tYvKEY12TI0Rdb1rMi-_wk7rf45yslzw==" />
+          <div class="row">
+            <div class="col-xs-12 col-md-7 col-lg-6">
+              <div class="page-header-spec">
+                <div class="form-group field-invoice-uid required">
+                  <div class="input-group">
+                    <div class="input-group-addon">№</div>
+                    <input type="text"
+                           id="invoice-uid"
+                           class="form-control"
+                           name="Invoice[uid]"
+                           value="02082501398"
+                           aria-required="true" />
+                  </div>
+                </div>
+                <span class="label-mid">от</span>
+                <div class="form-group field-invoice-uid_date">
+                  <div id="invoice-uid_date-kvdate" class="input-group  date">
+                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input type="text"
+                           id="invoice-uid_date"
+                           class="form-control krajee-datepicker"
+                           name="Invoice[uid_date]"
+                           value="02.08.2025"
+                           data-datepicker-source="invoice-uid_date-kvdate"
+                           data-datepicker-type="2"
+                           data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-5 col-lg-6">
+              <div class="btn-group pull-right margin-bottom">
+                <button type="button"
+                        class="btn btn-success dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                  Выберите действие <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#!" class="set-tariff-services">Выставить все услуги согласно тарифу</a>
+                  </li>
+                  <li>
+                    <a href="#!" class="add-counters">Добавить показания счетчиков</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-body">
+              <input type="hidden" id="invoice-id" name="Invoice[id]" />
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="house_id">Дом</label>
+                    <select id="house_id"
+                            class="form-control"
+                            name="house_id"
+                            onchange=" $.get(&quot;/admin/flat/get-lists-by-house?house_id=&quot;+$(this).val(), function( data ) { $(&quot;select#section_id&quot;).html(data.sections); $(&quot;select#invoice-flat_id&quot;).html(data.flats); console.log(data); }); ">
+                      <option value="">Выберите...</option>
+                      <option value="1">ЖК "Башня Чкалов"</option>
+                      <option value="2">ЖК "Морская Симфония"</option>
+                      <option value="3">ЖК "Дом Каркашадзе"</option>
+                      <option value="4">ЖК "Королевские сады"</option>
+                      <option value="6">ЖК "Балковский"</option>
+                      <option value="11">ЖК "Адмирал" Дом №11</option>
+                      <option value="12">ЖК "Адмирал" Дом №12</option>
+                      <option value="13">ЖК "Адмирал" Дом №13</option>
+                      <option value="14">ЖК "Новые Черемушки"</option>
+                      <option value="18">ЖК "Manhattan"</option>
+                      <option value="19">ЖК "Скай Сити"</option>
+                      <option value="20">ЖК "Альтаир 3"</option>
+                      <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                      <option value="24">Н-О</option>
+                      <option value="25">ЖК Искринский</option>
+                      <option value="51">ЖК Suncity-Солнечный город</option>
+                      <option value="56">Дом 56</option>
+                      <option value="61">Жилой район Приморские сады</option>
+                      <option value="78">Золотая Эра</option>
+                      <option value="85">Микрорайон «Таировские Сады»</option>
+                      <option value="100">ЖК "Удобний"</option>
+                      <option value="101">Житловий комплекс «Будинок №1»</option>
+                      <option value="105">ЖК "Луч"</option>
+                      <option value="106">Торговельний Центр «Афіна»</option>
+                      <option value="107">ЖК «Санторіні»</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

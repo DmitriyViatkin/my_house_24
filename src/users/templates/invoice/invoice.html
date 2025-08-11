@@ -1,0 +1,93 @@
+{% extends '/main.html' %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Квитанции на оплату</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/cabinet/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Квитанции на оплату</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title"></h3>
+              <div class="box-tools">
+                <a href="/cabinet/invoice/index" class="btn btn-default btn-sm">
+                  <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div id="w0" class="grid-view">
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th>№</th>
+                      <th>
+                        <a href="/cabinet/invoice/index?sort=searchUidDate"
+                           data-sort="searchUidDate">Дата</a>
+                      </th>
+                      <th>Статус</th>
+                      <th>Сумма</th>
+                    </tr>
+                    <tr id="w0-filters" class="filters">
+                      <td>&nbsp;</td>
+                      <td>
+                        <input type="text"
+                               id="invoicesearch-searchuiddate"
+                               class="form-control krajee-datepicker"
+                               name="InvoiceSearch[searchUidDate]"
+                               data-datepicker-source="invoicesearch-searchuiddate"
+                               data-datepicker-type="1"
+                               data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
+                      </td>
+                      <td>
+                        <select id="invoicesearch-status"
+                                class="form-control select2-hidden-accessible"
+                                name="InvoiceSearch[status]"
+                                data-s2-options="s2options_7ebc6538"
+                                data-krajee-select2="select2_0d896465"
+                                style="display:none"
+                                tabindex="-1"
+                                aria-hidden="true">
+                          <option value=""></option>
+                          <option value="10">Оплачена</option>
+                          <option value="6">Частично оплачена</option>
+                          <option value="5">Неоплачена</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default"
+                              dir="ltr"
+                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
+      role="combobox"
+      aria-haspopup="true"
+      aria-expanded="false"
+      tabindex="0"
+      aria-labelledby="select2-invoicesearch-status-container"><span class="select2-selection__rendered"
+      id="select2-invoicesearch-status-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="4">
+                        <div class="empty">Ничего не найдено.</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="box-footer clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

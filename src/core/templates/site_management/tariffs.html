@@ -1,0 +1,349 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Редактирование страницы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Редактирование страницы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Редактирование страницы "Тарифы"</h3>
+            </div>
+            <div class="box-body">
+              <form id="w0"
+                    action="/admin/website/tariffs"
+                    method="post"
+                    enctype="multipart/form-data">
+                <input type="hidden"
+                       name="_csrf-backend"
+                       value="nO1tisK7LTcnPcPgUB2AIxTBrkOwdSPZAJFHDIaZfzfN3jf4sY11eGpZopQAX61BJpnGCfNDaphD5T5r78FJUQ==" />
+                <h3 class="page-header">Информация</h3>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group field-websitetariffform-tarifftitle">
+                      <label class="control-label" for="websitetariffform-tarifftitle">Заголовок</label>
+                      <input type="text"
+                             id="websitetariffform-tarifftitle"
+                             class="form-control"
+                             name="WebsiteTariffForm[tariffTitle]"
+                             value="Наши тарифы для Вас" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websitetariffform-tariffdescription">
+                      <label class="control-label" for="websitetariffform-tariffdescription">Краткий текст</label>
+                      <ul class="wysihtml5-toolbar" style="">
+                        <li class="dropdown">
+                          <a class="btn btn-default dropdown-toggle btn-none"
+                             data-toggle="dropdown">
+                            <span class="fa fa-font"></span>
+                            <span class="current-font">Обычный текст</span>
+                            <b class="caret"></b>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="p"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Обычный текст</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h1"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 1</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h2"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 2</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h3"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 3</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h4"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 4</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h5"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 5</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h6"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 6</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="bold"
+                               title="CTRL+B"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Полужирный</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="italic"
+                               title="CTRL+I"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Курсив</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="underline"
+                               title="CTRL+U"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Подчёркнутый</a>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertUnorderedList"
+                               title="Маркированный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ul"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertOrderedList"
+                               title="Нумерованный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ol"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Outdent"
+                               title="Уменьшить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-outdent"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Indent"
+                               title="Увеличить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-indent"></span>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                      <textarea id="websitetariffform-tariffdescription"
+                                class="compose-textarea form-control"
+                                name="WebsiteTariffForm[tariffDescription]"
+                                style="display: none"
+                                placeholder="Текст">&lt;blockquote&gt;&lt;p&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt;&lt;i&gt;&amp;nbsp;С нашими тарифами легко и комфортно!&lt;/i&gt;&lt;/p&gt;&lt;/blockquote&gt;</textarea>
+                      <input type="hidden" name="_wysihtml5_mode" value="1" />
+                      <iframe class="wysihtml5-sandbox"
+                              security="restricted"
+                              allowtransparency="true"
+                              frameborder="0"
+                              width="0"
+                              height="0"
+                              marginwidth="0"
+                              marginheight="0"
+                              style="display: block;
+                                     background-color: rgb(255, 255, 255);
+                                     border-collapse: separate;
+                                     border-color: rgb(210, 214, 222);
+                                     border-style: solid;
+                                     border-width: 1px;
+                                     clear: none;
+                                     float: none;
+                                     margin: 0px;
+                                     outline: rgb(85, 85, 85) none 0px;
+                                     outline-offset: 0px;
+                                     padding: 6px 12px;
+                                     position: static;
+                                     inset: auto;
+                                     z-index: auto;
+                                     vertical-align: baseline;
+                                     text-align: start;
+                                     box-sizing: border-box;
+                                     box-shadow: none;
+                                     border-radius: 0px;
+                                     width: 100%;
+                                     height: auto"></iframe>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row near-img">
+                  <div class="col-xs-12">
+                    <h3 class="page-header">Изображения</h3>
+                  </div>
+                  <div id="form-websitetariff-rows">
+                    <div id="form-websitetariff-0" class="col-md-4 form-websitetariff">
+                      <h4>
+                        Тариф 1                    <a href="/admin/website/delete-tariff/22"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteTariff%2F22%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websitetariff-0-id"
+                             name="WebsiteTariff[0][id]"
+                             value="22" />
+                      <div class="form-group">
+                        <label for="websitetariff-0-imageFile">Файл</label>
+                        <input type="hidden" name="WebsiteTariff[0][imageFile]" value="" />
+                        <input type="file"
+                               id="websitetariff-0-imagefile"
+                               class="form-control"
+                               name="WebsiteTariff[0][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websitetariff-0-title">Подпись</label>
+                        <input type="text"
+                               id="websitetariff-0-title"
+                               class="form-control"
+                               name="WebsiteTariff[0][title]"
+                               value="Тариф для пенсионеров" />
+                      </div>
+                    </div>
+                    <div id="form-websitetariff-1" class="col-md-4 form-websitetariff">
+                      <h4>
+                        Тариф 2                    <a href="/admin/website/delete-tariff/20"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteTariff%2F20%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websitetariff-1-id"
+                             name="WebsiteTariff[1][id]"
+                             value="20" />
+                      <div class="form-group">
+                        <label for="websitetariff-1-imageFile">Файл</label>
+                        <input type="hidden" name="WebsiteTariff[1][imageFile]" value="" />
+                        <input type="file"
+                               id="websitetariff-1-imagefile"
+                               class="form-control"
+                               name="WebsiteTariff[1][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websitetariff-1-title">Подпись</label>
+                        <input type="text"
+                               id="websitetariff-1-title"
+                               class="form-control"
+                               name="WebsiteTariff[1][title]"
+                               value="Аренда нежилых помещений" />
+                      </div>
+                    </div>
+                    <div id="form-websitetariff-2" class="col-md-4 form-websitetariff">
+                      <h4>
+                        Тариф 3                    <a href="/admin/website/delete-tariff/21"
+                       class="pull-right text-red"
+                       data-confirm="Удалить?"><i class="fa fa-trash"></i></a>
+                      </h4>
+                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteTariff%2F21%2Fimage.png&amp;w=650&amp;h=300&amp;fit=crop"
+                           alt=""
+                           class="img-responsive margin-bottom-15" />
+                      <input type="hidden"
+                             id="websitetariff-2-id"
+                             name="WebsiteTariff[2][id]"
+                             value="21" />
+                      <div class="form-group">
+                        <label for="websitetariff-2-imageFile">Файл</label>
+                        <input type="hidden" name="WebsiteTariff[2][imageFile]" value="" />
+                        <input type="file"
+                               id="websitetariff-2-imagefile"
+                               class="form-control"
+                               name="WebsiteTariff[2][imageFile]" />
+                      </div>
+                      <div class="form-group">
+                        <label for="websitetariff-2-title">Подпись</label>
+                        <input type="text"
+                               id="websitetariff-2-title"
+                               class="form-control"
+                               name="WebsiteTariff[2][title]"
+                               value="Тариф &quot;Большая семья&quot;" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="page-header">Настройки SEO</h3>
+                    <div class="form-group field-websitetariffform-tariffmetatitle">
+                      <label class="control-label" for="websitetariffform-tariffmetatitle">Title</label>
+                      <input type="text"
+                             id="websitetariffform-tariffmetatitle"
+                             class="form-control"
+                             name="WebsiteTariffForm[tariffMetaTitle]"
+                             value="Аренда" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websitetariffform-tariffmetadescription">
+                      <label class="control-label" for="websitetariffform-tariffmetadescription">Description</label>
+                      <textarea id="websitetariffform-tariffmetadescription"
+                                class="form-control"
+                                name="WebsiteTariffForm[tariffMetaDescription]"
+                                rows="6">Аренда</textarea>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websitetariffform-tariffmetakeywords">
+                      <label class="control-label" for="websitetariffform-tariffmetakeywords">Keywords</label>
+                      <textarea id="websitetariffform-tariffmetakeywords"
+                                class="form-control"
+                                name="WebsiteTariffForm[tariffMetaKeywords]"
+                                rows="6">Аренда</textarea>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <div class="form-group">
+                      <a href="/admin/website/tariffs" class="btn btn-default">Отменить</a>
+                      <button type="button"
+                              role="button"
+                              class="btn btn-success bg-green-active form-row-add-websitetariff-btn">
+                        Добавить тариф
+                      </button>
+                      <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

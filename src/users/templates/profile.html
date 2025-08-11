@@ -1,0 +1,455 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Профиль</h1>
+      <ul class="breadcrumb">
+        <li>
+          {# Используем тег `url` для ссылки на главную страницу кабинета #}
+          <a href="{% url 'admin:users' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Профиль</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="row">
+            <div class="col-md-6 col-lg-12">
+              <div class="box">
+                <div class="box-body box-profile">
+                  <img class="profile-user-img img-responsive img-circle"
+                       src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FUser%2F2%2Favatar.jpg&amp;w=160&amp;h=160&amp;fit=crop"
+                       alt="Аватар" />
+                  <h3 class="profile-username text-center">Иванов Иван Сидорович</h3>
+                  <p class="text-muted text-center">Владелец квартиры</p>
+                  <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                      <span>Телефон</span>
+                      <span class="pull-right">+380990220202</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Viber</span>
+                      <span class="pull-right">+380hello</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Telegram</span>
+                      <span class="pull-right">@kfljks678</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Email</span>
+                      <span class="pull-right">victor.z@avada-media.com</span>
+                    </li>
+                  </ul>
+                  {# Используем тег `url` для ссылки на страницу обновления пользователя #}
+                  <a href="{% url 'admin:users' %}" class="btn btn-primary btn-block">Изменить</a>
+                  <div class="pull-right">
+                    <form id="logout-form"
+                          action="{% url 'logout' %}"
+                          method="post"
+                          style="display:none">
+                      {% csrf_token %}
+                    </form>
+                    <a class="btn btn-default btn-flat"
+                       href="#"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-12">
+                <h3 class="page-header">Обо мне (заметки)</h3>
+                <div class="box">
+                  <div class="box-body box-profile">Шукаю багі</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <h2 class="page-header">Мои квартиры</h2>
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Описание квартиры</h3>
+              </div>
+              <div class="box-body">
+                <p>Дом ЗЕЛЁНЫЙ. Дом ЗЕЛЁНЫЙ, кв. 1</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage1.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage2.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage3.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage4.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage5.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Описание</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {# Используем классы CSS вместо встроенных стилей #}
+                        <th class="table-header-cell">Название дома</th>
+                        <th class="table-header-cell">Дом ЗЕЛЁНЫЙ</th>
+                      </tr>
+                      <tr>
+                        <td>Адрес</td>
+                        <td>Дом ЗЕЛЁНЫЙ</td>
+                      </tr>
+                      <tr>
+                        <td>№ квартиры</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Площадь</td>
+                        <td>
+                          160.00м<sup>2</sup>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Этаж</td>
+                        <td>Этаж 2</td>
+                      </tr>
+                      <tr>
+                        <td>Секция</td>
+                        <td>Секция 1</td>
+                      </tr>
+                      <tr>
+                        <td>Лицевой счет</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Описание квартиры</h3>
+              </div>
+              <div class="box-body">
+                <p>Дом ЗЕЛЁНЫЙ. Дом ЗЕЛЁНЫЙ, кв. 1233</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage1.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage2.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage3.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage4.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage5.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Описание</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th class="table-header-cell">Название дома</th>
+                        <th class="table-header-cell">Дом ЗЕЛЁНЫЙ</th>
+                      </tr>
+                      <tr>
+                        <td>Адрес</td>
+                        <td>Дом ЗЕЛЁНЫЙ</td>
+                      </tr>
+                      <tr>
+                        <td>№ квартиры</td>
+                        <td>1233</td>
+                      </tr>
+                      <tr>
+                        <td>Площадь</td>
+                        <td>
+                          160.00м<sup>2</sup>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Этаж</td>
+                        <td>Этаж 2</td>
+                      </tr>
+                      <tr>
+                        <td>Секция</td>
+                        <td>Секция 1</td>
+                      </tr>
+                      <tr>
+                        <td>Лицевой счет</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Описание квартиры</h3>
+              </div>
+              <div class="box-body">
+                <p>Дом ЗЕЛЁНЫЙ. Дом ЗЕЛЁНЫЙ, кв. 11</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage1.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage2.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage3.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage4.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F206%2Fimage5.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Описание</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th class="table-header-cell">Название дома</th>
+                        <th class="table-header-cell">Дом ЗЕЛЁНЫЙ</th>
+                      </tr>
+                      <tr>
+                        <td>Адрес</td>
+                        <td>Дом ЗЕЛЁНЫЙ</td>
+                      </tr>
+                      <tr>
+                        <td>№ квартиры</td>
+                        <td>11</td>
+                      </tr>
+                      <tr>
+                        <td>Площадь</td>
+                        <td>
+                          0.00м<sup>2</sup>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Этаж</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Секция</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Лицевой счет</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Описание квартиры</h3>
+              </div>
+              <div class="box-body">
+                <p>ЖК "Башня Чкалов". ул. Большая Арнаутская, 21, кв. 7</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F1%2Fimage1.jpeg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F1%2Fimage2.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F1%2Fimage3.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F1%2Fimage4.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F1%2Fimage5.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Описание</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th class="table-header-cell">Название дома</th>
+                        <th class="table-header-cell">ЖК "Башня Чкалов"</th>
+                      </tr>
+                      <tr>
+                        <td>Адрес</td>
+                        <td>ул. Большая Арнаутская, 21</td>
+                      </tr>
+                      <tr>
+                        <td>№ квартиры</td>
+                        <td>7</td>
+                      </tr>
+                      <tr>
+                        <td>Площадь</td>
+                        <td>
+                          68.00м<sup>2</sup>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Этаж</td>
+                        <td>Этаж 3</td>
+                      </tr>
+                      <tr>
+                        <td>Секция</td>
+                        <td>Секция 2</td>
+                      </tr>
+                      <tr>
+                        <td>Лицевой счет</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Описание квартиры</h3>
+              </div>
+              <div class="box-body">
+                <p>ЖК "Морская Симфония". пер. Мореходный 2/2, кв. 12</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F2%2Fimage1.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                         class="img-responsive largeImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F2%2Fimage2.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F2%2Fimage3.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F2%2Fimage4.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                  <div class="col-xs-6 col-md-3">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FHouse%2F2%2Fimage5.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                         class="img-responsive smallImg margin-bottom-30"
+                         alt="" />
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Описание</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th class="table-header-cell">Название дома</th>
+                        <th class="table-header-cell">ЖК "Морская Симфония"</th>
+                      </tr>
+                      <tr>
+                        <td>Адрес</td>
+                        <td>пер. Мореходный 2/2</td>
+                      </tr>
+                      <tr>
+                        <td>№ квартиры</td>
+                        <td>12</td>
+                      </tr>
+                      <tr>
+                        <td>Площадь</td>
+                        <td>
+                          0.00м<sup>2</sup>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Этаж</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Секция</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Лицевой счет</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  {% endblock content %}

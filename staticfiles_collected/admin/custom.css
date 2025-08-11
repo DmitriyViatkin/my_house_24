@@ -1,0 +1,5 @@
+.fa-building::before {
+    content: "\f1ad"; /* Font Awesome unicode для здания */
+    font-family: FontAwesome;
+    font-weight: 900; /* если используется FA 5+ */
+}

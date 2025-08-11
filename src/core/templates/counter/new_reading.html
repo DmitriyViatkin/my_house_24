@@ -1,0 +1,284 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Новое показание</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="/admin/counter-data/counters">Счетчики</a>
+        </li>
+        <li class="active">Новое показание</li>
+      </ul>
+    </section>
+    <section class="content">
+      <form id="w0" action="/admin/counter-data/create" method="post">
+        <input type="hidden"
+               name="_csrf-backend"
+               value="R2JfeWHiP_xkUXNIBDEgsm1bvIeCpkCgGkl3iWKlQ4oWUQULEtRnsyk1EjxUcw3QXwPUzcGQCeFZPQ7uC_117A==" />
+        <div class="row">
+          <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+              <div class="form-group field-counterdata-uid required">
+                <div class="input-group">
+                  <div class="input-group-addon">№</div>
+                  <input type="text"
+                         id="counterdata-uid"
+                         class="form-control"
+                         name="CounterData[uid]"
+                         value="03082500870"
+                         aria-required="true" />
+                </div>
+              </div>
+              <span class="label-mid">от</span>
+              <div class="form-group field-counterdata-uid_date">
+                <div id="counterdata-uid_date-kvdate" class="input-group  date">
+                  <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
+                  <input type="text"
+                         id="counterdata-uid_date"
+                         class="form-control krajee-datepicker"
+                         name="CounterData[uid_date]"
+                         value="03.08.2025"
+                         data-datepicker-source="counterdata-uid_date-kvdate"
+                         data-datepicker-type="2"
+                         data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <input type="hidden" id="counterdata-id" name="CounterData[id]" />
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                  <label for="house_id">Дом</label>
+                  <select id="house_id"
+                          class="form-control"
+                          name="house_id"
+                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?house_id=&quot;+$(this).val(), function( data ) { $(&quot;select#section_id&quot;).html(data.sections); $(&quot;select#counterdata-flat_id&quot;).html(data.flats); console.log(data); }); ">
+                    <option value="">Выберите...</option>
+                    <option value="1">ЖК "Башня Чкалов"</option>
+                    <option value="2">ЖК "Морская Симфония"</option>
+                    <option value="3">ЖК "Дом Каркашадзе"</option>
+                    <option value="4">ЖК "Королевские сады"</option>
+                    <option value="6">ЖК "Балковский"</option>
+                    <option value="11">ЖК "Адмирал" Дом №11</option>
+                    <option value="12">ЖК "Адмирал" Дом №12</option>
+                    <option value="13">ЖК "Адмирал" Дом №13</option>
+                    <option value="14">ЖК "Новые Черемушки"</option>
+                    <option value="18">ЖК "Manhattan"</option>
+                    <option value="19">ЖК "Скай Сити"</option>
+                    <option value="20">ЖК "Альтаир 3"</option>
+                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                    <option value="24">Н-О</option>
+                    <option value="25">ЖК Искринский</option>
+                    <option value="51">ЖК Suncity-Солнечный город</option>
+                    <option value="56">Дом 56</option>
+                    <option value="61">Жилой район Приморские сады</option>
+                    <option value="78">Золотая Эра</option>
+                    <option value="85">Микрорайон «Таировские Сады»</option>
+                    <option value="100">ЖК "Удобний"</option>
+                    <option value="101">Житловий комплекс «Будинок №1»</option>
+                    <option value="105">ЖК "Луч"</option>
+                    <option value="106">Торговельний Центр «Афіна»</option>
+                    <option value="107">ЖК «Санторіні»</option>
+                    <option value="132">ЖК «Крит»</option>
+                    <option value="133">Континент</option>
+                    <option value="134">Континент</option>
+                    <option value="139">ЖК Чайка</option>
+                    <option value="142">Офісний центр на Французькому бульварі</option>
+                    <option value="145">БЦ на Глибочицькій</option>
+                    <option value="158">ЖК «Лімнос»</option>
+                    <option value="165">ЖК "Помидор"</option>
+                    <option value="170">Готельно-житловий комплекс «Міконос»</option>
+                    <option value="173">ЖК «Корфу»</option>
+                    <option value="174">Аквамарин</option>
+                    <option value="175">Генарёк хаус</option>
+                    <option value="183">ЖК «Мілос»</option>
+                    <option value="185">Аполлон на Карантинній</option>
+                    <option value="186">Апарт-комплекс «Каліпсо»</option>
+                    <option value="188">ЖК «Родос»</option>
+                    <option value="193">ЖК "Эдельвейс"</option>
+                    <option value="194">ЖК Авиньйон</option>
+                    <option value="196">Аполлон на Куликовському</option>
+                    <option value="197">Бізнес-Центр «Ольвія»</option>
+                    <option value="199">ЖК «Акрополь»</option>
+                    <option value="201">ЖК «Еллада»</option>
+                    <option value="202">Бізнес-Центр «Платон»</option>
+                    <option value="203">Апарт-комплекс «Ітака»</option>
+                    <option value="204">ЖК «Посейдон»</option>
+                    <option value="205">Житловий комплекс «Будинок №1»</option>
+                    <option value="206">Дом ЗЕЛЁНЫЙ</option>
+                    <option value="213">Апарт-комплекс «Aтлант»</option>
+                    <option value="216">ЖК "Україна"</option>
+                    <option value="219">ЖК "Котон"</option>
+                    <option value="220">Жк Комфорт таун</option>
+                    <option value="222">ЖК ''Перлина''</option>
+                    <option value="223">ЖК ''Перлина 2''</option>
+                    <option value="224">ЖК Перемога</option>
+                    <option value="225">ЖК Перемога України</option>
+                    <option value="226"></option>
+                    <option value="227">Акрополь</option>
+                    <option value="230">Перлина 3</option>
+                    <option value="233">ЖК "Україна"</option>
+                    <option value="236">ЖК House Of Bugs</option>
+                    <option value="237">Жк Комфорт таун</option>
+                    <option value="239">ЖК Independent</option>
+                    <option value="241">ЖК "Україна"</option>
+                    <option value="250">Світланин рай</option>
+                    <option value="251">ЖК "Зелень"</option>
+                    <option value="254">New House</option>
+                    <option value="257">ЖЖ Аркадия</option>
+                    <option value="260">Тестовый дом 1</option>
+                    <option value="262">ЖК "Світлании оазис"</option>
+                    <option value="263"></option>
+                    <option value="264">ЖК Місто Квітів</option>
+                    <option value="265">ЖК Місто Квітів2</option>
+                    <option value="266">ЖК "Котон"</option>
+                    <option value="267">Вільний ЖК</option>
+                    <option value="268"></option>
+                    <option value="270">Будинок</option>
+                    <option value="273">New House</option>
+                    <option value="274">ЖК Місто Квітів</option>
+                    <option value="275">Ррррррррррррррррррррррррр</option>
+                    <option value="276">Вільний ЖК</option>
+                    <option value="278">Ннннннннннннн</option>
+                    <option value="279">22</option>
+                    <option value="282">Вільний ЖК 2</option>
+                    <option value="284">ЖК Місто Квітів</option>
+                    <option value="285">ЖК "Котон"</option>
+                    <option value="287">ЖК "Проблем нема"</option>
+                    <option value="290">ЖК "Рожевий рай"</option>
+                    <option value="291">ЖК "Рожевий рай"</option>
+                    <option value="294"></option>
+                    <option value="296">ЖК "Рожевий рай"</option>
+                    <option value="297">ЖК "Рожевий рай"</option>
+                    <option value="301">Тест</option>
+                    <option value="304">ЖК Атлант</option>
+                    <option value="305">ЖК Атлант</option>
+                    <option value="315">ЖК Молодість</option>
+                    <option value="316">Відпочинок</option>
+                    <option value="319">ЖК Атлант</option>
+                    <option value="321">ЖК Будинок</option>
+                    <option value="325">ЖК Молодіжний</option>
+                    <option value="326">ЖК новий</option>
+                    <option value="328">Вільний ЖК 3</option>
+                    <option value="329">ранок</option>
+                    <option value="339">dx</option>
+                    <option value="342">Мій1</option>
+                    <option value="346">ЖК OZONE</option>
+                    <option value="351">ЖК Санторіні</option>
+                    <option value="354">ЖК Кімолос</option>
+                    <option value="357">Unity Towers</option>
+                    <option value="360">ЖК Еллада</option>
+                    <option value="361">Апарт-комплекс Breeze Marine</option>
+                    <option value="364">Апарт-комплекс Итака</option>
+                    <option value="370">ЖК Прохоровський квартал</option>
+                    <option value="372">Радужний</option>
+                    <option value="373">ЖК "Евро+"</option>
+                    <option value="374">ЖК "Калипсо"</option>
+                    <option value="376">ЖК Клубная резиденция</option>
+                    <option value="377">ЖК Акрополь</option>
+                    <option value="378">ЖК Посейдон</option>
+                    <option value="379">Аврора</option>
+                    <option value="380">ЖК Золотая Ера</option>
+                    <option value="388">Стрела</option>
+                    <option value="389">ЖК Modern</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="section_id">Секция</label>
+                  <select id="section_id"
+                          class="form-control"
+                          name="section_id"
+                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?section_id=&quot;+$(this).val(), function( data ) { $(&quot;select#counterdata-flat_id&quot;).html(data.flats); console.log(data); }); ">
+                    <option value="">Выберите...</option>
+                  </select>
+                </div>
+                <div class="form-group field-counterdata-flat_id required">
+                  <label class="control-label" for="counterdata-flat_id">Квартира</label>
+                  <select id="counterdata-flat_id"
+                          class="form-control flat-select"
+                          name="CounterData[flat_id]"
+                          aria-required="true">
+                    <option value="">Выберите...</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-counterdata-service_id">
+                  <label class="control-label" for="counterdata-service_id">Счетчик</label>
+                  <select id="counterdata-service_id"
+                          class="form-control service-select"
+                          name="CounterData[service_id]">
+                    <option value="">Выберите...</option>
+                    <option value="5">Курьер ( выполнение мелких поручений) (час)</option>
+                    <option value="6">Няня у Вас дома (час)</option>
+                    <option value="39">Выгул собак (час)</option>
+                    <option value="42">Обслуживание дома (месяц)</option>
+                    <option value="70">Охрана территории (месяц)</option>
+                    <option value="123">Парко-место(Гараж) (месяц)</option>
+                    <option value="125">Подъём на этаж (один этаж)</option>
+                    <option value="126">Электричество (кВт.ч)</option>
+                    <option value="127">Водопровод (m³)</option>
+                    <option value="128">Газопровод (m³)</option>
+                    <option value="129">услуга (минут)</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-counterdata-status">
+                  <label class="control-label" for="counterdata-status">Статус</label>
+                  <select id="counterdata-status"
+                          class="form-control"
+                          name="CounterData[status]">
+                    <option value="">Выберите...</option>
+                    <option value="5" selected="">Новое</option>
+                    <option value="10">Учтено</option>
+                    <option value="12">Учтено и оплачено</option>
+                    <option value="0">Нулевое</option>
+                  </select>
+                  <div class="help-block"></div>
+                </div>
+                <input type="hidden"
+                       id="counterdata-isautosetlast"
+                       name="CounterData[isAutoSetLast]"
+                       value="1" />
+                <div class="form-group field-counterdata-amount_total">
+                  <label class="control-label" for="counterdata-amount_total">Показания счетчика</label>
+                  <input type="number"
+                         id="counterdata-amount_total"
+                         class="form-control"
+                         name="CounterData[amount_total]"
+                         step="0.1" />
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <a href="/admin/counter-data/index"
+                     class="btn btn-default margin-bottom-15">Отменить</a>
+                  <input type="submit"
+                         class="btn btn-success margin-bottom-15"
+                         name="action_save"
+                         value="Сохранить" />
+                  <input type="submit"
+                         class="btn btn-success margin-bottom-15 bg-green-active"
+                         name="action_save_add"
+                         value="Сохранить и добавить новые показания" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,502 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Редактирование страницы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Редактирование страницы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Редактирование страницы "О нас"</h3>
+            </div>
+            <div class="box-body">
+              <form id="w0"
+                    action="{% url 'edit_about_page' %}"
+                    method="post"
+                    enctype="multipart/form-data">
+                <input type="hidden"
+                       name="_csrf-backend"
+                       value="IOFR_DgCGSBlyyBuFPZfHFrRXwBEDYl6C7PwYl0UNJNx0guOSzRBbyivQRpEtHJ-aIk3Sgc7wDtIx4kFNEwC9Q==" />
+                <h3 class="page-header">Информация</h3>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group field-websiteaboutform-abouttitle">
+                      <label class="control-label" for="websiteaboutform-abouttitle">Заголовок</label>
+                      <input type="text"
+                             id="websiteaboutform-abouttitle"
+                             class="form-control"
+                             name="WebsiteAboutForm[aboutTitle]"
+                             value="Наша миссия" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteaboutform-aboutdescription">
+                      <label class="control-label" for="websiteaboutform-aboutdescription">Краткий текст</label>
+                      <ul class="wysihtml5-toolbar">
+                        <li class="dropdown">
+                          <a class="btn btn-default dropdown-toggle btn-none"
+                             data-toggle="dropdown">
+                            <span class="fa fa-font"></span>
+                            <span class="current-font">Обычный текст</span>
+                            <b class="caret"></b>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="p"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Обычный текст</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h1"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 1</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h2"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 2</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h3"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 3</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h4"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 4</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h5"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 5</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h6"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 6</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="bold"
+                               title="CTRL+B"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Полужирный</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="italic"
+                               title="CTRL+I"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Курсив</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="underline"
+                               title="CTRL+U"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Подчёркнутый</a>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertUnorderedList"
+                               title="Маркированный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ul"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertOrderedList"
+                               title="Нумерованный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ol"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Outdent"
+                               title="Уменьшить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-outdent"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Indent"
+                               title="Увеличить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-indent"></span>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                      <textarea id="websiteaboutform-aboutdescription" class="compose-textarea form-control" name="WebsiteAboutForm[aboutDescription]" style="display: none;" placeholder="Текст">&lt;p&gt;
+&lt;/p&gt;&lt;h2&gt;&lt;b&gt;&lt;/b&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;&lt;i&gt;К&lt;/i&gt;&lt;/b&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;&lt;i&gt;омп&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;ания&lt;/i&gt;&lt;/b&gt;&lt;u&gt;&lt;/u&gt;&lt;b&gt;&lt;i&gt;-застройщик не тольк&lt;/i&gt;&lt;/b&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;&lt;i&gt;о со&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;здала этот объект для своих покупателей, но и после окончания строительства взяла на себя все услуги по обеспечению удобного прожива&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;ния своих жильцов. Для этого была организована управляющая компания «&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;Морская симфония&lt;/i&gt;&lt;/b&gt;&lt;b&gt;&lt;i&gt;», которая осущес&lt;/i&gt;&lt;/b&gt;&lt;u&gt;&lt;/u&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;&lt;i&gt;твляет комплексное обслуживание коммунальной сферы жизнедеятельности своих клиентов.&lt;/i&gt;&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;&lt;i&gt;&lt;b&gt;Миссией управляющей компании является такая схема взаимодействия с жильцами дома, при которой услуги компании не отвлекают их от проживания и отдыха и создают максимально комфортную экосистему в доме. Незаметный сервис и максимально эффективная работа являются визитной карточкой компании.&lt;/b&gt;&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;b&gt;&lt;i&gt;В функции управляющей компании входят как содержание и управление хозяйством комплекса, так и охраняемой придомовой территории – уборка, техническое обслуживание лифтового хозяйства, системы электро и водоснабжения дома, котельной и пожарной систем, диспетчеризация, охрана, содержание придомовой территории и многое другое. В штате компании собраны только профессионалы своего дела, которые помогут жильцам в самых трудных и критических ситуациях решить их жилищно-коммунальные проблемы семь дней в неделю круглосуточно – электрики и сантехники, инженеры, монтеры и другие специалисты имеют многолетний опыт и высокий уровень квалификации. &lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;&lt;i&gt;Все это делает жилой комплекс&amp;nbsp; уникальным, комфортным и безопасным местом для проживания и отдыха всей семьи круглый год. Доверьте заботу о вашем доме и вашей квартире управляющей компании&amp;nbsp; и вы сможете круглый год наслаждаться проживанием на берегу моря и прекрасной природой Одессы.&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;b&gt;
+
+&lt;/b&gt;&lt;br&gt;&lt;p&gt;&lt;/p&gt;</textarea>
+                      <input type="hidden" name="_wysihtml5_mode" value="1" />
+                      <iframe class="wysihtml5-sandbox"
+                              security="restricted"
+                              allowtransparency="true"
+                              frameborder="0"
+                              width="0"
+                              height="0"
+                              marginwidth="0"
+                              marginheight="0"></iframe>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <h4>Фото директора</h4>
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsite%2Fabout_image.png&amp;w=250&amp;h=300"
+                         alt="" />
+                    <div class="form-group field-websiteaboutform-imagefile">
+                      <label class="control-label" for="websiteaboutform-imagefile">Рекомендуемый размер: (250x310)</label>
+                      <input type="hidden" name="WebsiteAboutForm[imageFile]" value="" />
+                      <input type="file"
+                             id="websiteaboutform-imagefile"
+                             name="WebsiteAboutForm[imageFile]"
+                             accept="image/*" />
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row site-about-gallery">
+                  <div class="col-xs-12">
+                    <h3 class="page-header">Фотогалерея</h3>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F220%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=220 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F221%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=221 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F222%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=222 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F223%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=223 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="form-group field-websiteaboutform-aboutimagemainfiles">
+                      <label class="control-label" for="websiteaboutform-aboutimagemainfiles">Рекомендуемый размер: (1200x1200)</label>
+                      <input type="hidden" name="WebsiteAboutForm[aboutImageMainFiles][]" value="" />
+                      <input type="file"
+                             id="websiteaboutform-aboutimagemainfiles"
+                             name="WebsiteAboutForm[aboutImageMainFiles][]"
+                             multiple=""
+                             accept="image/*" />
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <h3 class="page-header">Дополнительная информация</h3>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="form-group field-websiteaboutform-abouttitle2">
+                      <label class="control-label" for="websiteaboutform-abouttitle2">Заголовок</label>
+                      <input type="text"
+                             id="websiteaboutform-abouttitle2"
+                             class="form-control"
+                             name="WebsiteAboutForm[aboutTitle2]"
+                             value="мы предоставляем такие услуги" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteaboutform-aboutdescription2">
+                      <label class="control-label" for="websiteaboutform-aboutdescription2">Краткий текст</label>
+                      <ul class="wysihtml5-toolbar">
+                        <li class="dropdown">
+                          <a class="btn btn-default dropdown-toggle btn-none"
+                             data-toggle="dropdown">
+                            <span class="fa fa-font"></span>
+                            <span class="current-font">Обычный текст</span>
+                            <b class="caret"></b>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="p"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Обычный текст</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h1"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 1</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h2"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 2</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h3"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 3</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h4"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 4</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h5"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 5</a>
+                            </li>
+                            <li>
+                              <a data-wysihtml5-command="formatBlock"
+                                 data-wysihtml5-command-value="h6"
+                                 tabindex="-1"
+                                 href="javascript:;"
+                                 unselectable="on">Заголовок 6</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="bold"
+                               title="CTRL+B"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Полужирный</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="italic"
+                               title="CTRL+I"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Курсив</a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="underline"
+                               title="CTRL+U"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">Подчёркнутый</a>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="btn-group">
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertUnorderedList"
+                               title="Маркированный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ul"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="insertOrderedList"
+                               title="Нумерованный список"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-list-ol"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Outdent"
+                               title="Уменьшить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-outdent"></span>
+                            </a>
+                            <a class="btn btn-none btn-default"
+                               data-wysihtml5-command="Indent"
+                               title="Увеличить отступ"
+                               tabindex="-1"
+                               href="javascript:;"
+                               unselectable="on">
+                              <span class="fa fa-indent"></span>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                      <textarea id="websiteaboutform-aboutdescription2" class="compose-textarea form-control" name="WebsiteAboutForm[aboutDescription2]" style="display: none;" placeholder="Текст сообщения">&lt;p&gt;
+&lt;/p&gt;&lt;p&gt;&lt;b&gt;Главное желание&lt;/b&gt;&amp;nbsp;нашей управляющей компании - это поддержка комфортных условий для жильцов, оперативное реагирование на их просьбы и пожелания&lt;/p&gt;&lt;p&gt;&lt;b&gt;К дополнительным услугам управляющей компании также относятся: 24-часовая охрана придомовой территории и паркинга, уборка территории и вывоз мусора, обслуживание пирса и пляжа. Также при желании жильцы дома могут заказать любые строительно-ремонтные работы от штатной бригады компании&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</textarea>
+                      <input type="hidden" name="_wysihtml5_mode" value="1" />
+                      <iframe class="wysihtml5-sandbox"
+                              security="restricted"
+                              allowtransparency="true"
+                              frameborder="0"
+                              width="0"
+                              height="0"
+                              marginwidth="0"
+                              marginheight="0"></iframe>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row site-about-gallery">
+                  <div class="col-xs-12">
+                    <h3 class="page-header">Дополнительная фотогалерея</h3>
+                  </div>
+                  <div class="col-xs-6 col-sm-4 col-md-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F224%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=224 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-4 col-md-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F225%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=225 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-4 col-md-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F226%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=226 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-4 col-md-2 text-center">
+                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FWebsiteAboutImage%2F227%2Fimage.png&amp;w=250&amp;h=150&amp;fit=crop"
+                         alt=""
+                         class="margin-bottom-15 img-thumbnail" />
+                    <div class="form-group margin-bottom-15">
+                      <a href="{% url 'delete_about_image' image_id=227 %}"
+                         data-confirm="Удалить?"
+                         title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="form-group field-websiteaboutform-aboutimageaddfiles">
+                      <label class="control-label" for="websiteaboutform-aboutimageaddfiles">Рекомендуемый размер: (1200x1200)</label>
+                      <input type="hidden" name="WebsiteAboutForm[aboutImageAddFiles][]" value="" />
+                      <input type="file"
+                             id="websiteaboutform-aboutimageaddfiles"
+                             name="WebsiteAboutForm[aboutImageAddFiles][]"
+                             multiple=""
+                             accept="image/*" />
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="page-header">Настройки SEO</h3>
+                    <div class="form-group field-websiteaboutform-aboutmetatitle">
+                      <label class="control-label" for="websiteaboutform-aboutmetatitle">Title</label>
+                      <input type="text"
+                             id="websiteaboutform-aboutmetatitle"
+                             class="form-control"
+                             name="WebsiteAboutForm[aboutMetaTitle]"
+                             value="" />
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteaboutform-aboutmetadescription">
+                      <label class="control-label" for="websiteaboutform-aboutmetadescription">Description</label>
+                      <textarea id="websiteaboutform-aboutmetadescription"
+                                class="form-control"
+                                name="WebsiteAboutForm[aboutMetaDescription]"
+                                rows="6"></textarea>
+                      <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-websiteaboutform-aboutmetakeywords">
+                      <label class="control-label" for="websiteaboutform-aboutmetakeywords">Keywords</label>
+                      <textarea id="websiteaboutform-aboutmetakeywords"
+                                class="form-control"
+                                name="WebsiteAboutForm[aboutMetaKeywords]"
+                                rows="6"></textarea>
+                      <div class="help-block"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <div class="form-group">
+                      <a href="{% url 'edit_about_page' %}" class="btn btn-default">Отменить</a>
+                      <button type="submit" class="btn btn-success">Сохранить</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

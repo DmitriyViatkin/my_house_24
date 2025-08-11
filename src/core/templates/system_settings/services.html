@@ -1,0 +1,846 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Редактирование услуг</h1>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form id="w0" action="/admin/service/index" method="post">
+            <input type="hidden"
+                   name="_csrf-backend"
+                   value="M5HQ0Yh71BWBj0hcJS2hlYd1A5-ELJVftIG4CxLiaF9iooqj-02MWszrKSh1b4z3tS1r1cca3B739cFse7peOQ==" />
+            <div class="row">
+              <div class="col-xs-12 col-lg-7">
+                <div class="nav-tabs-custom">
+                  <ul class="nav nav-tabs">
+                    <li class="active">
+                      <a href="#tab_service" data-toggle="tab" aria-expanded="true">Услуги</a>
+                    </li>
+                    <li class="">
+                      <a href="#tab_serviceunit" data-toggle="tab" aria-expanded="false">Единицы измерения</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane clearfix active" id="tab_service">
+                      <div id="form-service-rows">
+                        <div id="form-service-0" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-0-id" name="Service[0][id]" value="5" />
+                            <div class="form-group">
+                              <label for="service-0-name">Услуга</label>
+                              <input type="text"
+                                     id="service-0-name"
+                                     class="form-control"
+                                     name="Service[0][name]"
+                                     value="Курьер ( выполнение мелких поручений)" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-0-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-0-service_unit_id"
+                                        class="form-control"
+                                        name="Service[0][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50" selected="">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[0][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-0-is_counter"
+                                     name="Service[0][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-1" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-1-id" name="Service[1][id]" value="6" />
+                            <div class="form-group">
+                              <label for="service-1-name">Услуга</label>
+                              <input type="text"
+                                     id="service-1-name"
+                                     class="form-control"
+                                     name="Service[1][name]"
+                                     value="Няня у Вас дома" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-1-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-1-service_unit_id"
+                                        class="form-control"
+                                        name="Service[1][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50" selected="">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[1][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-1-is_counter"
+                                     name="Service[1][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-2" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-2-id" name="Service[2][id]" value="39" />
+                            <div class="form-group">
+                              <label for="service-2-name">Услуга</label>
+                              <input type="text"
+                                     id="service-2-name"
+                                     class="form-control"
+                                     name="Service[2][name]"
+                                     value="Выгул собак" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-2-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-2-service_unit_id"
+                                        class="form-control"
+                                        name="Service[2][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50" selected="">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[2][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-2-is_counter"
+                                     name="Service[2][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-3" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-3-id" name="Service[3][id]" value="42" />
+                            <div class="form-group">
+                              <label for="service-3-name">Услуга</label>
+                              <input type="text"
+                                     id="service-3-name"
+                                     class="form-control"
+                                     name="Service[3][name]"
+                                     value="Обслуживание дома" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-3-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-3-service_unit_id"
+                                        class="form-control"
+                                        name="Service[3][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69" selected="">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[3][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-3-is_counter"
+                                     name="Service[3][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-4" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-4-id" name="Service[4][id]" value="70" />
+                            <div class="form-group">
+                              <label for="service-4-name">Услуга</label>
+                              <input type="text"
+                                     id="service-4-name"
+                                     class="form-control"
+                                     name="Service[4][name]"
+                                     value="Охрана территории" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-4-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-4-service_unit_id"
+                                        class="form-control"
+                                        name="Service[4][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69" selected="">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[4][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-4-is_counter"
+                                     name="Service[4][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-5" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-5-id" name="Service[5][id]" value="123" />
+                            <div class="form-group">
+                              <label for="service-5-name">Услуга</label>
+                              <input type="text"
+                                     id="service-5-name"
+                                     class="form-control"
+                                     name="Service[5][name]"
+                                     value="Парко-место(Гараж)" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-5-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-5-service_unit_id"
+                                        class="form-control"
+                                        name="Service[5][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69" selected="">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[5][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-5-is_counter"
+                                     name="Service[5][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-6" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-6-id" name="Service[6][id]" value="125" />
+                            <div class="form-group">
+                              <label for="service-6-name">Услуга</label>
+                              <input type="text"
+                                     id="service-6-name"
+                                     class="form-control"
+                                     name="Service[6][name]"
+                                     value="Подъём на этаж" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-6-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-6-service_unit_id"
+                                        class="form-control"
+                                        name="Service[6][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88" selected="">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[6][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-6-is_counter"
+                                     name="Service[6][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-7" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-7-id" name="Service[7][id]" value="126" />
+                            <div class="form-group">
+                              <label for="service-7-name">Услуга</label>
+                              <input type="text"
+                                     id="service-7-name"
+                                     class="form-control"
+                                     name="Service[7][name]"
+                                     value="Электричество" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-7-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-7-service_unit_id"
+                                        class="form-control"
+                                        name="Service[7][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8" selected="">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[7][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-7-is_counter"
+                                     name="Service[7][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-8" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-8-id" name="Service[8][id]" value="127" />
+                            <div class="form-group">
+                              <label for="service-8-name">Услуга</label>
+                              <input type="text"
+                                     id="service-8-name"
+                                     class="form-control"
+                                     name="Service[8][name]"
+                                     value="Водопровод" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-8-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-8-service_unit_id"
+                                        class="form-control"
+                                        name="Service[8][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21" selected="">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[8][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-8-is_counter"
+                                     name="Service[8][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-9" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-9-id" name="Service[9][id]" value="128" />
+                            <div class="form-group">
+                              <label for="service-9-name">Услуга</label>
+                              <input type="text"
+                                     id="service-9-name"
+                                     class="form-control"
+                                     name="Service[9][name]"
+                                     value="Газопровод" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-9-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-9-service_unit_id"
+                                        class="form-control"
+                                        name="Service[9][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21" selected="">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[9][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-9-is_counter"
+                                     name="Service[9][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-10" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-10-id" name="Service[10][id]" value="129" />
+                            <div class="form-group">
+                              <label for="service-10-name">Услуга</label>
+                              <input type="text"
+                                     id="service-10-name"
+                                     class="form-control"
+                                     name="Service[10][name]"
+                                     value="услуга" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-10-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-10-service_unit_id"
+                                        class="form-control"
+                                        name="Service[10][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89" selected="">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[10][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-10-is_counter"
+                                     name="Service[10][is_counter]"
+                                     value="1"
+                                     checked="" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                        <div id="form-service-11" class="row form-service">
+                          <div class="col-xs-12 col-sm-7">
+                            <input type="hidden" id="service-11-id" name="Service[11][id]" value="130" />
+                            <div class="form-group">
+                              <label for="service-11-name">Услуга</label>
+                              <input type="text"
+                                     id="service-11-name"
+                                     class="form-control"
+                                     name="Service[11][name]"
+                                     value="" />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-5">
+                            <div class="form-group">
+                              <label for="service-11-service_unit_id">Ед. изм.</label>
+                              <div class="input-group">
+                                <select id="service-11-service_unit_id"
+                                        class="form-control"
+                                        name="Service[11][service_unit_id]">
+                                  <option value="">Выберите...</option>
+                                  <option value="8">кВт.ч</option>
+                                  <option value="17">км/час</option>
+                                  <option value="21">m³</option>
+                                  <option value="50">час</option>
+                                  <option value="69">месяц</option>
+                                  <option value="88">один этаж</option>
+                                  <option value="89">минут</option>
+                                </select>
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn"
+                                          no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-12">
+                            <input type="hidden" name="Service[11][is_counter]" value="0" />
+                            <label>
+                              <input type="checkbox"
+                                     id="service-11-is_counter"
+                                     name="Service[11][is_counter]"
+                                     value="1" />
+                              Показывать в счетчиках
+                            </label>
+                            <div style="margin-bottom: 16px;"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button"
+                              class="btn btn-default btn-hover-change pull-left form-row-add-service-btn">
+                        Добавить
+                      </button>
+                    </div>
+                    <div class="tab-pane clearfix " id="tab_serviceunit">
+                      <div id="form-serviceunit-rows">
+                        <div id="form-serviceunit-0" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-0-id"
+                                   name="ServiceUnit[0][id]"
+                                   value="8" />
+                            <div class="form-group">
+                              <label for="serviceunit-0-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-0-name"
+                                       class="form-control"
+                                       name="ServiceUnit[0][name]"
+                                       value="кВт.ч" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-1" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-1-id"
+                                   name="ServiceUnit[1][id]"
+                                   value="17" />
+                            <div class="form-group">
+                              <label for="serviceunit-1-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-1-name"
+                                       class="form-control"
+                                       name="ServiceUnit[1][name]"
+                                       value="км/час" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-2" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-2-id"
+                                   name="ServiceUnit[2][id]"
+                                   value="21" />
+                            <div class="form-group">
+                              <label for="serviceunit-2-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-2-name"
+                                       class="form-control"
+                                       name="ServiceUnit[2][name]"
+                                       value="m³" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-3" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-3-id"
+                                   name="ServiceUnit[3][id]"
+                                   value="50" />
+                            <div class="form-group">
+                              <label for="serviceunit-3-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-3-name"
+                                       class="form-control"
+                                       name="ServiceUnit[3][name]"
+                                       value="час" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-4" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-4-id"
+                                   name="ServiceUnit[4][id]"
+                                   value="69" />
+                            <div class="form-group">
+                              <label for="serviceunit-4-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-4-name"
+                                       class="form-control"
+                                       name="ServiceUnit[4][name]"
+                                       value="месяц" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-5" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-5-id"
+                                   name="ServiceUnit[5][id]"
+                                   value="88" />
+                            <div class="form-group">
+                              <label for="serviceunit-5-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-5-name"
+                                       class="form-control"
+                                       name="ServiceUnit[5][name]"
+                                       value="один этаж" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="form-serviceunit-6" class="row form-serviceunit">
+                          <div class="col-xs-12">
+                            <input type="hidden"
+                                   id="serviceunit-6-id"
+                                   name="ServiceUnit[6][id]"
+                                   value="89" />
+                            <div class="form-group">
+                              <label for="serviceunit-6-name">Ед. изм.</label>
+                              <div class="input-group">
+                                <input type="text"
+                                       id="serviceunit-6-name"
+                                       class="form-control"
+                                       name="ServiceUnit[6][name]"
+                                       value="минут" />
+                                <span class="input-group-btn">
+                                  <button type="button"
+                                          class="btn btn-default form-row-remove-btn disabled"
+                                          no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button"
+                              class="btn btn-default btn-hover-change pull-left form-row-add-serviceunit-btn">
+                        Добавить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <div class="form-group">
+                  <a href="/admin/service/index" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

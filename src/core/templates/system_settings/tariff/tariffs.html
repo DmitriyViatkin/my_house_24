@@ -1,0 +1,206 @@
+{% extends "/index.html" %}
+
+{% block content %}
+  <div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+      <h1>Тарифы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Тарифы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="/admin/tariff/create">Добавить тариф</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div id="w0" class="grid-view">
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th>
+                        <a href="/admin/tariff/index?sort=name" data-sort="name">Название тарифа</a>
+                      </th>
+                      <th>Описание тарифа</th>
+                      <th>Дата редактирования</th>
+                      <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-href="/admin/tariff/231" data-key="231">
+                      <td>Паркинг</td>
+                      <td>тариф для подземного паркинга</td>
+                      <td>18.03.2025 - 15:42</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=231"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/231"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/231"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/230" data-key="230">
+                      <td>Аренда помещений</td>
+                      <td>тариф для арендаторов нежилых помещений (офисы, магазины, пр)</td>
+                      <td>18.03.2025 - 15:38</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=230"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/230"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/230"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/229" data-key="229">
+                      <td>Большая семья</td>
+                      <td>тариф для многодетных семей</td>
+                      <td>18.03.2025 - 15:34</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=229"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/229"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/229"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/228" data-key="228">
+                      <td>Льготный</td>
+                      <td>тариф для участников СВО (УБД обязательно)</td>
+                      <td>18.03.2025 - 15:33</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=228"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/228"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/228"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/227" data-key="227">
+                      <td>Стандарт</td>
+                      <td>тариф общий</td>
+                      <td>18.03.2025 - 15:36</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=227"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/227"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/227"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/226" data-key="226">
+                      <td>Пенсионный тариф</td>
+                      <td>Тариф для пенсионеров</td>
+                      <td>03.04.2025 - 10:14</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=226"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/226"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/226"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-href="/admin/tariff/215" data-key="215">
+                      <td>Аренда квартиры</td>
+                      <td>Аренда квартиры</td>
+                      <td>20.03.2024 - 05:56</td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-default btn-sm"
+                             href="/admin/tariff/create?tariff_id=215"
+                             title="Копировать"
+                             data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/update/215"
+    title="Редактировать"
+    data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+    href="/admin/tariff/delete/215"
+    title="Удалить"
+    data-toggle="tooltip"
+    data-pjax="0"
+    data-method="post"
+    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="box-footer clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
