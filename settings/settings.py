@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "src.users",
+    "src.building",
+    "src.web_site",
+    "src.services",
+    "src.financials",
 ]
 
 MIDDLEWARE = [

@@ -10,8 +10,6 @@ This module defines models to handle:
 
 from django.db import models
 
-from src.building.models import Apartment
-
 
 class Tariff(models.Model):
     """Represents a tariff with a title, description, date, and currency."""
@@ -79,7 +77,7 @@ class Counter(models.Model):
     meter_reading = models.FloatField(verbose_name="Показания счетчика")
     date = models.DateTimeField(auto_now_add=True, verbose_name="Дата")
     apartment = models.ForeignKey(
-        Apartment, on_delete=models.CASCADE, verbose_name="Квартира"
+        "building.Apartment", on_delete=models.CASCADE, verbose_name="Квартира"
     )
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="new", verbose_name="Статус"

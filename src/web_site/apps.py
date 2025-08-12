@@ -7,4 +7,4 @@ class WebSiteConfig(AppConfig):
     """Configuration for the web_site application."""
 
     default_auto_field = "django.db.models.BigAutoField"
-    name = "web_site"
+    name = "src.web_site"

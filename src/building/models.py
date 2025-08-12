@@ -6,7 +6,6 @@ in the system, along with its associated details.
 
 from django.db import models
 
-from src.services.models import Tariff
 from src.users.models import User
 
 
@@ -114,7 +113,9 @@ class Apartment(models.Model):
     floor = models.ForeignKey(
         Floor, on_delete=models.CASCADE, related_name="apartments"
     )
-    tariff = models.ForeignKey(Tariff, on_delete=models.SET_NULL, null=True, blank=True)
+    tariff = models.ForeignKey(
+        "services.Tariff", on_delete=models.SET_NULL, null=True, blank=True
+    )
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:

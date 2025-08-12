@@ -7,4 +7,4 @@ class FinancialsConfig(AppConfig):
     """Configuration class for the financials application."""
 
     default_auto_field = "django.db.models.BigAutoField"
-    name = "financials"
+    name = "src.financials"
