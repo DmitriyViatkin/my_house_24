@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/|devcontainer.json|^static|/templates/|^staticfiles_collected/|manage.py'
+exclude: '^docs/|/migrations/|devcontainer.json|^static|^staticfiles_collected/|manage.py'
 default_stages: [pre-commit]
 
 default_language_version:
