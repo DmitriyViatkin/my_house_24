@@ -1,0 +1,59 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="content-wrapper" style="min-height: 896px;">
+  <section class="content-header">
+    <h1>
+      {% if form.instance.pk %}Редактировать статью{% else %}Новая статья{% endif %}
+    </h1>
+
+    <ul class="breadcrumb">
+      <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
+      <!-- Поставьте правильное имя URL списка ваших статей -->
+      <li><a href="{% url 'admin:payment-articles' %}">Статьи приходов/расходов</a></li>
+      <li class="active">{% if form.instance.pk %}Редактировать{% else %}Новая статья{% endif %}</li>
+    </ul>
+  </section>
+
+  <section class="content">
+    <div class="box">
+      <div class="box-body">
+        <form method="post" id="w0">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="row">
+            <div class="col-xs-12 col-lg-7">
+              <div class="form-group{% if form.name.errors %} has-error{% endif %}">
+                <label class="control-label" for="{{ form.name.id_for_label }}">Название</label>
+                {{ form.name }}
+                {% for error in form.name.errors %}
+                  <div class="help-block">{{ error }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="form-group{% if form.record_type.errors %} has-error{% endif %}">
+                <label class="control-label" for="{{ form.record_type.id_for_label }}">Приход/расход</label>
+                {{ form.record_type }}
+                {% for error in form.record_type.errors %}
+                  <div class="help-block">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 text-right">
+              <div class="form-group">
+                <a href="{% url 'admin:payment-articles' %}" class="btn btn-default">
+                    Отменить</a>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

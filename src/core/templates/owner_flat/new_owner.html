@@ -1,204 +1,189 @@
-{% extends "/index.html" %}
-
+{% extends "index.html" %}
+{% load static %}
 {% block content %}
   <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Новый владелец</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="/admin/user/index">Владельцы квартир</a>
+          <a href="{% url 'admin:users' %}">Владельцы квартир</a>
         </li>
         <li class="active">Новый владелец</li>
       </ul>
     </section>
     <section class="content">
       <div class="box">
-        <div class="box-body">
-          <form id="w0"
-                action="/admin/user/create"
-                method="post"
-                enctype="multipart/form-data">
-            <input type="hidden"
-                   name="_csrf-backend"
-                   value="j7uBy3h2CvRTtNdOVI2l_tLUJvnclkb_wvRXZ4KXnIPeiNu5C0BSux7QtjoEz4ic4IxOs5-gD76BgC4A68-q5Q==" />
-            <input type="hidden" id="is_new_record" value="1" />
-            <div class="row">
-              <div class="col-xs-12 col-sm-6">
-                <div class="userAvatar">
-                  <img class="img-circle pull-left img-responsive"
-                       src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=160&amp;h=160&amp;fit=crop" />
-                  <div class="form-group field-userform-image">
-                    <label class="control-label" for="userform-image">Сменить изображение</label>
-                    <input type="hidden" name="UserForm[image]" value="" />
-                    <input type="file"
-                           id="userform-image"
-                           name="UserForm[image]"
-                           accept="image/*" />
-                    <div class="help-block"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-6">
-                <div class="form-group field-userform-status">
-                  <label class="control-label" for="userform-status">Статус</label>
-                  <select id="userform-status" class="form-control" name="UserForm[status]">
-                    <option value="10">Активен</option>
-                    <option value="5" selected="">Новый</option>
-                    <option value="0">Отключен</option>
-                  </select>
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-uid">
-                  <label class="control-label" for="userform-uid">ID</label>
-                  <input type="text"
-                         id="userform-uid"
-                         class="form-control"
-                         name="UserForm[uid]" />
-                  <div class="help-block"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12 col-sm-6">
-                <div class="form-group field-userform-lastname">
-                  <label class="control-label" for="userform-lastname">Фамилия</label>
-                  <input type="text"
-                         id="userform-lastname"
-                         class="form-control"
-                         name="UserForm[lastname]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-firstname">
-                  <label class="control-label" for="userform-firstname">Имя</label>
-                  <input type="text"
-                         id="userform-firstname"
-                         class="form-control"
-                         name="UserForm[firstname]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-middlename">
-                  <label class="control-label" for="userform-middlename">Отчество</label>
-                  <input type="text"
-                         id="userform-middlename"
-                         class="form-control"
-                         name="UserForm[middlename]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-birthdate">
-                  <label class="control-label" for="userform-birthdate">Дата рождения</label>
-                  <div id="userform-birthdate-kvdate" class="input-group  date">
-                    <input type="text"
-                           id="userform-birthdate"
-                           class="form-control krajee-datepicker"
-                           name="UserForm[birthdate]"
-                           data-datepicker-source="userform-birthdate-kvdate"
-                           data-datepicker-type="3"
-                           data-krajee-kvdatepicker="kvDatepicker_1643d6f1" />
-                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
-                  </div>
-                  <div class="help-block"></div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-6">
-                <div class="form-group field-userform-note">
-                  <label class="control-label" for="userform-note">О владельце (заметки)</label>
-                  <textarea id="userform-note"
-                            class="form-control"
-                            name="UserForm[note]"
-                            rows="10"
-                            style="height: 256px"></textarea>
-                  <div class="help-block"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12 col-md-6">
-                <h2 class="page-header">Контактные данные</h2>
-                <div class="form-group field-userform-phone">
-                  <label class="control-label" for="userform-phone">Телефон</label>
-                  <input type="text"
-                         id="userform-phone"
-                         class="form-control"
-                         name="UserForm[phone]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-viber">
-                  <label class="control-label" for="userform-viber">Viber</label>
-                  <input type="text"
-                         id="userform-viber"
-                         class="form-control"
-                         name="UserForm[viber]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-telegram">
-                  <label class="control-label" for="userform-telegram">Telegram</label>
-                  <input type="text"
-                         id="userform-telegram"
-                         class="form-control"
-                         name="UserForm[telegram]" />
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-email required">
-                  <label class="control-label" for="userform-email">Email (логин)</label>
-                  <input type="text"
-                         id="userform-email"
-                         class="form-control"
-                         name="UserForm[email]"
-                         aria-required="true" />
-                  <div class="help-block"></div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-md-6">
-                <h2 class="page-header">Изменить пароль</h2>
-                <div class="form-group field-userform-password">
-                  <label class="control-label" for="userform-password">Пароль</label>
-                  <div class="input-group">
-                    <input type="password"
-                           id="userform-password"
-                           class="form-control pass-value"
-                           name="UserForm[password]"
-                           maxlength="255" />
-                    <span class="input-group-btn">
-                      <button class="btn btn-default"
-                              type="button"
-                              onclick="generatePassword('.pass-value')">Сгенерировать</button>
-                      <button type="button" class="btn btn-primary" id="showPass">
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                      </button>
-                    </span>
-                  </div>
-                  <div class="help-block"></div>
-                </div>
-                <div class="form-group field-userform-password2">
-                  <label class="control-label" for="userform-password2">Повторить пароль</label>
-                  <input type="password"
-                         id="userform-password2"
-                         class="form-control pass-value"
-                         name="UserForm[password2]"
-                         maxlength="255" />
-                  <div class="help-block"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12 text-right">
-                <a href="/admin/user/index" class="btn btn-default">Отменить</a>
-                <button type="submit" class="btn btn-success">Сохранить</button>
-              </div>
-            </div>
-          </form>
-          <script>
-            function generatePassword(targetSelector) {
-              var pass = Math.random().toString(36).substring(4);
-              $('input' + targetSelector).val(pass);
-              $('span' + targetSelector).text(pass);
-            }
-          </script>
+  <div class="box-body">
+    <form id="w0" action="{% url 'admin:user_create' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" id="is_new_record" value="1" />
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="userAvatar">
+            <div class="userAvatar">
+    <img id="avatarPreview" class="img-circle pull-left img-responsive"
+      src="{% static 'img.png' %}?w=160&h=160&fit=crop" width="160" height="160"/>
+    <div class="form-group">
+      {{ form.image.label_tag }}
+      {{ form.image }}
+      {{ form.image.errors }}
+    </div>
+  </div>
+          </div>
         </div>
+
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+
+            {{ form.status.label_tag }}
+            {{ form.status }}
+            {{ form.status.errors }}
+          </div>
+
+          <div class="form-group">
+            {{ form.user_id.label_tag }}
+            {{ form.user_id }}
+            {{ form.user_id.errors }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+          </div>
+          <div class="form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+          </div>
+          <div class="form-group">
+            {{ form.second_name.label_tag }}
+            {{ form.second_name }}
+            {{ form.second_name.errors }}
+          </div>
+          <div class="form-group field-userform-birthdate">
+                {{ form.date_birthday.label_tag }}
+                <div id="userform-birthdate-kvdate" class="input-group date">
+                    {{ form.date_birthday }}
+                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+                {{ form.date_birthday.errors }}
+            </div>
+            <h2 class="page-header">Контактные данные</h2>
+          <div class="form-group">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {{ form.phone.errors }}
+          </div>
+          <div class="form-group">
+            {{ form.viber.label_tag }}
+            {{ form.viber }}
+            {{ form.viber.errors }}
+          </div>
+          <div class="form-group">
+            {{ form.telegram.label_tag }}
+            {{ form.telegram }}
+            {{ form.telegram.errors }}
+          </div>
+          <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
+
+
+        </div>
+
+        <div class="col-xs-12 col-md-6">
+          <h2 class="page-header">Контактные данные</h2>
+          <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+          </div>
+
+          <h2 class="page-header">Изменить пароль</h2>
+<div class="form-group field-userform-password">
+  {{ form.password.label_tag }}
+  <div class="input-group">
+    {{ form.password }}
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" onclick="generatePassword('.pass-value')">
+        Сгенерировать
+      </button>
+      <button type="button" class="btn btn-primary" id="showPass">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+  {{ form.password.errors }}
+</div>
+
+<div class="form-group">
+  {{ form.password2.label_tag }}
+  {{ form.password2 }}
+  {{ form.password2.errors }}
+</div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 text-right">
+          <a href="{% url 'admin:user_create' %}" class="btn btn-default">Отменить</a>
+          <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      function generatePassword(targetSelector) {
+        var pass = Math.random().toString(36).substring(4);
+        $('input' + targetSelector).val(pass);
+      }
+    </script>
+  </div>
+</div>
+
       </div>
     </section>
   </div>
+
+<script>
+$(document).ready(function() {
+    $('#userform-birthdate').datepicker({
+        format: 'dd.mm.yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        language: 'ru'
+    });
+});
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.querySelector('input[name="image"]');
+    const preview = document.getElementById("avatarPreview");
+
+    if (fileInput) {
+      fileInput.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}

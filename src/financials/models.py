@@ -104,12 +104,12 @@ class Template(models.Model):
 
 
 RECORD_TYPE_CHOICES = [
-    ("new", "Расход"),
-    ("zero", "Приход"),
+    ("out", "Расход"),
+    ("in", "Приход"),
 ]
 
 
-class PaymentItem(models.Model):
+class PaymentArticles(models.Model):
     """Represent a type of payment transaction.
 
     Attributes:
@@ -145,7 +145,7 @@ class CashBox(models.Model):
     cash_box_number = models.UUIDField()
     date = models.DateField()
     is_conducted = models.BooleanField()
-    payment_item = models.ForeignKey(PaymentItem, on_delete=models.CASCADE)
+    payment_articles = models.ForeignKey(PaymentArticles, on_delete=models.CASCADE)
     personal_account = models.ForeignKey(PersonalAccount, on_delete=models.CASCADE)
     sum = models.DecimalField(max_digits=12, decimal_places=2)
     comment = models.TextField()

@@ -724,7 +724,7 @@
         Документация API доступна <a href="/doc">по ссылке</a>.
       </footer>
     </div>
-    <script src="{% static 'admin/assets/137cc266/jquery.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'admin/assets/4da2ea81/yii.js' %}"></script>
     <script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'admin/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
@@ -739,7 +739,16 @@
     <script src="{% static 'admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
     <script src="{% static 'admin/bower_components/chart.js/Chart.js' %}"></script>
     <script src="{% static 'admin/dist/js/main.js' %}"></script>
-    <script src="{% static 'admin/custom.js' %}"></script>
-    <script src="{% static 'admin/diagram.js' %}"></script>
+<script>
+$(function() {
+    AjaxDatatableViewUtils.initialize_table(
+        $('#user_table'),
+        "{% url 'admin:user_list_ajax' %}",
+        { processing: true, autoWidth: false },
+        {}
+    );
+});
+</script>
+
   </body>
 </html>

@@ -6,311 +6,73 @@
       <h1>Роли</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Роли</li>
       </ul>
     </section>
     <section class="content">
       <div class="box">
-        <form id="w0" action="{% url 'role_management' %}" method="post">
-          <input type="hidden"
-                 name="_csrf-backend"
-                 value="iDtMbP-nQAh3d6UzT19nlaa8DHzSksJOvc16eOzDNirZCBYejJEYRzoTxEcfHUr3lORkNpGkiw_-uQMfhZsATA==" />
-          <div class="box-body table-responsive no-padding">
+ <form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+     <div class="box-body table-responsive no-padding">
             <table class="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <th>Роль</th>
-                  <th class="text-center">Статистика</th>
-                  <th class="text-center">Касса</th>
-                  <th class="text-center">Квитанции на оплату</th>
-                  <th class="text-center">Лицевые счета</th>
-                  <th class="text-center">Квартиры</th>
-                  <th class="text-center">Владельцы квартир</th>
-                  <th class="text-center">Дома</th>
-                  <th class="text-center">Сообщения</th>
-                  <th class="text-center">Заявки вызова мастера</th>
-                  <th class="text-center">Счетчики</th>
-                  <th class="text-center">Управление сайтом</th>
-                  <th class="text-center">Услуги</th>
-                  <th class="text-center">Тарифы</th>
-                  <th class="text-center">Роли</th>
-                  <th class="text-center">Пользователи</th>
-                  <th class="text-center">Платежные реквизиты</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Директор</td>
-                  <td class="text-center">
-                    <input type="checkbox" name="site[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="accountTransaction[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="invoice[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="account[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="flat[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="user[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="house[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="message[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="masterRequest[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="counterData[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="website[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="service[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="tariff[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="role[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="userAdmin[admin]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="payCompany[admin]" value="1" checked="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Управляющий</td>
-                  <td class="text-center">
-                    <input type="checkbox" name="site[manager]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="accountTransaction[manager]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="invoice[manager]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="account[manager]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="flat[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="user[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="house[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="message[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="masterRequest[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="counterData[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="website[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="service[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="tariff[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="role[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="userAdmin[manager]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="payCompany[manager]" value="1" checked="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Бухгалтер</td>
-                  <td class="text-center">
-                    <input type="checkbox" name="site[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox"
-                           name="accountTransaction[accountant]"
-                           value="1"
-                           checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="invoice[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="account[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="flat[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="user[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="house[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="message[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="masterRequest[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="counterData[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="website[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="service[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="tariff[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="role[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="userAdmin[accountant]" value="1" checked="" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="payCompany[accountant]" value="1" checked="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Электрик</td>
-                  <td class="text-center">
-                    <input type="checkbox" name="site[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="accountTransaction[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="invoice[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="account[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="flat[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="user[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="house[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="message[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="masterRequest[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="counterData[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="website[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="service[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="tariff[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="role[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="userAdmin[electrician]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="payCompany[electrician]" value="1" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Сантехник</td>
-                  <td class="text-center">
-                    <input type="checkbox" name="site[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="accountTransaction[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="invoice[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="account[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="flat[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="user[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="house[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="message[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="masterRequest[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="counterData[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="website[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="service[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="tariff[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="role[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="userAdmin[plumber]" value="1" />
-                  </td>
-                  <td class="text-center">
-                    <input type="checkbox" name="payCompany[plumber]" value="1" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 text-right">
-              <div class="form-group margin-top-15 margin-right-15">
-                <a href="{% url 'role_management' %}" class="btn btn-default">Отменить</a>
-                <button type="submit" class="btn btn-success">Сохранить</button>
-              </div>
-            </div>
-          </div>
-        </form>
+               <thead>
+<tr>
+    <th>Роль</th>
+    <th class="text-center">Статистика</th>
+    <th class="text-center">Касса</th>
+    <th class="text-center">Квитанции</th>
+    <th class="text-center">Лицевой счёт</th>
+    <th class="text-center">Работники</th>
+    <th class="text-center">Владельцы</th>
+    <th class="text-center">Сообщения</th>
+    <th class="text-center">Заявки вызова мастера</th>
+    <th class="text-center">Счётчики</th>
+    <th class="text-center">Управление</th>
+    <th class="text-center">Услуги</th>
+    <th class="text-center">Роли</th>
+    <th class="text-center">Тарифы</th>
+    <th class="text-center">Платежные данные</th>
+</tr>
+</thead>
+<tbody>
+{% for form in formset %}
+<tr>
+    <td>
+        {{ form.id }}
+        {{ form.name.as_hidden }}
+        {{ form.instance.name }}
+    </td>
+    <td class="text-center">{{ form.has_statistic }}</td>
+    <td class="text-center">{{ form.has_cashbox }}</td>
+    <td class="text-center">{{ form.has_invoice }}</td>
+    <td class="text-center">{{ form.has_personal_account }}</td>
+    <td class="text-center">{{ form.has_user }}</td>
+    <td class="text-center">{{ form.has_owner }}</td>
+    <td class="text-center">{{ form.has_message }}</td>
+    <td class="text-center">{{ form.has_applications }}</td>
+    <td class="text-center">{{ form.has_counter }}</td>
+    <td class="text-center">{{ form.has_managment }}</td>
+    <td class="text-center">{{ form.has_service }}</td>
+    <td class="text-center">{{ form.has_role }}</td>
+    <td class="text-center">{{ form.has_tariff }}</td>
+    <td class="text-center">{{ form.has_payment_details }}</td>
+</tr>
+                    {% endfor %}
+                </tbody>
+
+    </table>
+         <div class="col-xs-12 text-right">
+        <div class="form-group margin-top-15 margin-right-15">
+            <a href="{% url 'admin:role' %}" class="btn btn-default">Отменить</a>
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+     </div>
+</div>
+</form>
+
       </div>
     </section>
   </div>

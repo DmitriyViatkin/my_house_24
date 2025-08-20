@@ -1,0 +1,96 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="content-wrapper" style="min-height: 896px;">
+    <section class="content-header">
+        <h1>
+            Статьи приходов/расходов
+        </h1>
+        <ul class="breadcrumb">
+            <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
+            <li class="active">Статьи приходов/расходов</li>
+        </ul>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pull-right margin-bottom">
+                    <a class="btn btn-success" href="{% url 'admin:payment-articles-create' %}">
+                        Добавить статью
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div id="w0" class="grid-view">
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-hover table-striped linkedRow">
+                                <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>
+                                            <a href="?sort=record_type" data-sort="record_type">
+                                                Приход/расход
+                                            </a>
+                                        </th>
+                                        <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for article in object_list %}
+                                        <tr data-href="{% url 'admin:edit_payment_article' article.pk %}" data-key="{{ article.pk }}">
+                                            <td>{{ article.name }}</td>
+                                            <td>
+    {% if article.record_type == "in" %}
+        <span class="text text-green">Приход</span>
+    {% else %}
+        <span class="text text-red">Расход</span>
+    {% endif %}
+</td>
+                                            <td>
+                                                <div class="btn-group pull-right">
+                                                    <a class="btn btn-default btn-sm"
+                                                       href="{% url 'admin:edit_payment_article' article.pk %}"
+                                                       title="Редактировать"
+                                                       data-toggle="tooltip">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    {% if not article.is_protected %}
+                                                        <a class="btn btn-default btn-sm"
+                                                           href="{% url 'admin:delete_payment_article' article.pk %}"
+                                                           title="Удалить"
+                                                           data-toggle="tooltip"
+                                                           data-pjax="0"
+                                                           data-method="post"
+                                                           data-confirm="Вы уверены, что хотите удалить этот элемент?">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <button class="btn btn-default btn-sm disabled"
+                                                                data-confirm="Этот элемент используется в системе. Его нельзя удалить.">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">Нет статей</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

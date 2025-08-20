@@ -1,15 +1,15 @@
-{% extends "/index.html" %}
-
+{% extends "index.html" %}
+{% load static %}
 {% block content %}
   <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Новый дом</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+          <a href="{%url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="/admin/house/index">Дома</a>
+          <a href="{% url 'admin:house'}">Дома</a>
         </li>
         <li class="active">Новый дом</li>
       </ul>
@@ -17,119 +17,152 @@
     <section class="content">
       <div class="box">
         <div class="box-body">
-          <form id="w0"
-                action="/admin/house/create"
-                method="post"
-                enctype="multipart/form-data">
-            <input type="hidden"
-                   name="_csrf-backend"
-                   value="Iwe54d-mXFwCU7FK6gAZhRJZHfuTBVP1ROcfs6qAkrtyNOOTrJAEE0830D66QjTnIAF1sdAzGrQHk2bUw9ik3Q==" />
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
             <div class="row">
               <div class="col-xs-12 col-lg-4">
                 <div class="form-group field-houseform-name">
-                  <label class="control-label" for="houseform-name">Название</label>
-                  <input type="text"
-                         id="houseform-name"
-                         class="form-control"
-                         name="HouseForm[name]" />
+
+                          {{ form.title.label_tag }}
+                          {{ form.title }}
+                          {{ form.title.errors }}
+
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-address">
-                  <label class="control-label" for="houseform-address">Адрес</label>
-                  <input type="text"
-                         id="houseform-address"
-                         class="form-control"
-                         name="HouseForm[address]" />
+
+                      {{ form.address.label_tag }}
+                      {{ form.address }}
+                      {{ form.address.errors }}
+
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-image1">
-                  <label class="control-label" for="houseform-image1">Изображение #1. Размер: (522x350)</label>
-                  <input type="hidden" name="HouseForm[image1]" value="" />
-                  <input type="file"
-                         id="houseform-image1"
-                         name="HouseForm[image1]"
-                         accept="image/*" />
+
+                      {{ form.image1.label_tag }}
+                      {{ form.image1 }}
+                      {{ form.image1.errors }}
+
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-image2">
-                  <label class="control-label" for="houseform-image2">Изображение #2. Размер: (248x160)</label>
-                  <input type="hidden" name="HouseForm[image2]" value="" />
-                  <input type="file"
-                         id="houseform-image2"
-                         name="HouseForm[image2]"
-                         accept="image/*" />
+                  {{ form.image2.label_tag }}
+                      {{ form.image2 }}
+                      {{ form.image2.errors }}
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-image3">
-                  <label class="control-label" for="houseform-image3">Изображение #3. Размер: (248x160)</label>
-                  <input type="hidden" name="HouseForm[image3]" value="" />
-                  <input type="file"
-                         id="houseform-image3"
-                         name="HouseForm[image3]"
-                         accept="image/*" />
+                  {{ form.image3.label_tag }}
+                      {{ form.image3 }}
+                      {{ form.image3.errors }}
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-image4">
-                  <label class="control-label" for="houseform-image4">Изображение #4. Размер: (248x160)</label>
-                  <input type="hidden" name="HouseForm[image4]" value="" />
-                  <input type="file"
-                         id="houseform-image4"
-                         name="HouseForm[image4]"
-                         accept="image/*" />
+                  {{ form.image4.label_tag }}
+                      {{ form.image4 }}
+                      {{ form.image4.errors }}
                   <div class="help-block"></div>
                 </div>
                 <div class="form-group field-houseform-image5">
-                  <label class="control-label" for="houseform-image5">Изображение #5. Размер: (248x160)</label>
-                  <input type="hidden" name="HouseForm[image5]" value="" />
-                  <input type="file"
-                         id="houseform-image5"
-                         name="HouseForm[image5]"
-                         accept="image/*" />
+                  {{ form.image5.label_tag }}
+                      {{ form.image5 }}
+                      {{ form.image5.errors }}
                   <div class="help-block"></div>
                 </div>
               </div>
               <div class="col-xs-12 col-lg-8">
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=522&amp;h=350&amp;fit=crop"
-                         class="img-responsive largeImg margin-bottom-30"
-                         alt="Изображение #1. Размер: (522x350)" />
-                  </div>
-                  <div class="col-xs-6 col-md-3">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
-                         class="img-responsive smallImg margin-bottom-30"
-                         alt="Изображение #2. Размер: (248x160)" />
-                  </div>
-                  <div class="col-xs-6 col-md-3">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
-                         class="img-responsive smallImg margin-bottom-30"
-                         alt="Изображение #3. Размер: (248x160)" />
-                  </div>
-                  <div class="col-xs-6 col-md-3">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
-                         class="img-responsive smallImg margin-bottom-30"
-                         alt="Изображение #4. Размер: (248x160)" />
-                  </div>
-                  <div class="col-xs-6 col-md-3">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
-                         class="img-responsive smallImg margin-bottom-30"
-                         alt="Изображение #5. Размер: (248x160)" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% include 'house/tab_box' %}
-            <div class="row">
-              <div class="col-xs-12 text-right">
-                <div class="form-group">
-                  <a href="/admin/house/index" class="btn btn-default">Отменить</a>
-                  <button type="submit" class="btn btn-success">Сохранить</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <img id="preview1" src="{% static 'img.png' %}?w=522&h=350&fit=crop"
+           class="img-responsive largeImg margin-bottom-30"
+           alt="Изображение #1" />
+    </div>
+    <div class="col-xs-6 col-md-3">
+      <img id="preview2" src="{% static 'img.png' %}?w=248&h=160&fit=crop"
+           class="img-responsive smallImg margin-bottom-30"
+           alt="Изображение #2" />
+    </div>
+    <div class="col-xs-6 col-md-3">
+      <img id="preview3" src="{% static 'img.png' %}?w=248&h=160&fit=crop"
+           class="img-responsive smallImg margin-bottom-30"
+           alt="Изображение #3" />
+    </div>
+    <div class="col-xs-6 col-md-3">
+      <img id="preview4" src="{% static 'img.png' %}?w=248&h=160&fit=crop"
+           class="img-responsive smallImg margin-bottom-30"
+           alt="Изображение #4" />
+    </div>
+    <div class="col-xs-6 col-md-3">
+      <img id="preview5" src="{% static 'img.png' %}?w=248&h=160&fit=crop"
+           class="img-responsive smallImg margin-bottom-30"
+           alt="Изображение #5" />
+    </div>
   </div>
+</div>
+                {% include 'house/tab_box.html' %}
+
+          <div class="row">
+            <div class="col-xs-12 text-right">
+              <div class="form-group">
+                <a href="/admin/house/index" class="btn btn-default">Отменить</a>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = "https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop";
+        }
+    }
+
+    const imageFields = ['image1','image2','image3','image4','image5'];
+
+    imageFields.forEach((name, index) => {
+        const input = document.querySelector(`input[name="${name}"]`);
+        if (input) {
+            input.addEventListener('change', function() {
+                previewImage(this, 'preview' + (index + 1));
+            });
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const userRoleMap = {
+        {% for u in staff_formset.form.fields.user.queryset %}
+            "{{ u.pk }}": "{% if u.role %}{{ u.role.name }}{% else %}{% endif %}",
+        {% endfor %}
+    };
+
+    document.querySelectorAll(".user-select").forEach(function(userSelect){
+        userSelect.addEventListener("change", function(){
+            const selectedUser = this.value;
+            const roleInput = this.closest("tr").querySelector(".role-display");
+
+            if (selectedUser && userRoleMap[selectedUser]) {
+                roleInput.value = userRoleMap[selectedUser];
+            } else {
+                roleInput.value = "";
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

@@ -9,16 +9,28 @@ from django.db import models
 from src.users.models import User
 
 
-class House(models.Model):
-    """Model representing a single house or property in the system.
+class Staff(models.Model):
+    """Model representing a staff member assigned to a house."""
 
-    This model stores details about a house, including its title, address,
-    creation date, and allows for multiple users to be associated with it.
-    It also includes multiple image fields for showcasing the property.
-    """
+    house = models.ForeignKey("House", on_delete=models.CASCADE, related_name="staff")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="staff_houses"
+    )
+
+    def __str__(self):
+        """Return a string representation of the staff member."""
+        return f"{self.user.get_full_name()} ({self.house.title})"
+
+    @property
+    def role(self):
+        """Return the role of the associated user."""
+        return self.user.role
+
+
+class House(models.Model):
+    """Model representing a single house or property in the system."""
 
     title = models.CharField(max_length=255, verbose_name="Title")
-    user = models.ManyToManyField(User, verbose_name="Users")
     address = models.TextField(verbose_name="Address")
     date = models.DateTimeField(auto_now_add=True, verbose_name="Date Added")
 

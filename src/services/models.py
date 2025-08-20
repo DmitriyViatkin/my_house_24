@@ -11,53 +11,78 @@ This module defines models to handle:
 from django.db import models
 
 
-class Tariff(models.Model):
-    """Represents a tariff with a title, description, date, and currency."""
+class PaymentDetail(models.Model):
+    """Represents a detailed payment entry or transaction type.
 
-    title = models.CharField(max_length=255, verbose_name="Название")
-    description = models.TextField(blank=True, verbose_name="Описание")
-    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    currency = models.CharField(max_length=10, verbose_name="Валюта")
+    Attributes:
+        name (CharField): The name of the payment detail.
+        description (TextField): Additional description or notes.
 
-    def __str__(self):
-        """Return the title of the tariff."""
-        return self.title
+    """
 
-
-class Service(models.Model):
-    """Represents a specific service (e.g., 'Electricity', 'Water')."""
-
-    name = models.CharField(max_length=255, verbose_name="Название")
+    name = models.CharField(max_length=255)
+    description = models.TextField()
 
     def __str__(self):
-        """Return the name of the service."""
+        """Return the name of the PaimentDetail."""
         return self.name
 
 
 class Unit(models.Model):
     """Represents a unit of measurement for a service (e.g., 'kWh', 'm³')."""
 
-    name = models.CharField(max_length=100, verbose_name="Название")
-    service = models.OneToOneField(
-        Service, on_delete=models.CASCADE, verbose_name="Услуга"
-    )
+    name = models.CharField(max_length=100, verbose_name="Ед. изм.")
 
     def __str__(self):
         """Return the name of the unit."""
         return self.name
 
 
-class TariffService(models.Model):
-    """A junction model linking a Tariff to a Service."""
+class Service(models.Model):
+    """Represents a specific service (e.g., 'Electricity', 'Water')."""
 
-    tariff = models.ForeignKey(Tariff, on_delete=models.CASCADE, verbose_name="Тариф")
-    service = models.OneToOneField(
-        Service, on_delete=models.CASCADE, verbose_name="Услуга"
+    name = models.CharField(max_length=255, verbose_name="Услуга")
+    unit = models.ForeignKey(
+        Unit, on_delete=models.CASCADE, verbose_name="Единица измерения"
     )
+    is_show = models.BooleanField(default=False, verbose_name="Показывать в счетчиках")
 
     def __str__(self):
-        """Return the representation of the tariff service."""
-        return f"{self.service.name} ({self.tariff.title})"
+        """Return the name of the service."""
+        return self.name
+
+
+class Tariff(models.Model):
+    """Represents a tariff with a title, description, date, and currency."""
+
+    title = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    def __str__(self):
+        """Return the title of the tariff."""
+        return self.title
+
+
+class TariffService(models.Model):
+    """A service included in a specific tariff plan.
+
+    This class links a service to a tariff.
+    """
+
+    tariff = models.ForeignKey(
+        "Tariff", on_delete=models.CASCADE, related_name="services"
+    )
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE, verbose_name="Услуга"
+    )
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, verbose_name="Единица")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
+    currency = models.CharField(max_length=10, default="грн", verbose_name="Валюта")
+
+    def __str__(self):
+        """Return the title of the tariff."""
+        return self.title
 
 
 STATUS_CHOICES = [

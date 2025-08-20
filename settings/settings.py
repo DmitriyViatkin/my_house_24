@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "src.web_site",
     "src.services",
     "src.financials",
+    "ajax_datatable",
 ]
 
 MIDDLEWARE = [

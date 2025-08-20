@@ -1,0 +1,78 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<div class="content-wrapper" style="min-height: 839px;">
+    <section class="content-header">
+        <h1>Пользователи</h1>
+        <ul class="breadcrumb">
+            <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
+            <li class="active">Пользователи</li>
+        </ul>
+        <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="{% url 'admin:create_staff' %}">Создать пользователя</a>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="user_table"
+                               class="table table-bordered table-hover table-striped linkedRow"  >
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Пользователь</th>
+                                    <th>Роль</th>
+                                    <th>Телефон</th>
+                                    <th>Email (логин)</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Скрипты -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'admin/dist/js/main.js' %}"></script>
+<script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+
+<script>
+(function($) {
+    $(document).ready(function() {
+
+        if (typeof $.fn.DataTable === 'undefined') {
+            console.error('DataTables не загружен!');
+            return;
+        }
+
+        AjaxDatatableViewUtils.initialize_table(
+            $('#user_table'),
+            "{% url 'admin:user_list_ajax' %}",
+            {
+                processing: true,
+                autoWidth: false,
+                searching: false,
+                lengthChange: false
+            },
+            {}
+        );
+    });
+})(jQuery);
+</script>
+
+{% endblock %}

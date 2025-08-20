@@ -65,15 +65,16 @@
     </style>
   </head>
   <body class="skin-black-light sidebar-mini fixed sidebar-mini-expand-feature">
-    {% block content %}
+
       <div class="wrapper">
         <header class="main-header">
           <a href="{% url 'admin:users' %}" class="logo">
             <span class="logo-mini">
-              <img src="/admin/logo-mini.svg" class="img-responsive" alt="" />
+              <img src="{% static 'admin/logo-mini.svg' %}" class="img-responsive"
+                   alt="" />
             </span>
             <span class="logo-lg">
-              <img src="/admin/logo.svg" class="img-responsive" alt="" />
+              <img src="{% static 'admin/logo.svg' %}" class="img-responsive" alt="" />
             </span>
           </a>
           <nav class="navbar navbar-static-top">
@@ -94,84 +95,192 @@
                     </li>
                   </ul>
                 </li>
-                <li class="dropdown user user-menu">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FUser%2F2%2Favatar.jpg&amp;w=25&amp;h=25&amp;fit=crop"
-                         class="user-image"
-                         alt="Иванов Иван  Сидорович" />
-                    <span class="hidden-xs">Иванов Иван Сидорович</span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="user-header">
-                      <img src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FUser%2F2%2Favatar.jpg&amp;w=160&amp;h=160&amp;fit=crop"
-                           class="img-circle"
-                           alt="Иванов Иван Сидорович" />
-                      <p>Иванов Иван Сидорович</p>
-                    </li>
-                    <li class="user-footer">
-                      <div class="pull-left">
-                        <a class="btn btn-default btn-flat" href="{% url 'admin:users' %}">Профиль</a>
-                      </div>
-                      <div class="pull-left">
-                      </li>
-                    </ul>
-                  </li>
+                        <li class="dropdown user user-menu">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'admin/avatar.jpeg' %}?w=25&h=25&fit=crop"
+                                 class="user-image"
+                                 alt="Иванов Иван  Сидорович" />
+                            <span class="hidden-xs">Иванов Иван Сидорович</span>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                              <img src="{% static 'admin/avatar.jpeg' %}?w=160&h=160&fit=crop"
+                                   class="img-circle"
+                                   alt="Иванов Иван Сидорович" />
+                              <p>Иванов Иван Сидорович</p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                              <div class="pull-left">
+                                <a class="btn btn-default btn-flat" href="{% url 'admin:users' %}">Профиль</a>
+                              </div>
+                              <div class="pull-right">
+                                <form id="logout-form"
+                                      action="{% url 'logout' %}"
+                                      method="post"
+                                      style="display:none">
+                                  {% csrf_token %}
+                                </form>
+                                <a class="btn btn-default btn-flat"
+                                   href="#"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
+                              </div>
+                            </li>
+                          </ul>
+                        </li>
                 </ul>
               </div>
             </nav>
           </header>
           <aside class="main-sidebar">
             <div class="slimScrollDiv">
-              <section class="sidebar">
-                <ul class="sidebar-menu tree" data-widget="tree">
-                  <li class="active treeview">
-                    <a href="#!"><i class="fa fa-line-chart"></i>  <span>Сводка</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-                    <ul class="treeview-menu">
-                      <li class="active">
-                        <a href="#"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1233</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.11</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-building-o"></i>  <span>ЖК "Башня Чкалов", кв.7</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-building-o"></i>  <span>ЖК "Морская Симфония", кв.12</span></a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="treeview">
-                    <a href="#!"><i class="fa fa-files-o"></i>  <span>Квитанции</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-                    <ul class="treeview-menu">
-                      <li>
-                        <a href="#"><i class="fa fa-files-o"></i>  <span>Все квитанции</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1233</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.11</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-file-text-o"></i>  <span>ЖК "Башня Чкалов", кв.7</span></a>
-                      </li>
-                      <li>
-                        <a href="#"><i class="fa fa-file-text-o"></i>  <span>ЖК "Морская Симфония", кв.12</span></a>
-                      </li>
-                    </ul>
-                  </li>
+              <section class="sidebar" style="overflow: hidden; width: auto; height: 917px;">
+
+        <ul class="sidebar-menu tree" data-widget="tree"><li class="active treeview menu-open"><a href="#!"><i class="fa fa-line-chart"></i>  <span>Сводка</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu" style="display: block">
+                <li class="active"><a href="/cabinet/?flat_id=356"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1</span></a></li>
+                <li><a href="/cabinet/?flat_id=357"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1233</span></a></li>
+                <li><a href="/cabinet/?flat_id=358"><i class="fa fa-building-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.11</span></a></li>
+                <li><a href="/cabinet/?flat_id=424"><i class="fa fa-building-o"></i>  <span>ЖК "Башня Чкалов", кв.7</span></a></li>
+                <li><a href="/cabinet/?flat_id=603"><i class="fa fa-building-o"></i>  <span>ЖК "Морская Симфония", кв.12</span></a></li>
                 </ul>
-              </section>
+                </li>
+                <li class="treeview"><a href="#!"><i class="fa fa-files-o"></i>  <span>Квитанции</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                <li><a href="/cabinet/invoice/index"><i class="fa fa-files-o"></i>  <span>Все квитанции</span></a></li>
+                <li><a href="/cabinet/invoice/index?InvoiceSearch%5Bflat_id%5D=356"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1</span></a></li>
+                <li><a href="/cabinet/invoice/index?InvoiceSearch%5Bflat_id%5D=357"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1233</span></a></li>
+                <li><a href="/cabinet/invoice/index?InvoiceSearch%5Bflat_id%5D=358"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.11</span></a></li>
+                <li><a href="/cabinet/invoice/index?InvoiceSearch%5Bflat_id%5D=424"><i class="fa fa-file-text-o"></i>  <span>ЖК "Башня Чкалов", кв.7</span></a></li>
+                <li><a href="/cabinet/invoice/index?InvoiceSearch%5Bflat_id%5D=603"><i class="fa fa-file-text-o"></i>  <span>ЖК "Морская Симфония", кв.12</span></a></li>
+                </ul>
+                </li>
+                <li class="treeview"><a href="/cabinet/tariff/index"><i class="fa fa-money"></i>  <span>Тарифы</span> <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                <ul class="treeview-menu">
+                <li><a href="/cabinet/tariff/index?flat_id=356"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1</span></a></li>
+                <li><a href="/cabinet/tariff/index?flat_id=357"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.1233</span></a></li>
+                <li><a href="/cabinet/tariff/index?flat_id=358"><i class="fa fa-file-text-o"></i>  <span>Дом ЗЕЛЁНЫЙ, кв.11</span></a></li>
+                <li><a href="/cabinet/tariff/index?flat_id=424"><i class="fa fa-file-text-o"></i>  <span>ЖК "Башня Чкалов", кв.7</span></a></li>
+                <li><a href="/cabinet/tariff/index?flat_id=603"><i class="fa fa-file-text-o"></i>  <span>ЖК "Морская Симфония", кв.12</span></a></li>
+                </ul>
+                </li>
+                <li><a href="/cabinet/message/index"><i class="fa fa-envelope-o"></i>  <span>Сообщения</span></a></li>
+                <li><a href="/cabinet/master-request/index"><i class="fa fa-wrench"></i>  <span>Вызов мастера</span></a></li>
+                <li><a href="/cabinet/user/view"><i class="fa fa-user-circle-o"></i>  <span>Профиль</span></a></li></ul>
+                    </section>
             </div>
           </aside>
         </div>
+      {% block content %}
+      <div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Сводка - Дом ЗЕЛЁНЫЙ, кв.1        </h1>
+
+            </section>
+
+    <section class="content">
+                <div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>0.00 грн</h3>
+                <p>Баланс по квартире</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-money"></i>
+            </div>
+            <span class="small-box-footer">
+                &nbsp;
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <h3>Не создан</h3>
+                <p>Лицевой счет</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-user"></i>
+            </div>
+            <span class="small-box-footer">
+                &nbsp;
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>0.00 грн</h3>
+                <p>Средний расход за месяц</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-pie-chart"></i>
+            </div>
+            <span class="small-box-footer">
+                &nbsp;
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 id="pieChartTitle" class="box-title">Диаграмма расходов</h3>
+                            </div>
+            <div class="box-body">
+                <div class="row">
+                                            <div class="col-xs-12">
+                            <p>Недостаточно данных для отображения статистики</p>
+                        </div>
+                                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Диаграмма расходов по месяцам за год</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                                            <div class="col-xs-12">
+                            <p>Недостаточно данных для отображения статистики</p>
+                        </div>
+                                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </section>
+</div>
       {% endblock content %}
+      <script src="{% static 'admin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/dist/js/adminlte.min.js' %}"></script>
+   <script src="{% static 'admin/assets/137cc266/jquery.js' %}"></script>
+    <script src="{% static 'admin/assets/4da2ea81/yii.js' %}"></script>
+    <script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'admin/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'admin/bower_components/fastclick/lib/fastclick.js' %}"></script>
+    <script src="{% static 'admin/dist/js/adminlte.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js' %}"></script>
+    <script src="{% static 'admin/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+    <script src="{% static 'admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static 'admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'admin/bower_components/chart.js/Chart.js' %}"></script>
+    <script src="{% static 'admin/dist/js/main.js' %}"></script>
+    <script src="{% static 'admin/custom.js' %}"></script>
+    <script src="{% static 'admin/diagram.js' %}"></script>
+  <script src="{% static 'admin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     </body>
+
   </html>

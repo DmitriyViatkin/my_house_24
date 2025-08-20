@@ -36,7 +36,7 @@ class CabinetLoginView(LoginView):
         form = self.form_class(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect("cabinet/")
+            return redirect("cabinet")
         messages.error(request, "Неверный логин или пароль")
         context = {
             "cabinet_form": form,
@@ -49,7 +49,7 @@ class CabinetLoginView(LoginView):
 class CabinetView(TemplateView):
     """View for displaying the user's personal cabinet page."""
 
-    template_name = "profile.html"
+    template_name = "main.html"
 
     def get_context_data(self, **kwargs):
         """Add the page title to the template context."""

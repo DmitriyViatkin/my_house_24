@@ -57,6 +57,16 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-ajax-datatable"
+version = "4.5.0"
+description = "Helper class to integrate Django with datatables"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django_ajax_datatable-4.5.0-py2.py3-none-any.whl", hash = "sha256:99233042e6c7d03ed730ea13b4dba1c3e8a66dd1f57022a07b29acb8812ad6f1"},
+]
+
+[[package]]
 name = "django-debug-toolbar"
 version = "6.0.0"
 description = "A configurable set of panels that display various debug information about the current request/response."
@@ -70,6 +80,20 @@ files = [
 [package.dependencies]
 django = ">=4.2.9"
 sqlparse = ">=0.2"
+
+[[package]]
+name = "django-filter"
+version = "25.1"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "django_filter-25.1-py3-none-any.whl", hash = "sha256:4fa48677cf5857b9b1347fed23e355ea792464e0fe07244d1fdfb8a806215b80"},
+    {file = "django_filter-25.1.tar.gz", hash = "sha256:1ec9eef48fa8da1c0ac9b411744b16c3f4c31176c867886e4c48da369c407153"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
 
 [[package]]
 name = "filelock"
@@ -348,4 +372,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "238a3438ad1bb9d810d34d9e0c14730a23578aec6ab3bb483a426f96b8cd6060"
+content-hash = "df43ddf8856e675fe569f266ee53eef7b284a13b75529f73667eb648db556198"

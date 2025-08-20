@@ -1,31 +1,8 @@
 """Database models for the user application."""
 
-import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-
-class User(AbstractUser):
-    """Custom user model inheriting from AbstractUser.
-
-    Uses email as the unique identifier for authentication.
-    """
-
-    image = models.ImageField(
-        upload_to="users/images/", blank=True, null=True, verbose_name="Аватар"
-    )
-    user_id = models.UUIDField(
-        default=uuid.uuid4, editable=False, unique=True, verbose_name="ID"
-    )
-    description = models.TextField(blank=True, verbose_name="Описание")
-    status = models.BooleanField(default=True, verbose_name="Активный пользователь")
-    viber = models.CharField(max_length=255, blank=True, verbose_name="Viber")
-    telegram = models.CharField(max_length=255, blank=True, verbose_name="Telegram")
-    email = models.EmailField(_("email address"), unique=True)
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
 
 
 class Role(models.Model):
@@ -39,7 +16,6 @@ class Role(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True, verbose_name="Роль")
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     has_statistic = models.BooleanField(default=False, verbose_name="Статистика")
     has_cashbox = models.BooleanField(default=False, verbose_name="Касса")
@@ -66,10 +42,58 @@ class Role(models.Model):
 
 
 STATUS_TYPE_CHOICES = [
-    ("new", "New"),
-    ("work", "In Progress"),
-    ("done", "Done"),
+    ("new", "Новый"),
+    ("work", "Активный"),
+    ("done", "Отключен"),
 ]
+
+
+class User(AbstractUser):
+    """Custom user model with email as login."""
+
+    second_name = models.CharField(max_length=150, blank=True, verbose_name="Отчество")
+    username = None
+    email = models.EmailField(_("email address"), unique=True)
+    date_birthday = models.DateField(
+        blank=True, null=True, verbose_name="Дата рождения"
+    )
+    image = models.ImageField(
+        upload_to="users/images/", blank=True, null=True, verbose_name="Аватар"
+    )
+    user_id = models.CharField(
+        max_length=50,
+        unique=True,
+        default=" ",
+        editable=True,  # вместо False
+        verbose_name="ID",
+    )
+    description = models.TextField(blank=True, verbose_name="Описание")
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_TYPE_CHOICES,
+        default="new",
+        verbose_name="Статус пользователя",
+    )
+    phone = models.CharField(max_length=255, blank=True, verbose_name="Viber")
+    viber = models.CharField(max_length=255, blank=True, verbose_name="Viber")
+    telegram = models.CharField(max_length=255, blank=True, verbose_name="Telegram")
+    role = models.ForeignKey(
+        "Role",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="users",
+        verbose_name="Роль пользователя",
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    @property
+    def full_name(self):
+        """Возвращает полное имя пользователя (ФИО)."""
+        return f"{self.last_name} {self.first_name} {self.second_name}".strip()
 
 
 class Ticket(models.Model):
