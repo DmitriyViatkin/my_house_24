@@ -23,8 +23,11 @@ from django.urls import path
 urlpatterns = [
     path("admin/", include("src.core.urls")),
     path("users/", include("src.users.urls")),
+    path("login/", include("src.authentication.urls")),
 ]
-
+LOGIN_URL = "/login/admin/"
+LOGIN_REDIRECT_URL = "/admin/"
+LOGOUT_REDIRECT_URL = "/login/admin/"
 if settings.DEBUG:
     import debug_toolbar
 

@@ -2,7 +2,6 @@
 
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
 
 from src.core.generator import generate_id_with_random_number
 
@@ -117,8 +116,15 @@ class CreateOwnerFlatForm(forms.ModelForm):
 
 
 class StaffForm(forms.ModelForm):
-    """Form for creating or editing staff users."""
+    """Form for creating and updating staff users."""
 
+    password = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control pass-value", "maxlength": "255"}
+        ),
+        required=True,
+    )
     password2 = forms.CharField(
         label="Repeat Password",
         widget=forms.PasswordInput(
@@ -128,14 +134,13 @@ class StaffForm(forms.ModelForm):
     )
 
     class Meta:
-        """Meta information for the form."""
+        """Meta options for StaffForm."""
 
         model = User
         fields = [
             "first_name",
             "last_name",
             "email",
-            "password",
             "phone",
             "role",
             "status",
@@ -146,7 +151,6 @@ class StaffForm(forms.ModelForm):
             "first_name": "First Name",
             "last_name": "Last Name",
             "email": "Email (login)",
-            "password": "Password",
             "phone": "Phone",
             "role": "Role",
             "status": "Status",
@@ -154,31 +158,24 @@ class StaffForm(forms.ModelForm):
             "is_active": "Active",
         }
         widgets = {
-            "first_name": forms.TextInput(
-                attrs={"class": "form-control", "maxlength": "255"}
-            ),
-            "last_name": forms.TextInput(
-                attrs={"class": "form-control", "maxlength": "255"}
-            ),
-            "email": forms.EmailInput(
-                attrs={"class": "form-control", "maxlength": "255"}
-            ),
-            "phone": forms.TextInput(
-                attrs={"class": "form-control", "maxlength": "16"}
-            ),
-            "password": forms.PasswordInput(
-                attrs={"class": "form-control pass-value", "maxlength": "255"}
-            ),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
             "role": forms.Select(attrs={"class": "form-control"}),
             "status": forms.Select(attrs={"class": "form-control"}),
             "is_staff": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the form and set default staff flag."""
-        super().__init__(*args, **kwargs)
-        self.initial["is_staff"] = True
+    def clean(self):
+        """Ensure that password and password2 match."""
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+        if password and password2 and password != password2:
+            self.add_error("password2", "Passwords do not match")
+        return cleaned_data
 
     def save(self, *, commit=True):
         """Save the staff user with hashed password."""
@@ -189,37 +186,3 @@ class StaffForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
-    def clean(self):
-        """Validate that password and password2 match."""
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password2 = cleaned_data.get("password2")
-        if password and password2 and password != password2:
-            self.add_error("password2", "Passwords do not match")
-        return cleaned_data
-
-
-class CabinetLoginForm(AuthenticationForm):
-    """authentication form for cabinet login page using text input for username."""
-
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "id": "loginform-username",
-                "class": "form-control",
-                "placeholder": "E-mail",
-                "aria-required": "true",
-            }
-        )
-    )
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "id": "loginform-password",
-                "class": "form-control",
-                "placeholder": "Password",
-                "aria-required": "true",
-            }
-        )
-    )

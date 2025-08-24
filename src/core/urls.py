@@ -9,7 +9,7 @@ app_name = "admin"
 
 urlpatterns = [
     # 1. Statistic
-    path("", views.StatisticView.as_view(), name="dashboard"),
+    path("dashboard", views.StatisticView.as_view(), name="dashboard"),
     # 2. flat
     path("flat/index", views.ApartmentView.as_view(), name="flat"),
     # 3. cashbox
@@ -101,5 +101,4 @@ urlpatterns = [
     # 21. account
     path("account", views.PersonalaccountView.as_view(), name="account"),
     # 22
-    path("login/admin/", views.AdminLoginView.as_view(), name="admin_login"),
 ]

@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "src.services",
     "src.financials",
     "ajax_datatable",
+    "src.authentication",
+    "snowpenguin.django.recaptcha3",
 ]
 
 MIDDLEWARE = [
@@ -124,10 +126,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 AUTHENTICATION_BACKENDS = (
+    "src.authentication.authentication.EmailAuthBackend",
     "django.contrib.auth.backends.ModelBackend",
-    "doc.authentication.EmailAuthBackend",
 )
-
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/admin/dashboard"
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -156,3 +159,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles_collected"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPCHA_PRIVATE_KEY")
+RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPCHA_PUBLIC_KEY")
+RECAPTCHA_DEFAULT_ACTION = "generic"
+RECAPTCHA_SCORE_THRESHOLD = 0.5

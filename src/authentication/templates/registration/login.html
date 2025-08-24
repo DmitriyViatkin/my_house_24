@@ -1,7 +1,8 @@
 {% load static %}
+{% load static recaptcha3 %}
 
 <!DOCTYPE html>
-<html lang="ru-RU" style="height: auto; min-height: 100%;">
+<html lang="ru-RU" class="full-height">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport"
@@ -74,9 +75,17 @@
         color: #999;
         font-size: 14px;
       }
+
+      /* заменяем inline-стили */
+      .full-height {
+        height: auto;
+        min-height: 100%;
+      }
     </style>
+    {% recaptcha_init %}
+    {% recaptcha_ready action_name="login" %}
   </head>
-  <body class="login-page" style="height: auto; min-height: 100%;">
+  <body class="login-page full-height">
     <div class="login-box">
       <div class="login-logo">
         <a href="https://myhouse24.demodev.cc/">
@@ -86,10 +95,10 @@
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="{% if active_tab == 'cabinet' %}active{% endif %}">
-            <a href="{% url 'login' %}">Для жильца</a>
+            <a href="#tab_1" data-toggle="tab">Для жильца</a>
           </li>
           <li class="{% if active_tab == 'admin' %}active{% endif %}">
-            <a href="{% url 'admin:admin_login' %}">Для администрации</a>
+            <a href="#tab_2" data-toggle="tab">Для администрации</a>
           </li>
         </ul>
         <div class="tab-content">
@@ -110,6 +119,7 @@
                   {{ cabinet_form.password }}
                   {% for error in cabinet_form.password.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
                 </div>
+                {{ cabinet_form.captcha }}
                 <button type="submit" name="cabinet_login" class="btn btn-primary btn-block">Вход</button>
               </form>
             </div>
@@ -119,7 +129,7 @@
             <div class="login-box-body">
               <p class="login-box-msg">Вход в панель управления</p>
               <form id="admin-login-form"
-                    action="{% url 'admin:admin_login' %}"
+                    action="{% url 'login' %}"
                     method="post"
                     novalidate>
                 {% csrf_token %}
@@ -133,6 +143,7 @@
                   <i class="fa fa-lock"></i>
                   {% for error in admin_form.password.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
                 </div>
+                {{ admin_form.captcha }}
                 <button type="submit" name="admin_login" class="btn btn-primary btn-block">Вход</button>
               </form>
             </div>
@@ -156,6 +167,7 @@
     <script src="{% static 'admin/bower_components/chart.js/Chart.js' %}"></script>
     <script src="{% static 'admin/dist/js/main.js' %}"></script>
     <script src="{% static 'admin/custom.js' %}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
     <script src="{% static 'admin/diagram.js' %}"></script>
     <script>
       $(function() {

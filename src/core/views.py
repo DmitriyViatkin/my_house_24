@@ -2,10 +2,7 @@
 
 import json
 
-from django.contrib import messages
-from django.contrib.auth import login
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import redirect_to_login
 from django.db import transaction
 from django.forms import modelformset_factory
@@ -44,7 +41,6 @@ from src.users.models import Role
 from src.users.models import User
 
 from .filters import UserFilter
-from .forms import AdminLoginForm
 from .forms import PaymentDetailsForm
 from .forms import RoleForm
 from .forms import ServiceFormSet
@@ -792,36 +788,6 @@ class PaymentArticlesDeleteView(DeleteView):
 
 
 # 21
-class AdminLoginView(LoginView):
-    """A custom view for the admin login page."""
-
-    template_name = "registration/login.html"
-    redirect_authenticated_user = True
-    authentication_form = AdminLoginForm  # 🔹 ключове — вказати свою форму
-
-    def get_context_data(self, **kwargs):
-        """Add the custom admin form to the template context."""
-        context = super().get_context_data(**kwargs)
-        context["admin_form"] = context.get("form", self.authentication_form())
-        context["cabinet_form"] = AdminLoginForm()  # якщо теж з атрибутами
-        context["active_tab"] = "admin"
-        return context
-
-    def post(self, request, *args, **kwargs):
-        """Handle POST requests to the login view."""
-        form = self.authentication_form(
-            request, data=request.POST
-        )  # 🔹 тепер своя форма
-        if form.is_valid():
-            login(request, form.get_user())
-            return redirect("/admin/")
-        messages.error(request, "Неверный логин или пароль")
-        context = {
-            "admin_form": form,
-            "cabinet_form": AdminLoginForm(),
-            "active_tab": "admin",
-        }
-        return render(request, self.template_name, context)
 
 
 class UserAjaxDatatableView(View):

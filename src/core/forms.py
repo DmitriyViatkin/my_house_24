@@ -1,7 +1,6 @@
 """Forms for the core application."""
 
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.forms import inlineformset_factory
 from django.forms import modelformset_factory
 
@@ -158,31 +157,3 @@ class RoleForm(forms.ModelForm):
             "has_payment_details",
             "has_counter",
         ]
-
-
-class AdminLoginForm(AuthenticationForm):
-    """Custom authentication form for admin login page.
-
-    Uses text input for username and password with Bootstrap styling.
-    """
-
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "id": "loginform-username",
-                "class": "form-control",
-                "placeholder": "E-mail",
-                "aria-required": "true",
-            }
-        )
-    )
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "id": "loginform-password",
-                "class": "form-control",
-                "placeholder": "Пароль",
-                "aria-required": "true",
-            }
-        )
-    )
