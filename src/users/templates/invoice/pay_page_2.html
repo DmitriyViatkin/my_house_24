@@ -1,0 +1,347 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef3f7;
+    }
+
+    .payment-container {
+      width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      border: 1px solid #d9e3ec;
+      border-radius: 5px;
+      padding: 25px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .order-info {
+      background: #e8f0fa;
+      border-radius: 5px;
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .order-info b {
+      color: #000;
+    }
+
+    .order-info .amount-main {
+      font-weight: bold;
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .card-section {
+      background: linear-gradient(180deg, #e3f3fc 0%, #d5e9f9 100%);
+      border: 1px solid #c8e0f0;
+      border-radius: 5px;
+      padding: 20px;
+    }
+
+    .card-section label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    .card-section input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #adcbe2;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-row .flex-1 {
+      flex: 1;
+    }
+
+    .card-row .fixed-80 {
+      width: 80px;
+    }
+
+    .summary {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .pay-btn {
+      background: linear-gradient(180deg, #6ec0f6 0%, #4aa3df 100%);
+      border: none;
+      border-radius: 5px;
+      padding: 10px 25px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .pay-btn:hover {
+      background: #3c8bc1;
+    }
+
+    .pay-btn-wrapper {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .divider {
+      margin-top: 25px;
+      border-top: 1px solid #d9e3ec;
+      padding-top: 15px;
+    }
+
+    .alt-pay {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .alt-pay img {
+      height: 35px;
+      margin-top: 10px;
+    }
+
+    .input-error {
+      border-color: #d9534f !important;
+    }
+
+    .error-text {
+      color: #d9534f;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .success-text {
+      color: #28a745;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+  </style>
+  <div class="payment-container">
+    <div class="payment-grid">
+      <!-- Левая колонка -->
+      <div class="order-info">
+        <p>
+          <b>ID квитанции :</b> {{ invoice.invoice_number }}
+        </p>
+        <p class="amount-main">
+          <b>Сумма:</b> {{ invoice.total_amount }} грн
+        </p>
+        <p>Дом {{ invoice.personal_account.apartment.house.title }}</p>
+        <p>Квартира № {{ invoice.personal_account.apartment.apartment_number }}</p>
+        <p>Лицевой счёт № {{ invoice.personal_account.account_number }}</p>
+      </div>
+      <!-- Правая колонка (форма карты) -->
+      <div class="card-section">
+        <form method="post" id="payment-form" novalidate>
+          {% csrf_token %}
+          <label>Номер картки</label>
+          <input id="card-number"
+                 name="card_number"
+                 type="text"
+                 inputmode="numeric"
+                 placeholder="XXXX XXXX XXXX XXXX"
+                 maxlength="19"
+                 autocomplete="cc-number" />
+          <div class="card-row">
+            <div class="flex-1">
+              <label>Срок действия</label>
+              <input id="card-expiry"
+                     name="card_expiry"
+                     type="text"
+                     inputmode="numeric"
+                     placeholder="MM/YY"
+                     maxlength="5"
+                     autocomplete="cc-exp" />
+            </div>
+            <div class="fixed-80">
+              <label>CVV2</label>
+              <input id="card-cvc"
+                     name="card_cvc"
+                     type="text"
+                     inputmode="numeric"
+                     placeholder="XXX"
+                     maxlength="4"
+                     autocomplete="cc-csc" />
+            </div>
+          </div>
+          <div class="summary">
+            <span>Сумма к оплате:</span>
+            <input id="amount"
+                   type="number"
+                   name="amount"
+                   step="0.01"
+                   min="0"
+                   placeholder="введите сумму грн"
+                   required
+                   value="{{ invoice.total_amount }}" />
+          </div>
+          <div class="pay-btn-wrapper">
+            <button id="pay-btn" class="pay-btn" type="submit">Оплатить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="divider">
+      <div class="alt-pay">
+        <p>Способы оплаты</p>
+        <div class="logos">
+          <img src="{% static 'image/Visa.svg' %}" alt="Visa" />
+          <img src="{% static 'image/master_card.svg' %}" alt="MasterCard" />
+          <img src="{% static 'image/logo_Privat24.png' %}"
+               alt="Privat24"
+               height="50" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JS Validation скрипт -->
+  <script>
+    (function() {
+      const form = document.getElementById('payment-form');
+      const cardNumberEl = document.getElementById('card-number');
+      const expiryEl = document.getElementById('card-expiry');
+      const cvcEl = document.getElementById('card-cvc');
+      const amountEl = document.getElementById('amount');
+      const payBtn = document.getElementById('pay-btn');
+      const invoiceMax = parseFloat('{{ invoice.total_amount|default:"0" }}');
+
+      function showError(el, msg) {
+        el.classList.add('input-error');
+        let next = el.nextElementSibling;
+        if (!next || !next.classList.contains('error-text')) {
+          next = document.createElement('div');
+          next.className = 'error-text';
+          el.parentNode.insertBefore(next, el.nextSibling);
+        }
+        next.textContent = msg;
+      }
+
+      function clearError(el) {
+        el.classList.remove('input-error');
+        let next = el.nextElementSibling;
+        if (next && next.classList.contains('error-text')) next.remove();
+      }
+
+      function luhnCheck(numberStr) {
+        const digits = numberStr.replace(/\D/g, '');
+        if (digits.length < 12) return false;
+        let sum = 0,
+          shouldDouble = false;
+        for (let i = digits.length - 1; i >= 0; i--) {
+          let d = digits.charCodeAt(i) - 48;
+          if (shouldDouble) {
+            d = d * 2;
+            if (d > 9) d -= 9;
+          }
+          sum += d;
+          shouldDouble = !shouldDouble;
+        }
+        return sum % 10 === 0;
+      }
+
+      function validateExpiry(value) {
+        const m = value.match(/^(\d{1,2})\/(\d{2})$/);
+        if (!m) return {
+          ok: false,
+          msg: 'Формат MM/YY'
+        };
+        const mm = parseInt(m[1], 10),
+          yy = parseInt(m[2], 10);
+        if (mm < 1 || mm > 12) return {
+          ok: false,
+          msg: 'Месяц от 01 до 12'
+        };
+        const now = new Date();
+        const expiryDate = new Date(2000 + yy, mm, 0, 23, 59, 59);
+        if (expiryDate < now) return {
+          ok: false,
+          msg: 'Срок действия карты истёк'
+        };
+        return {
+          ok: true
+        };
+      }
+
+      form.addEventListener('submit', function(e) {
+        let ok = true;
+        const rawCard = cardNumberEl.value.replace(/\D/g, '');
+        clearError(cardNumberEl);
+        if (rawCard.length < 12 || !luhnCheck(rawCard)) {
+          showError(cardNumberEl, 'Неверный номер карты');
+          ok = false;
+        }
+
+        clearError(expiryEl);
+        if (!validateExpiry(expiryEl.value).ok) {
+          showError(expiryEl, 'Неверный срок действия');
+          ok = false;
+        }
+
+        clearError(cvcEl);
+        const cvc = cvcEl.value.replace(/\D/g, '');
+        if (cvc.length < 3 || cvc.length > 4) {
+          showError(cvcEl, 'CVV должен быть 3 или 4 цифры');
+          ok = false;
+        }
+
+        clearError(amountEl);
+        const amountVal = parseFloat(amountEl.value);
+        if (isNaN(amountVal) || amountVal <= 0 || amountVal > invoiceMax) {
+          showError(amountEl, 'Введите корректную сумму');
+          ok = false;
+        }
+
+        if (!ok) {
+          e.preventDefault();
+          const firstErr = document.querySelector('.input-error');
+          if (firstErr) firstErr.focus();
+          return false;
+        }
+        payBtn.disabled = true;
+        payBtn.textContent = 'Обработка...';
+      });
+
+      // Форматирование карточки и expiry
+      cardNumberEl.addEventListener('input', () => {
+        let raw = cardNumberEl.value.replace(/\D/g, '').slice(0, 19);
+        cardNumberEl.value = raw.replace(/(.{4})/g, '$1 ').trim();
+        clearError(cardNumberEl);
+      });
+      expiryEl.addEventListener('input', () => {
+        let v = expiryEl.value.replace(/\D/g, '').slice(0, 4);
+        if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+        expiryEl.value = v;
+        clearError(expiryEl);
+      });
+      cvcEl.addEventListener('input', () => {
+        cvcEl.value = cvcEl.value.replace(/\D/g, '').slice(0, 4);
+        clearError(cvcEl);
+      });
+    })();
+  </script>
+{% endblock content %}

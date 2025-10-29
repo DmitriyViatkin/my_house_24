@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+{% endblock extra_head %}
+{% block content %}
+  <div class="content-wrapper content-wrapper-min-height">
+    <section class="content-header">
+      <h1>Лицевые счета</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Лицевые счета</li>
+      </ul>
+    </section>
+    <section class="content">
+      <!-- здесь твои таблицы и кнопки -->
+    </section>
+  </div>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      // JS код для таблиц
+    });
+  </script>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block seo %}
+  {% if services %}
+    <title>{{ services.0.seo.title }}</title>
+    <meta name="description" content="{{ services.0.seo.description }}" />
+    <meta name="keywords" content="{{ services.0.seo.keyword }}" />
+  {% else %}
+    <title>Наши услуги</title>
+    <meta name="description" content="Описание услуг" />
+    <meta name="keywords" content="услуги" />
+  {% endif %}
+{% endblock seo %}
+{% block content %}
+  <div class="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="page-header">
+            <h1>Наши услуги</h1>
+          </div>
+        </div>
+      </div>
+      {% for service in services %}
+        <div class="row">
+          <div class="col-xs-12 col-md-7">
+            <img src="{{ service.image.url }}"
+                 class="img-responsive img-thumbnail"
+                 alt="Изображение паркинга" />
+          </div>
+          <div class="col-xs-12 col-md-5">
+            <div class="page-header">
+              <h3>{{ service.title }}</h3>
+            </div>
+            {{ service.description }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="paginations">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <nav aria-label="Page navigation">
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

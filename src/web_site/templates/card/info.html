@@ -1,0 +1,36 @@
+<div class="info">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-7 col-md-8">
+        <div class="page-header">
+          <h1>{{ main_page.title }}</h1>
+        </div>
+        {{ main_page.description|safe }}
+      </div>
+      <div class="col-xs-12 col-sm-5 col-md-4">
+        <div class="page-header">
+          <h3>Контакты</h3>
+        </div>
+        <div class="box">
+          <p>
+            <i class="fas fa-user-circle"></i> {{ contact.full_name }}
+          </p>
+          <p>
+            <i class="fas fa-compass"></i> {{ contact.location }}
+          </p>
+          <p>
+            <i class="fas fa-map-marker"></i> {{ contact.address }}
+          </p>
+          <p>
+            <i class="fas fa-phone"></i>
+            <a href="tel:{{ contact.phone }}">{{ contact.phone }}</a>
+          </p>
+          <p>
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

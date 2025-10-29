@@ -1,0 +1,105 @@
+<aside class="main-sidebar">
+  <div class="slimScrollDiv">
+    <section class="sidebar sidebar-fixed-height">
+      <ul class="sidebar-menu tree" data-widget="tree">
+        <!-- Сводка -->
+        <li class="treeview {% if active_section == 'statistic' %}active menu-open{% endif %}">
+          <a href="#!">
+            <i class="fa fa-line-chart"></i>
+            <span>Сводка</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu {% if active_section == 'statistic' %}open{% endif %}">
+            {% for apartment in apartments %}
+              <li class="{% if current_apartment_id == apartment.pk and active_section == 'statistic' %}active{% endif %}">
+                <a href="{% url 'statistic' apartment.pk %}">
+                  <i class="fa fa-file-text-o"></i>
+                  <span>{{ apartment.house.title }}, кв. {{ apartment.apartment_number }}</span>
+                </a>
+              </li>
+            {% empty %}
+              <li>
+                <span>У вас нет квартир</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <!-- Квитанции -->
+        <li class="treeview {% if active_section == 'invoice' %}active menu-open{% endif %}">
+          <a href="#!">
+            <i class="fa fa-files-o"></i>
+            <span>Квитанции</span>
+            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+          </a>
+          <ul class="treeview-menu {% if active_section == 'invoice' %}open{% endif %}">
+            {% for apartment in apartments %}
+              <li>
+                <a href="{% url 'invoice_list' apartment.pk %}">
+                  <i class="fa fa-file-text-o"></i>
+                  <span>{{ apartment.house.title }}, кв. {{ apartment.apartment_number }}</span>
+                </a>
+              </li>
+            {% empty %}
+              <li>
+                <span>У вас нет квартир</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <!-- Тарифы -->
+        <li class="treeview {% if active_section == 'tariff' %}active menu-open{% endif %}">
+          <a href="#!">
+            <i class="fa fa-money"></i> <span>Тарифы</span>
+            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+          </a>
+          <ul class="treeview-menu {% if active_section == 'tariff' %}open{% endif %}">
+            {% for apartment in apartments %}
+              <li>
+                <a href="{% url 'tariff' apartment.pk %}">
+                  <i class="fa fa-file-text-o"></i>
+                  <span>{{ apartment.house.title }}, кв. {{ apartment.apartment_number }}</span>
+                </a>
+              </li>
+            {% empty %}
+              <li>
+                <span>У вас нет квартир</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <!-- Сообщения -->
+        <li class="{% if active_section == 'message' %}active{% endif %}">
+        <a href="{% url 'message' %}"><i class="fa fa-envelope-o"></i>
+        <span>Сообщения</span>
+      </a>
+    </li>
+    <!-- Вызов мастера -->
+    <li class="{% if active_section == 'ticket' %}active{% endif %}">
+    <a href="{% url 'tickets_list' %}"><i class="fa fa-wrench"></i>
+    <span>Вызов мастера</span>
+  </a>
+</li>
+<!-- Профиль -->
+<li class="{% if active_section == 'profile' %}active{% endif %}">
+<a href="{% url 'profile' %}"><i class="fa fa-user-circle-o"></i>
+<span>Профиль</span>
+</a>
+</li>
+</ul>
+</section>
+</div>
+</aside>
+<style>
+  /* Высота и overflow для sidebar */
+  .sidebar.sidebar-fixed-height {
+    overflow: auto;
+    height: 100%;
+  }
+
+  /* Открытые меню */
+  .treeview-menu.open {
+    display: block;
+  }
+</style>

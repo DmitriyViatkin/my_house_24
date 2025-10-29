@@ -1,57 +1,54 @@
 {% extends "index.html" %}
 
+{% load static %}
+
 {% block content %}
-  <div class="content-wrapper" style="min-height: 916px;">
+  {{ form.media }}
+  <div class="content-wrapper">
     <section class="content-header">
       <h1>Касса</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Касса</li>
       </ul>
     </section>
     <section class="content">
       <div class="row">
-        <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
-        <!--</div>-->
         <div class="col-xs-12 col-lg-9">
           <div class="row">
             <div class="col-xs-12 col-md-4">
               <div class="small-box bg-green overflow-hidden">
                 <div class="inner">
-                  <h3>17 450.00 грн</h3>
+                  <h3 class="cashbox-total">{{ cashbox_balance|floatformat:2 }} грн</h3>
                   <p>Состояние кассы</p>
                 </div>
                 <div class="icon">
                   <i class="fa fa-dollar"></i>
                 </div>
-                <!--<span class="small-box-footer">&nbsp;</span>-->
               </div>
             </div>
             <div class="col-xs-12 col-md-4">
               <div class="small-box bg-blue overflow-hidden">
                 <div class="inner">
-                  <h3>8 000.00 грн</h3>
-                  <p>Баланс по счетам</p>
+                  <h3 class="income-total">{{ personal_balance|floatformat:2 }} грн</h3>
+                  <p>Баланс по счётам</p>
                 </div>
                 <div class="icon">
-                  <i class="fa fa-dollar"></i>
+                  <i class="fa fa-arrow-down"></i>
                 </div>
-                <!--<span class="small-box-footer">&nbsp;</span>-->
               </div>
             </div>
             <div class="col-xs-12 col-md-4">
               <div class="small-box bg-red overflow-hidden">
                 <div class="inner">
-                  <h3>4 856.00 грн</h3>
-                  <p>Задолженность по счетам</p>
+                  <h3 class="expense-total">{{ total_unpaid_invoices|floatformat:2 }} грн</h3>
+                  <p>Задолженность по счётам</p>
                 </div>
                 <div class="icon">
-                  <i class="fa fa-dollar"></i>
+                  <i class="fa fa-arrow-up"></i>
                 </div>
-                <!--<span class="small-box-footer">&nbsp;</span>-->
               </div>
             </div>
           </div>
@@ -60,20 +57,18 @@
           <div class="btn-group pull-right margin-bottom">
             <button type="button"
                     class="btn btn-success dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
+                    data-toggle="dropdown">
               Выберите действие <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a href="/admin/account-transaction/create?type=in">Создать приход</a>
+                <a href="{% url 'admin:receipt_statement' %}">Создать приход</a>
               </li>
               <li>
-                <a href="/admin/account-transaction/create?type=out">Создать расход</a>
+                <a href="{% url 'admin:expense_report' %}">Создать расход</a>
               </li>
               <li>
-                <a href="/admin/account-transaction/export">Выгрузить в Excel</a>
+                <a id="export_excel" href="{% url 'admin:cash_box_list' %}">Выгрузить в Excel</a>
               </li>
             </ul>
           </div>
@@ -83,658 +78,71 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title"></h3>
               <div class="box-tools">
-                <a href="/admin/account-transaction/index"
-                   class="btn btn-default btn-sm">
-                  <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                <a href="{% url 'admin:cashbox' %}" class="btn btn-default btn-sm">
+                  <span class="hidden-xs">Очистить</span>
+                  <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
             <div id="w0" class="grid-view">
-              <div class="box-body table-responsive no-padding">
-                <table class="table table-bordered table-hover table-striped linkedRow">
-                  <thead>
-                    <tr>
-                      <th style="width: 125px; min-width: 125px">№</th>
-                      <th style="width: 125px; min-width: 125px">
-                        <a href="/admin/account-transaction/index?sort=searchUidDate"
-                           data-sort="searchUidDate">Дата</a>
-                      </th>
-                      <th style="width: 120px; min-width: 120px">Статус</th>
-                      <th>Тип платежа</th>
-                      <th style="min-width: 200px">Владелец</th>
-                      <th style="min-width: 160px">Лицевой счет</th>
-                      <th>Приход/расход</th>
-                      <th style="width: 110px; min-width: 110px">Сумма (грн)</th>
-                      <th style="width: 80px; min-width: 80px">&nbsp;</th>
-                    </tr>
-                    <tr id="w0-filters" class="filters">
-                      <td>
-                        <input type="text" class="form-control" name="AccountTransactionSearch[uid]" />
-                      </td>
-                      <td>
-                        <input type="text"
-                               id="accounttransactionsearch-searchuiddaterange"
-                               class="form-control"
-                               name="AccountTransactionSearch[searchUidDateRange]"
-                               data-krajee-daterangepicker="daterangepicker_c8dff207" />
-                      </td>
-                      <td>
-                        <select id="accounttransactionsearch-status"
-                                class="form-control select2-hidden-accessible"
-                                name="AccountTransactionSearch[status]"
-                                data-s2-options="s2options_7ebc6538"
-                                data-krajee-select2="select2_0d896465"
-                                style="display:none"
-                                tabindex="-1"
-                                aria-hidden="true">
-                          <option value=""></option>
-                          <option value="10">Проведен</option>
-                          <option value="5">Не проведен</option>
-                        </select>
-                        <span class="select2 select2-container select2-container--default"
-                              dir="ltr"
-                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-accounttransactionsearch-status-container"><span class="select2-selection__rendered"
-      id="select2-accounttransactionsearch-status-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </td>
-                      <td>
-                        <select id="accounttransactionsearch-transaction_purpose_id"
-                                class="form-control select2-hidden-accessible"
-                                name="AccountTransactionSearch[transaction_purpose_id]"
-                                data-s2-options="s2options_7ebc6538"
-                                data-krajee-select2="select2_0d896465"
-                                style="display:none"
-                                tabindex="-1"
-                                aria-hidden="true">
-                          <option value=""></option>
-                          <option value="39">Оплата за паркоместо</option>
-                          <option value="45">Бытовые расходы</option>
-                          <option value="47">Коммунальный платёж</option>
-                          <option value="101">Вывоз мусора</option>
-                          <option value="103">Озеленение</option>
-                          <option value="105">Прочее</option>
-                        </select>
-                        <span class="select2 select2-container select2-container--default"
-                              dir="ltr"
-                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-accounttransactionsearch-transaction_purpose_id-container"><span class="select2-selection__rendered"
-      id="select2-accounttransactionsearch-transaction_purpose_id-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </td>
-                      <td>
-                        <select id="accounttransactionsearch-searchuserid"
-                                class="form-control select2-hidden-accessible"
-                                name="AccountTransactionSearch[searchUserId]"
-                                data-s2-options="s2options_7ebc6538"
-                                data-krajee-select2="select2_ea5d4d6f"
-                                style="display:none"
-                                tabindex="-1"
-                                aria-hidden="true">
-                          <option value=""></option>
-                          <option value="174">Полищук</option>
-                          <option value="193">Запашный</option>
-                          <option value="10">Громов Павел</option>
-                          <option value="3">Булгаков Михаил Афанасьевич</option>
-                          <option value="224">Тарасюк</option>
-                          <option value="2">Иванов Иван  Сидорович</option>
-                          <option value="5">Купер Джеймс Фенимор</option>
-                          <option value="1">Лисенко Павел Михайлович</option>
-                          <option value="228">Зеленський Володимир Олександрович</option>
-                          <option value="232">Хома Михайло Степанович</option>
-                          <option value="233">Пилипчук Юлія Андріївна</option>
-                          <option value="234">Олександрааа Олександраа Олександрівнаа</option>
-                          <option value="240">Yuraу Matsakу Vladimirovichу</option>
-                          <option value="244">Віка Вік Вікторівна</option>
-                          <option value="247">Маркушин Марк Степанович</option>
-                          <option value="246">Пантелеєв Іван Іванович</option>
-                          <option value="248">Власник 1 Власник 1</option>
-                          <option value="249">Власник 2</option>
-                          <option value="250">Власник 3</option>
-                          <option value="239">Букатов Никита Александрович</option>
-                          <option value="257">Любов Антон</option>
-                          <option value="264">Романенко Влада Олеговна</option>
-                          <option value="229">onufriienko</option>
-                          <option value="266">Мазуров Степан Петрович</option>
-                          <option value="267">Куджо Джотаро Жожович</option>
-                          <option value="6">Кант Иммануил</option>
-                          <option value="265">Зеленська Олена Володимирiвна</option>
-                          <option value="251">Тестерович Данил Сергеевич</option>
-                          <option value="275">Yurka Yurii Yurievich</option>
-                          <option value="226">Мороз Яна  Вікторівна</option>
-                          <option value="242">Смирнов Павел Викторович</option>
-                          <option value="180">Кучма</option>
-                          <option value="278">Світланенко Руслан Васильович</option>
-                          <option value="280">Тест Тест</option>
-                          <option value="285">Миколаїв Микола 2 Миколайович</option>
-                          <option value="286">rfgtrf.n@gmail.com</option>
-                          <option value="274">Стартовий Олег Олегович</option>
-                          <option value="260">Просто  Саша Вікторівна</option>
-                          <option value="294">Любитель Макс Максимович</option>
-                          <option value="230">Потапенко Іван Степанович</option>
-                          <option value="298">Єй Я Й</option>
-                          <option value="299">Безпроблемний Іван</option>
-                          <option value="231">Прокопенко Іван Степанович</option>
-                          <option value="227">Полько Марк  Володимирович</option>
-                          <option value="302">Первый рембо анатольевич</option>
-                          <option value="303">Атаманчук Петр Алексеевич</option>
-                          <option value="304">чорний чорнявий</option>
-                          <option value="305">Мазурова Вероника Андреевна</option>
-                          <option value="306">Борисов Влад Денисович</option>
-                          <option value="307">Андрей Триска</option>
-                          <option value="315">Мартынов Олег Батькович</option>
-                          <option value="320">Огурцов Игорь Викторович</option>
-                          <option value="319">Елена Шаренко</option>
-                          <option value="322">Огурцов Миша Игоревич</option>
-                          <option value="329">Чернецкий Никита</option>
-                          <option value="330">Владимиров Артем</option>
-                          <option value="332">Булкин Аркадий Ефграфович</option>
-                          <option value="331">Таранюк  Катерина Миколаївна</option>
-                          <option value="334">Дрозд Ангелина Власовна</option>
-                          <option value="353">Орлов Денис Олегович</option>
-                        </select>
-                        <span class="select2 select2-container select2-container--default"
-                              dir="ltr"
-                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-accounttransactionsearch-searchuserid-container"><span class="select2-selection__rendered"
-      id="select2-accounttransactionsearch-searchuserid-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </td>
-                      <td>
-                        <input type="text"
-                               class="form-control"
-                               name="AccountTransactionSearch[searchAccountUid]" />
-                      </td>
-                      <td>
-                        <select id="accounttransactionsearch-type"
-                                class="form-control select2-hidden-accessible"
-                                name="AccountTransactionSearch[type]"
-                                data-s2-options="s2options_7ebc6538"
-                                data-krajee-select2="select2_0d896465"
-                                style="display:none"
-                                tabindex="-1"
-                                aria-hidden="true">
-                          <option value=""></option>
-                          <option value="in">Приход</option>
-                          <option value="out">Расход</option>
-                        </select>
-                        <span class="select2 select2-container select2-container--default"
-                              dir="ltr"
-                              style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-accounttransactionsearch-type-container"><span class="select2-selection__rendered"
-      id="select2-accounttransactionsearch-type-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr data-href="/admin/account-transaction/2503" data-key="2503">
-                      <td>27042502503</td>
-                      <td>27.04.2025</td>
-                      <td>Проведен</td>
-                      <td>Бытовые расходы</td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="text text-red">Расход</span>
-                      </td>
-                      <td>
-                        <span class="text-red">-1 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2503"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2503"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2493" data-key="2493">
-                      <td>22042502493</td>
-                      <td>22.04.2025</td>
-                      <td>Проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Орлов Денис Олегович</td>
-                      <td>22042500668</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">10 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2493"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2493"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2492" data-key="2492">
-                      <td>18042502492</td>
-                      <td>18.04.2025</td>
-                      <td>Проведен</td>
-                      <td>Прочее</td>
-                      <td>Дрозд Ангелина Власовна</td>
-                      <td>СТ-0001</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">125.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2492"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2492"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2490" data-key="2490">
-                      <td>15042502490</td>
-                      <td>15.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Вывоз мусора</td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="text text-red">Расход</span>
-                      </td>
-                      <td>
-                        <span class="text-red">-1 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2490"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2490"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2487" data-key="2487">
-                      <td>15042502487</td>
-                      <td>15.04.2025</td>
-                      <td>Проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Дрозд Ангелина Власовна</td>
-                      <td>АВ-0003</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">4 025.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2487"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2487"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2485" data-key="2485">
-                      <td>15042502484</td>
-                      <td>15.04.2025</td>
-                      <td>Проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Дрозд Ангелина Власовна</td>
-                      <td>СТ-0001</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">4 300.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2485"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2485"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2479" data-key="2479">
-                      <td>14042502479</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Оплата за паркоместо</td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2479"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2479"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2478" data-key="2478">
-                      <td>14042502478</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Оплата за паркоместо</td>
-                      <td>Мороз Яна  Вікторівна</td>
-                      <td>14042500662</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2478"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2478"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2477" data-key="2477">
-                      <td>14042502477</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Елена Шаренко</td>
-                      <td>14042500663</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">1 876.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2477"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2477"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2476" data-key="2476">
-                      <td>14042502476</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Мороз Яна  Вікторівна</td>
-                      <td>14042500662</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">2 350.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2476"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2476"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2475" data-key="2475">
-                      <td>14042502475</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Оплата за паркоместо</td>
-                      <td>Романенко Влада Олеговна</td>
-                      <td>0001234567</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2475"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2475"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2474" data-key="2474">
-                      <td>14042502474</td>
-                      <td>14.04.2025</td>
-                      <td>Не проведен</td>
-                      <td>Оплата за паркоместо</td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2474"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2474"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2483" data-key="2483">
-                      <td>15042502483</td>
-                      <td>14.03.2025</td>
-                      <td>Не проведен</td>
-                      <td>Оплата за паркоместо</td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="not-set">(не задано)</span>
-                      </td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2483"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2483"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2482" data-key="2482">
-                      <td>15042502482</td>
-                      <td>14.03.2025</td>
-                      <td>Не проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Елена Шаренко</td>
-                      <td>14042500663</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">5 000.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2482"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2482"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr data-href="/admin/account-transaction/2481" data-key="2481">
-                      <td>15042502481</td>
-                      <td>14.03.2025</td>
-                      <td>Не проведен</td>
-                      <td>Коммунальный платёж</td>
-                      <td>Мороз Яна  Вікторівна</td>
-                      <td>14042500662</td>
-                      <td>
-                        <span class="text text-green">Приход</span>
-                      </td>
-                      <td>
-                        <span class="text-green">2 600.00</span>
-                      </td>
-                      <td>
-                        <div class="btn-group pull-right">
-                          <a class="btn btn-default btn-sm"
-                             href="/admin/account-transaction/update/2481"
-                             title="Редактировать"
-                             data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-    href="/admin/account-transaction/delete/2481"
-    title="Удалить"
-    data-toggle="tooltip"
-    data-pjax="0"
-    data-method="post"
-    data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="box-footer clearfix"></div>
+              <form method="post">
+                {% csrf_token %}
+                <div class="box-body table-responsive no-padding">
+                  <table class="table table-bordered table-hover table-striped linkedRow">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Тип платежа</th>
+                        <th>Владелец</th>
+                        <th>Лицевой счёт</th>
+                        <th>Приход/расход</th>
+                        <th>Сумма (грн)</th>
+                        <th></th>
+                      </tr>
+                      <tr class="filters">
+                        <th>{{ form.cash_box_number }}</th>
+                        <th>{{ form.date }}</th>
+                        <th>{{ form.is_conducted }}</th>
+                        <th>{{ form.payment_article }}</th>
+                        <th>{{ form.owner }}</th>
+                        <th>{{ form.personal_account_number }}</th>
+                        <th>{{ form.record_type }}</th>
+                        <th>{{ form.suma }}</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </form>
+              <table id="cashbox_list"
+                     class="table table-bordered table-hover table-striped linkedRow">
+                <thead>
+                  <tr>
+                    <th>№</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
+                    <th>Тип платежа</th>
+                    <th>Владелец</th>
+                    <th>Лицевой счёт</th>
+                    <th>Приход/расход</th>
+                    <th>Сумма (грн)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+              </table>
             </div>
             <div class="box-footer">
               <div>
-                Проведен приход: <span class="text-bold">18 450.00 грн</span>
+                Проведен приход: <span class="text-bold income-value">0 грн</span>
               </div>
               <div>
-                Проведен расход: <span class="text-bold">16 306.00 грн</span>
+                Проведен расход: <span class="text-bold expense-value">0 грн</span>
+              </div>
+              <div>
+                Баланс: <span class="text-bold balance-value">0 грн</span>
               </div>
             </div>
           </div>
@@ -742,4 +150,117 @@
       </div>
     </section>
   </div>
-{% endblock %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      let table = $('#cashbox_list').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: false,
+        lengthChange: false,
+        pageLength: 50,
+        ajax: {
+          url: "{% url 'admin:cashbox_list' %}",
+          type: "POST",
+          data: function(d) {
+            d.cash_box_number = $('#id_cash_box_number').val();
+            d.date = $('#id_date').val();
+            d.is_conducted = $('#id_is_conducted').val();
+            d.payment_article = $('#id_payment_article').val();
+            d.owner = $('#id_owner').val();
+            d.personal_account_number = $('#id_personal_account_number').val();
+            d.record_type = $('#id_record_type').val();
+            d.suma = $('#id_suma').val();
+          },
+          dataSrc: function(json) {
+            if (json.total_income !== undefined && json.total_expense !== undefined) {
+              const balance = json.balance ?? (json.total_income - json.total_expense);
+              $('.income-total').text(json.total_income.toLocaleString('uk-UA', {
+                minimumFractionDigits: 2
+              }) + ' грн');
+              $('.expense-total').text(json.total_expense.toLocaleString('uk-UA', {
+                minimumFractionDigits: 2
+              }) + ' грн');
+              $('.cashbox-total').text(balance.toLocaleString('uk-UA', {
+                minimumFractionDigits: 2
+              }) + ' грн');
+            }
+            return json.data;
+          }
+        },
+        columns: [{
+          data: 'cash_box_number'
+        }, {
+          data: 'date'
+        }, {
+          data: 'is_conducted'
+        }, {
+          data: 'payment_articles__name'
+        }, {
+          data: 'owner_full_name'
+        }, {
+          data: 'personal_account__account_number'
+        }, {
+          data: 'payment_articles__record_type'
+        }, {
+          data: 'suma'
+        }, {
+          data: 'actions'
+        }]
+      });
+
+      $('.filters input, .filters select').on('change keyup paste', function() {
+        table.ajax.reload(null, false);
+      });
+
+      $('#cashbox_list tbody').on('click', 'tr', function(e) {
+        if ($(e.target).closest('a, button, input').length) return;
+        let data = table.row(this).data();
+        if (!data || !data.id) return;
+        window.location.href = '/admin/cashbox/cashbox_card/' + data.id + '/';
+      });
+
+      $('#export_excel').on('click', function(e) {
+        e.preventDefault();
+        let ids = getFilteredIds();
+        if (!ids.length) {
+          alert("Нет данных для выгрузки");
+          return;
+        }
+        let url = "{% url 'admin:cash_box_list' %}?ids=" + encodeURIComponent(ids.join(','));
+        window.location.href = url;
+      });
+
+      function updateLocalStats() {
+        if (!table) return;
+        let income = 0,
+          expense = 0;
+        const visibleData = table.rows({
+          page: 'current'
+        }).data();
+        for (let i = 0; i < visibleData.length; i++) {
+          const row = visibleData[i];
+          const type = row.payment_articles__record_type?.toLowerCase() || "";
+          const suma = parseFloat(row.suma) || 0;
+          if (type.includes("приход")) income += suma;
+          else if (type.includes("расход")) expense += suma;
+        }
+        const balance = income - expense;
+        $('.income-value').text(income.toLocaleString('uk-UA', {
+          minimumFractionDigits: 2
+        }) + ' грн');
+        $('.expense-value').text(expense.toLocaleString('uk-UA', {
+          minimumFractionDigits: 2
+        }) + ' грн');
+        $('.balance-value').text(balance.toLocaleString('uk-UA', {
+          minimumFractionDigits: 2
+        }) + ' грн');
+      }
+      $('#cashbox_list').on('draw.dt', updateLocalStats);
+    });
+  </script>
+{% endblock content %}

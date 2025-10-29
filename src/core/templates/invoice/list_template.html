@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+<style>
+  .content-minheight {
+    min-height: 876px;
+  }
+</style>
+{% block content %}
+  <div class="content-wrapper content-minheight">
+    <section class="content-header">
+      <h1>Печатная форма документа</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:invoice' %}">Квитанции</a>
+        </li>
+        <li class="active">Печатная форма документа</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Список шаблонов</h3>
+          <div class="box-tools">
+            <a href="{% url 'admin:add_template' %}" class="btn btn-default btn-sm">
+              <span class="hidden-xs">Настройка шаблонов</span>
+              <i class="fa fa-file-text visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="box-body">
+          <form id="template-form" action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-xs-12 col-sm-7 col-lg-4">
+                {% for t in templates %}
+                  <div class="form-group">
+                    <div class="radio">
+                      <label for="template_{{ t.id }}">
+                        <input type="radio"
+                               id="template_{{ t.id }}"
+                               name="template_id"
+                               value="{{ t.id }}"
+                               data-filename="{{ t.file.name }}"
+                               {% if t.is_default %}checked{% endif %} />
+                        {{ t.name }}
+                      </label>
+                    </div>
+                  </div>
+                {% empty %}
+                  <p>Нет доступных шаблонов.</p>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <button type="button"
+                          class="btn btn-primary"
+                          onclick="downloadTemplate('{{ invoice.id }}')">Скачать квитанцию</button>
+                  <a href="{% url 'admin:invoice_send_email' invoice_id=invoice.id %}"
+                     class="btn btn-default btn-sm">
+                    <span class="hidden-xs">Отправить на e-mail</span>
+                    <i class="fa fa-envelope-o visible-xs" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    const DOWNLOAD_URL_BASE = "{% url 'admin:download_invoice_excel' invoice_id=0 %}";
+
+    function downloadTemplate(invoiceId) {
+      if (!invoiceId || invoiceId === 'None' || invoiceId === '0') {
+        alert('Ошибка: ID счета не найден. Обновите страницу или свяжитесь с администратором.');
+        return;
+      }
+
+      const checkedTemplate = document.querySelector('input[name="template_id"]:checked');
+      if (!checkedTemplate) {
+        alert('Пожалуйста, выберите шаблон!');
+        return;
+      }
+
+      const templateFilename = checkedTemplate.getAttribute('data-filename');
+      if (!templateFilename) {
+        alert('Ошибка: Не удалось получить имя файла шаблона.');
+        return;
+      }
+
+      let downloadUrl = DOWNLOAD_URL_BASE.replace('/0/', `/${invoiceId}/`);
+      downloadUrl += `?template=${encodeURIComponent(templateFilename)}`;
+      window.location.href = downloadUrl;
+    }
+  </script>
+{% endblock content %}

@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper min-height-876">
+    <section class="content-header">
+      <h1>Показание счетчикa</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:counters' %}">Счетчики</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:counter_list' %}?CounterDataSearch%5Bflat_id%5D={{ counter.apartment.id }}&CounterDataSearch%5Bservice_id%5D={{ counter.service.id }}">
+            Показания счетчиков, кв.{{ counter.apartment.apartment_number }}
+          </a>
+        </li>
+        <li class="active">Показание счетчикa №{{ counter.counter_number }}</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-6">
+          <div class="page-header-spec">
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">№</div>
+                <div class="form-control pull-right">{{ counter.counter_number }}</div>
+              </div>
+            </div>
+            <span class="label-mid">от</span>
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </div>
+                <div class="form-control pull-right">{{ counter.date|date:"d.m.Y" }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+          <div class="box-tools">
+            <a href="{% url 'admin:counters_update' counter.id %}"
+               class="btn btn-primary btn-sm">
+              <span class="hidden-xs">Редактировать показание</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-xs-12 col-lg-4">
+              <table class="table table-bordered table-striped table-view">
+                <tbody>
+                  <tr>
+                    <td>Счетчик</td>
+                    <td>{{ counter.service.name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Дом</td>
+                    <td>
+                      <a href="{% url 'admin:house_card' counter.apartment.house.id %}">{{ counter.apartment.house.title }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Секция</td>
+                    <td>{{ counter.apartment.section.name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Квартира</td>
+                    <td>
+                      <a href="{% url 'admin:card_flat' counter.apartment.id %}">{{ counter.apartment.apartment_number }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Пользователь</td>
+                    <td>
+                      <a href="{% url 'admin:card_user' counter.apartment.user.id %}">{{ counter.apartment.user.full_name }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Текущие показания</td>
+                    <td>{{ counter.meter_reading }}</td>
+                  </tr>
+                  <tr>
+                    <td>Ед. изм.</td>
+                    <td>{{ counter.service.unit.name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Статус</td>
+                    <td>
+                      <small class="label label-warning">{{ counter.get_status_display }}</small>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

@@ -1,94 +1,122 @@
 {% extends 'index.html' %}
 
+{% load static %}
+
 {% block content %}
-<div class="content-wrapper">
+  <div class="content-wrapper">
     <section class="content-header">
-        <h1>Новый пользователь</h1>
-        <ul class="breadcrumb">
-            <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
-            <li><a href="{% url 'admin:user-admin' %}">Пользователи</a></li>
-            <li class="active">Новый пользователь</li>
-        </ul>
+      <h1>Новый пользователь</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:user_admin' %}">Пользователи</a>
+        </li>
+        <li class="active">Новый пользователь</li>
+      </ul>
     </section>
-
     <section class="content">
-        <div class="box">
-            <div class="box-body">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                {{ form.first_name.label_tag }}
-                                {{ form.first_name }}
-                                {{ form.first_name.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.last_name.label_tag }}
-                                {{ form.last_name }}
-                                {{ form.last_name.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.phone.label_tag }}
-                                {{ form.phone }}
-                                {{ form.phone.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.role.label_tag }}
-                                {{ form.role }}
-                                {{ form.role.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.status.label_tag }}
-                                {{ form.status }}
-                                {{ form.status.errors }}
-                            </div>
-                        </div>
-
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                {{ form.email.label_tag }}
-                                {{ form.email }}
-                                {{ form.email.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.password.label_tag }}
-                                <div class="input-group">
-                                    {{ form.password }}
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"
-                                                onclick="generatePassword('.pass-value')">Сгенерировать</button>
-                                        <button type="button" class="btn btn-primary" id="showPass">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                {{ form.password.errors }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.password2.label_tag }}
-                                {{ form.password2 }}
-                                {{ form.password2.errors }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-12 text-right">
-                            <a href="{% url 'admin:user-admin' %}"
-                               class="btn btn-default">Отменить</a>
-                            <button type="submit" class="btn btn-success">Сохранить</button>
-                        </div>
-                    </div>
-                </form>
-                <script>
-                  function generatePassword(targetSelector) {
-                      var pass = Math.random().toString(36).substring(4);
-                      document.querySelectorAll(targetSelector).forEach(el => el.value = pass);
-                  }
-                </script>
+      <div class="box">
+        <div class="box-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                  {{ form.first_name.label_tag }}
+                  {{ form.first_name }}
+                  {{ form.first_name.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.last_name.label_tag }}
+                  {{ form.last_name }}
+                  {{ form.last_name.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.email.label_tag }}
+                  {{ form.email }}
+                  {{ form.email.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.phone.label_tag }}
+                  {{ form.phone }}
+                  {{ form.phone.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.role.label_tag }}
+                  {{ form.role }}
+                  {{ form.role.errors }}
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                  {{ form.status.label_tag }}
+                  {{ form.status }}
+                  {{ form.status.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.password.label_tag }}
+                  <div class="input-group">
+                    {{ form.password }}
+                    <span class="input-group-btn">
+                      <button class="btn btn-default"
+                              type="button"
+                              onclick="generatePassword(this)">Сгенерировать</button>
+                      <button type="button" class="btn btn-primary" onclick="togglePasswords(this)">
+                        <i class="fa fa-eye"></i>
+                      </button>
+                    </span>
+                  </div>
+                  {{ form.password.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.password2.label_tag }}
+                  {{ form.password2 }}
+                  {{ form.password2.errors }}
+                </div>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <a href="{% url 'admin:user_admin' %}" class="btn btn-default">Отменить</a>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </section>
-</div>
-{% endblock %}
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const pass1 = document.querySelector('input[name="password"]');
+      const pass2 = document.querySelector('input[name="password2"]');
+      if (pass1) pass1.classList.add('pass-value');
+      if (pass2) pass2.classList.add('pass-value');
+    });
+
+    function generatePassword(button) {
+      const pass = Math.random().toString(36).slice(-8);
+      document.querySelectorAll('.pass-value').forEach(el => el.value = pass);
+    }
+
+    function togglePasswords(button) {
+      const icon = button.querySelector('i');
+      const inputs = document.querySelectorAll('.pass-value');
+
+      let showing = false;
+      inputs.forEach(input => {
+        if (input.type === 'password') {
+          input.type = 'text';
+          showing = true;
+        } else {
+          input.type = 'password';
+        }
+      });
+
+      icon.classList.toggle('fa-eye', !showing);
+      icon.classList.toggle('fa-eye-slash', showing);
+    }
+  </script>
+{% endblock content %}

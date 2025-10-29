@@ -1,0 +1,58 @@
+<div class="col-lg-3">
+  <div class="row">
+    <div class="col-md-6 col-lg-12">
+      <div class="box">
+        <div class="box-body box-profile">
+          {% if user.image %}
+            <img class="profile-user-img img-responsive img-circle"
+                 src="{{ user.image.url }}?w=160&amp;h=160&amp;fit=crop"
+                 alt="Аватар" />
+          {% else %}
+            <img class="profile-user-img img-responsive img-circle"
+                 src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FUser%2F2%2Favatar.jpg&amp;w=160&amp;h=160&amp;fit=crop"
+                 alt="Аватар" />
+          {% endif %}
+          <h3 class="profile-username text-center">
+            {% if user.full_name %}
+              {{ user.full_name }}
+            {% else %}
+              <p>Повне ім'я не вказано.</p>
+            {% endif %}
+          </h3>
+          <p class="text-muted text-center">Владелец квартиры</p>
+          <ul class="list-group list-group-unbordered">
+            <li class="list-group-item">
+              <span>Телефон</span>
+              <span class="pull-right">{{ user.phone }}</span>
+            </li>
+            <li class="list-group-item">
+              <span>Viber</span>
+              <span class="pull-right">
+                {% if user.viber %}{{ user.viber }}{% endif %}
+              </span>
+            </li>
+            <li class="list-group-item">
+              <span>Telegram</span>
+              <span class="pull-right">
+                {% if user.telegram %}{{ user.telegram }}{% endif %}
+              </span>
+            </li>
+            <li class="list-group-item">
+              <span>Email</span>
+              <span class="pull-right">{{ user.email }}</span>
+            </li>
+          </ul>
+          <a href="{% url 'update_profile' user.pk %}"
+             class="btn btn-primary btn-block">Изменить</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-12">
+      <h3 class="page-header">Обо мне (заметки)</h3>
+      <div class="box">
+        <div class="box-body box-profile">{{ user.description }}</div>
+      </div>
+    </div>
+    <!-- /.box-body -->
+  </div>
+</div>

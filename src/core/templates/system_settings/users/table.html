@@ -1,78 +1,180 @@
 {% extends "index.html" %}
+
 {% load static %}
 
 {% block content %}
+  <style>
+    .label {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+    }
 
-<link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    .label-success {
+      background-color: #28a745;
+    }
 
-<div class="content-wrapper" style="min-height: 839px;">
+    .label-danger {
+      background-color: #dc3545;
+    }
+
+    .label-warning {
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    .content-wrapper-min {
+      min-height: 839px;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <div class="content-wrapper content-wrapper-min">
     <section class="content-header">
-        <h1>Пользователи</h1>
-        <ul class="breadcrumb">
-            <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
-            <li class="active">Пользователи</li>
-        </ul>
-        <div class="pull-right margin-bottom">
-            <a class="btn btn-success" href="{% url 'admin:create_staff' %}">Создать пользователя</a>
-        </div>
+      <h1>Пользователи</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Пользователи</li>
+      </ul>
     </section>
-
     <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-body table-responsive no-padding">
-                        <table id="user_table"
-                               class="table table-bordered table-hover table-striped linkedRow"  >
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Пользователь</th>
-                                    <th>Роль</th>
-                                    <th>Телефон</th>
-                                    <th>Email (логин)</th>
-                                    <th>Статус</th>
-                                    <th>Действия</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="{% url 'admin:create_staff' %}">Создать пользователя</a>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="box">
+          <div class="box-header with-border">
+            <div class="box-tools">
+              <a href="{% url 'admin:user_admin_index' %}"
+                 class="btn btn-default btn-sm">
+                <span class="hidden-xs">Очистить</span>
+                <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="box-body table-responsive no-padding">
+            <table id="staff_user_table"
+                   class="table table-bordered table-hover table-striped linkedRow w-100">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Пользователь</th>
+                  <th>Роль</th>
+                  <th>Телефон</th>
+                  <th>Email (логин)</th>
+                  <th>Статус</th>
+                  <th>Действия</th>
+                </tr>
+                <tr class="filters">
+                  <th></th>
+                  <th>
+                    <input type="text" class="form-control input-sm" placeholder="Имя" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control input-sm" placeholder="Роль" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control input-sm" placeholder="Телефон" />
+                  </th>
+                  <th>
+                    <input type="text" class="form-control input-sm" placeholder="Email" />
+                  </th>
+                  <th>
+                    <select class="form-control input-sm">
+                      <option value="">Все</option>
+                      <option value="new">Новый</option>
+                      <option value="work">Активный</option>
+                      <option value="done">Отключен</option>
+                    </select>
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
     </section>
-</div>
+  </div>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+  <script>
+    (function($) {
+      $(document).ready(function() {
+        var table = $('#staff_user_table').DataTable({
+          processing: true,
+          searching: false,
+          lengthChange: false,
+          serverSide: true,
+          pageLength: 50,
+          ajax: {
+            url: "{% url 'admin:user_list_ajax' %}",
+            type: "POST",
+            data: function(d) {
+              d.csrfmiddlewaretoken = '{{ csrf_token }}';
+            }
+          },
+          columns: [{
+            data: "row_number",
+            orderable: false
+          }, {
+            data: "full_name",
+            searchable: true,
+            orderable: false
+          }, {
+            data: "role"
+          }, {
+            data: "phone"
+          }, {
+            data: "email"
+          }, {
+            data: "status"
+          }, {
+            data: "actions",
+            orderable: false
+          }],
+          order: [
+            [4, "asc"]
+          ],
+          initComplete: function() {
+            var api = this.api();
 
-<!-- Скрипты -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="{% static 'admin/dist/js/main.js' %}"></script>
-<script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+            api.columns().every(function() {
+              var column = this;
+              $('input, select', $('.filters th').eq(column.index()))
+                .on('keyup change clear', function() {
+                  if (column.search() !== this.value) {
+                    column.search(this.value).draw();
+                  }
+                });
+            });
 
-<script>
-(function($) {
-    $(document).ready(function() {
-
-        if (typeof $.fn.DataTable === 'undefined') {
-            console.error('DataTables не загружен!');
-            return;
-        }
-
-        AjaxDatatableViewUtils.initialize_table(
-            $('#user_table'),
-            "{% url 'admin:user_list_ajax' %}",
-            {
-                processing: true,
-                autoWidth: false,
-                searching: false,
-                lengthChange: false
-            },
-            {}
-        );
-    });
-})(jQuery);
-</script>
-
-{% endblock %}
+            $('#staff_user_table tbody')
+              .css('cursor', 'pointer')
+              .on('click', 'tr', function(e) {
+                if ($(e.target).closest('.btn').length) return;
+                var data = api.row(this).data();
+                if (data && data.row_url) window.location.href = data.row_url;
+              })
+              .on('mouseenter', 'tr', function() {
+                $(this).addClass('table-active');
+              })
+              .on('mouseleave', 'tr', function() {
+                $(this).removeClass('table-active');
+              });
+          }
+        });
+      });
+    })(jQuery);
+  </script>
+{% endblock content %}

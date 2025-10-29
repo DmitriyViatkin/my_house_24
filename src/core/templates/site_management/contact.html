@@ -1,6 +1,9 @@
 {% extends "index.html" %}
 
+{% load static %}
+
 {% block content %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
   <div class="content-wrapper">
     <section class="content-header">
       <h1>Редактирование страницы</h1>
@@ -19,271 +22,80 @@
               <h3 class="box-title">Редактирование страницы "Контакты"</h3>
             </div>
             <div class="box-body">
-              <form id="w0" action="{% url 'edit_contact_page' %}" method="post">
-                <input type="hidden"
-                       name="_csrf-backend"
-                       value="XvkVafzCoR8LHF_jEn4UcsCq1-d1vQNJm-tSCy2AOQPyk8bj_T5UEZ4PpdCPDnL-VrDFd7gvUxlG9QvRe42gg==" />
+              <form id="w0" method="post">
+                {% csrf_token %}
+                {{ contact_form.media }}
                 <div class="row">
                   <div class="col-xs-12 col-md-8">
                     <h3 class="page-header">Контактная информация</h3>
-                    <div class="form-group field-websitecontactform-contacttitle">
-                      <label class="control-label" for="websitecontactform-contacttitle">Заголовок</label>
-                      <input type="text"
-                             id="websitecontactform-contacttitle"
-                             class="form-control"
-                             name="WebsiteContactForm[contactTitle]"
-                             value=" ❤️❤️❤️" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.title.id_for_label }}">Заголовок</label>
+                      {{ contact_form.title }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactdescription">
-                      <label class="control-label" for="websitecontactform-contactdescription">Краткий текст</label>
-                      <ul class="wysihtml5-toolbar">
-                        <li class="dropdown">
-                          <a class="btn btn-default dropdown-toggle btn-none"
-                             data-toggle="dropdown">
-                            <span class="fa fa-font"></span>
-                            <span class="current-font">Обычный текст</span>
-                            <b class="caret"></b>
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="p"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Обычный текст</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h1"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 1</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h2"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 2</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h3"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 3</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h4"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 4</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h5"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 5</a>
-                            </li>
-                            <li>
-                              <a data-wysihtml5-command="formatBlock"
-                                 data-wysihtml5-command-value="h6"
-                                 tabindex="-1"
-                                 href="javascript:;"
-                                 unselectable="on">Заголовок 6</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <div class="btn-group">
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="bold"
-                               title="CTRL+B"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">Полужирный</a>
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="italic"
-                               title="CTRL+I"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">Курсив</a>
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="underline"
-                               title="CTRL+U"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">Подчёркнутый</a>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="btn-group">
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="insertUnorderedList"
-                               title="Маркированный список"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">
-                              <span class="fa fa-list-ul"></span>
-                            </a>
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="insertOrderedList"
-                               title="Нумерованный список"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">
-                              <span class="fa fa-list-ol"></span>
-                            </a>
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="Outdent"
-                               title="Уменьшить отступ"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">
-                              <span class="fa fa-outdent"></span>
-                            </a>
-                            <a class="btn btn-none btn-default"
-                               data-wysihtml5-command="Indent"
-                               title="Увеличить отступ"
-                               tabindex="-1"
-                               href="javascript:;"
-                               unselectable="on">
-                              <span class="fa fa-indent"></span>
-                            </a>
-                          </div>
-                        </li>
-                      </ul>
-                      <textarea id="websitecontactform-contactdescription"
-                                class="compose-textarea form-control"
-                                name="WebsiteContactForm[contactDescription]"
-                                style="display: none"
-                                placeholder="Текст сообщения"><p><b></b><b></b><b></b>Р<b></b><u></u>азработчиком системы&nbsp;"Мой Дом 24" является компания AVADA-MEDIA -&nbsp;наша компания, специализируется на разработке web и мобильных п<b></b><u></u>риложений разного уровня сложности, но неизменно высокого качества!!!<br /></p><p><b><i>Официальный сайт компании -&nbsp;</i></b><a target="_blank" rel="nofollow" href="https://avada-media.ua/"><b><i></i></b><u></u>https://avada-media.ua/</a></p><p><b></b></p></textarea>
-                      <input type="hidden" name="_wysihtml5_mode" value="1" />
-                      <iframe class="wysihtml5-sandbox"
-                              security="restricted"
-                              allowtransparency="true"
-                              frameborder="0"
-                              width="0"
-                              height="0"
-                              marginwidth="0"
-                              marginheight="0"></iframe>
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label"
+                             for="{{ contact_form.description.id_for_label }}">Краткий текст</label>
+                      {{ contact_form.description }}
                     </div>
-                    <div class="form-group field-websitecontactform-contacturlsite">
-                      <label class="control-label" for="websitecontactform-contacturlsite">Ссылка на коммерческий сайт</label>
-                      <input type="text"
-                             id="websitecontactform-contacturlsite"
-                             class="form-control"
-                             name="WebsiteContactForm[contactUrlSite]"
-                             value="https://avada-media.ua/moydom24/" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.url.id_for_label }}">Ссылка на коммерческий сайт</label>
+                      {{ contact_form.url }}
                     </div>
                   </div>
                   <div class="col-xs-12 col-md-4">
                     <h3 class="page-header">Контакты</h3>
-                    <div class="form-group field-websitecontactform-contactfullname">
-                      <label class="control-label" for="websitecontactform-contactfullname">ФИО</label>
-                      <input type="text"
-                             id="websitecontactform-contactfullname"
-                             class="form-control"
-                             name="WebsiteContactForm[contactFullname]"
-                             value="AVADA-MEDIА" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.full_name.id_for_label }}">ФИО</label>
+                      {{ contact_form.full_name }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactlocation">
-                      <label class="control-label" for="websitecontactform-contactlocation">Локация</label>
-                      <input type="text"
-                             id="websitecontactform-contactlocation"
-                             class="form-control"
-                             name="WebsiteContactForm[contactLocation]"
-                             value="ул. Космонавтов, 32" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.location.id_for_label }}">Локация</label>
+                      {{ contact_form.location }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactaddress">
-                      <label class="control-label" for="websitecontactform-contactaddress">Адрес</label>
-                      <input type="text"
-                             id="websitecontactform-contactaddress"
-                             class="form-control"
-                             name="WebsiteContactForm[contactAddress]"
-                             value="Малиновский р-н, г. Одесса" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.address.id_for_label }}">Адрес</label>
+                      {{ contact_form.address }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactphone">
-                      <label class="control-label" for="websitecontactform-contactphone">Телефон</label>
-                      <input type="text"
-                             id="websitecontactform-contactphone"
-                             class="form-control"
-                             name="WebsiteContactForm[contactPhone]"
-                             value="+38 (097) 179-96-63" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.phone.id_for_label }}">Телефон</label>
+                      {{ contact_form.phone }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactemail">
-                      <label class="control-label" for="websitecontactform-contactemail">E-mail</label>
-                      <input type="text"
-                             id="websitecontactform-contactemail"
-                             class="form-control"
-                             name="WebsiteContactForm[contactEmail]"
-                             value="info@avada-media.com.ua" />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.email.id_for_label }}">E-mail</label>
+                      {{ contact_form.email }}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-xs-12">
                     <h3 class="page-header">Карта</h3>
-                    <div class="form-group field-websitecontactform-contactmapembedcode">
-                      <label class="control-label" for="websitecontactform-contactmapembedcode">Код карты</label>
-                      <textarea id="websitecontactform-contactmapembedcode"
-                                class="form-control"
-                                name="WebsiteContactForm[contactMapEmbedCode]"
-                                rows="5"
-                                placeholder="Вставьте код карты сюда"><div style="width: 100%"><iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Odessa%20Ukraine%20Avada%20Media+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/distance-area-calculator.html">measure acres/hectares on map</a></iframe></div></textarea>
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ contact_form.map.id_for_label }}">Код карты</label>
+                      {{ contact_form.map }}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
                     <h3 class="page-header">Настройки SEO</h3>
-                    <div class="form-group field-websitecontactform-contactmetatitle">
-                      <label class="control-label" for="websitecontactform-contactmetatitle">Title</label>
-                      <input type="text"
-                             id="websitecontactform-contactmetatitle"
-                             class="form-control"
-                             name="WebsiteContactForm[contactMetaTitle]"
-                             value="Система "
-                             МОЙ
-                             ДОМ
-                             24
-                             "
-                             -
-                             Контакты
-                             " />
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ seo_form.title.id_for_label }}">Title</label>
+                      {{ seo_form.title }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactmetadescription">
-                      <label class="control-label" for="websitecontactform-contactmetadescription">Description</label>
-                      <textarea id="websitecontactform-contactmetadescription" class="form-control" name="WebsiteContactForm[contactMetaDescription]" rows="6">Украина, г. Одесса, Космонавтов, 32   Телефон, Viber: +38 097 179-96-63  Telegram: SergeyMeleshkevych  Skype: SergeyMeleshkevych
-</textarea>
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ seo_form.description.id_for_label }}">Description</label>
+                      {{ seo_form.description }}
                     </div>
-                    <div class="form-group field-websitecontactform-contactmetakeywords">
-                      <label class="control-label" for="websitecontactform-contactmetakeywords">Keywords</label>
-                      <textarea id="websitecontactform-contactmetakeywords"
-                                class="form-control"
-                                name="WebsiteContactForm[contactMetaKeywords]"
-                                rows="6">Система, МОЙ ДОМ 24, Контакт</textarea>
-                      <div class="help-block"></div>
+                    <div class="form-group">
+                      <label class="control-label" for="{{ seo_form.keyword.id_for_label }}">Keywords</label>
+                      {{ seo_form.keyword }}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-xs-12 text-center">
                     <div class="form-group">
-                      <a href="{% url 'edit_contact_page' %}" class="btn btn-default">Отменить</a>
+                      <a href="{% url 'admin:contact' %}" class="btn btn-default">Отменить</a>
                       <button type="submit" class="btn btn-success">Сохранить</button>
                     </div>
                   </div>
@@ -295,4 +107,22 @@
       </div>
     </section>
   </div>
+  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
+  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      $('#{{ contact_form.description.id_for_label }}').wysihtml5({
+        toolbar: {
+          "font-styles": true,
+          "emphasis": true,
+          "lists": true,
+          "html": true,
+          "link": true,
+          "image": true,
+          "color": true
+        },
+        locale: 'ru-RU'
+      });
+    });
+  </script>
 {% endblock content %}

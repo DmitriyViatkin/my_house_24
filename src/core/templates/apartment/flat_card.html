@@ -1,0 +1,118 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+<style>
+  .content-wrapper-min-height {
+    min-height: 876px;
+  }
+</style>
+{% block content %}
+  <div class="content-wrapper content-wrapper-min-height">
+    <section class="content-header">
+      <h1>Квартира № {{ apartment.apartment_number }}, {{ house.title }}</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:flat' %}">Квартиры</a>
+        </li>
+        <li class="active">Квартира № {{ apartment.apartment_number }}, {{ house.title }}</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Просмотр квартиры</h3>
+          <div class="box-tools">
+            <a href="{% url 'admin:create_transaction' type='in' account_id=apartment.account.id %}"
+               class="btn btn-default btn-sm">
+              <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'admin:create_invoice' flat_id=apartment.id %}"
+               class="btn btn-default btn-sm">
+              <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'admin:update_flat' apartment.id %}"
+               class="btn btn-primary btn-sm">
+              <span class="hidden-xs">Редактировать квартиру</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table table-bordered table-striped table-view">
+                <tbody>
+                  <tr>
+                    <td>Лицевой счет</td>
+                    <td>
+                      {% if apartment.account %}
+                        <a href="{% url 'admin:card' apartment.account.id %}">{{ apartment.account.account_number }}</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Номер квартиры</td>
+                    <td>{{ apartment.apartment_number }}</td>
+                  </tr>
+                  <tr>
+                    <td>Площадь</td>
+                    <td>
+                      {{ apartment.area }}м<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Дом</td>
+                    <td>
+                      <a href="{% url 'admin:house_card' house.id %}">{{ house.title }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Секция</td>
+                    <td>{{ section.name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Этаж</td>
+                    <td>{{ floor.name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Владелец</td>
+                    <td>
+                      <a href="{% url 'admin:user_card' owner.id %}">{{ owner.full_name }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Тариф</td>
+                    <td>
+                      {% if tariff %}
+                        <a href="{% url 'admin:card_tariff' tariff.id %}">{{ tariff.title }}</a>
+                      {% else %}
+                        Не выбран
+                      {% endif %}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <p>
+                  <a href="{% url 'admin:counter_list' %}?CounterDataSearch%5Bflat_id%5D={{ apartment.id }}">Посмотреть показания счетчиков</a>
+                </p>
+                <p>
+                  <a href="{% url 'admin:account_transaction_list' %}?AccountTransactionSearch%5Baccount_id%5D={{ apartment.account.id }}&AccountTransactionSearch%5Btype%5D=in">Посмотреть приходы</a>
+                </p>
+                <p>
+                  <a href="{% url 'admin:invoice_list' %}?InvoiceSearch%5Bflat_id%5D={{ apartment.id }}">Посмотреть квитанции</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

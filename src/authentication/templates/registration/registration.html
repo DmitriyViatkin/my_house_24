@@ -1,0 +1,180 @@
+{% load static %}
+{% load recaptcha3 %}
+
+<!DOCTYPE html>
+<html lang="ru-RU" class="full-height">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="icon"
+          type="image/png"
+          href="https://myhouse24.demodev.cc/favicon.png" />
+    <title>Вход</title>
+    <!-- CSS -->
+    <link href="{% static 'admin/bower_components/bootstrap/dist/css/bootstrap.min.css' %}"
+          rel="stylesheet" />
+    <link href="{% static 'admin/dist/css/AdminLTE.min.css' %}"
+          rel="stylesheet" />
+    <link href="{% static 'admin/plugins/iCheck/flat/blue.css' %}"
+          rel="stylesheet" />
+    <link href="{% static 'admin/custom.css' %}" rel="stylesheet" />
+    <style>
+      .full-height {
+        height: auto;
+        min-height: 100%;
+      }
+
+      .input-icon {
+        position: relative;
+      }
+
+      .input-icon input {
+        padding-right: 35px;
+      }
+
+      .input-icon i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 14px;
+      }
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Les2q8rAAAAAOvjjcz_-ninog2x-5IyRVKGrp3G"></script>
+    {% recaptcha_init %}
+  </head>
+  <body class="login-page full-height">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="https://myhouse24.demodev.cc/">
+          <img src="https://myhouse24.demodev.cc/logo.svg" alt="logo" />
+        </a>
+      </div>
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="{% if active_tab == 'cabinet' %}active{% endif %}">
+            <a href="#tab_1" data-toggle="tab">Для жильца</a>
+          </li>
+          <li class="{% if active_tab == 'admin' %}active{% endif %}">
+            <a href="#tab_2" data-toggle="tab">Для администрации</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <!-- Пользователь -->
+          <div class="tab-pane {% if active_tab == 'user' %}active{% endif %}"
+               id="tab_2">
+            <div class="login-box-body">
+              <p class="login-box-msg">Регистрация пользователя</p>
+              <form id="user-registration-form"
+                    action="{% url 'registration' %}"
+                    method="post"
+                    novalidate>
+                {% csrf_token %}
+                <!-- ФИО -->
+                <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">
+                  {{ form.full_name }}
+                  {% for error in form.full_name.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+                </div>
+                <!-- Email -->
+                <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                  {{ form.email }}
+                  {% for error in form.email.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+                </div>
+                <!-- Пароль -->
+                <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                  {{ form.password1 }}
+                  {% for error in form.password1.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+                </div>
+                <!-- Подтверждение пароля -->
+                <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+                  {{ form.password2 }}
+                  {% for error in form.password2.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+                </div>
+                <!-- Согласие с политикой -->
+                <div class="form-group {% if form.agree_privacy.errors %}has-error{% endif %}">
+                  <div class="checkbox">
+                    <label>
+                      {{ form.agree_privacy }}
+                      Я согласен с
+                      <a href="{% url 'private_policy' %}" target="_blank">политикой конфиденциальности</a>
+                    </label>
+                  </div>
+                  {% for error in form.agree_privacy.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+                </div>
+                <!-- Капча (если есть) -->
+                {{ form.captcha }}
+                <!-- Кнопка -->
+                <button type="submit"
+                        name="user_register"
+                        value="1"
+                        class="btn btn-success btn-block">Зарегистрироваться</button>
+              </form>
+            </div>
+          </div>
+          <!-- Админка -->
+          <div class="tab-pane {% if active_tab == 'admin' %}active{% endif %}"
+               id="tab_2"></div>
+        </div>
+      </div>
+    </div>
+    <!-- JS -->
+    <script src="{% static 'admin/assets/137cc266/jquery.js' %}"></script>
+    <script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script>
+      function submitWithRecaptcha(form, actionName) {
+        grecaptcha.ready(function() {
+          grecaptcha.execute("6Les2q8rAAAAAOvjjcz_-ninog2x-5IyRVKGrp3G", {
+            action: actionName
+          }).then(function(token) {
+
+            // Добавляем токен
+            let input = form.querySelector('input[name="g-recaptcha-response"]');
+            if (!input) {
+              input = document.createElement("input");
+              input.type = "hidden";
+              input.name = "g-recaptcha-response";
+              form.appendChild(input);
+            }
+            input.value = token;
+
+            // Добавляем "имя кнопки"
+            let btnField = form.querySelector('input[name="' + actionName + '"]');
+            if (!btnField) {
+              btnField = document.createElement("input");
+              btnField.type = "hidden";
+              btnField.name = actionName;
+              btnField.value = "1";
+              form.appendChild(btnField);
+            }
+
+            // DEBUG
+            let formData = new FormData(form);
+            for (let [name, value] of formData.entries()) {
+              console.log(name, "=", value);
+            }
+
+            // Отправляем
+            form.submit();
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const cabinetForm = document.getElementById('cabinet-login-form');
+        const adminForm = document.getElementById('admin-login-form');
+
+        cabinetForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          submitWithRecaptcha(cabinetForm, 'cabinet_login');
+        });
+
+        adminForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          submitWithRecaptcha(adminForm, 'admin_login');
+        });
+      });
+    </script>
+  </body>
+</html>

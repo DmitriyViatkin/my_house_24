@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper min-height-876">
+    <section class="content-header">
+      <h1>Пригласить владельца квартир</h1>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Отправить приглашение</h3>
+        </div>
+        <div class="box-body">
+          <form id="w0" action="{% url 'admin:send_invitation' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-name">
+                  <label class="control-label" for="{{ form.name.id_for_label }}">Имя получателя</label>
+                  {{ form.name }}
+                </div>
+                <div class="form-group field-phone">
+                  <label class="control-label" for="{{ form.phone.id_for_label }}">Телефон</label>
+                  {{ form.phone }}
+                </div>
+                <div class="form-group field-email">
+                  <label class="control-label" for="{{ form.email.id_for_label }}">Email</label>
+                  {{ form.email }}
+                </div>
+                {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-success">Отправить приглашение</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

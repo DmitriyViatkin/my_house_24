@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <style>
+    .content-min-height {
+      min-height: 876px;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
+  <div class="content-wrapper content-min-height">
+    <section class="content-header">
+      <h1>Новое сообщение</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:message_index' %}">Сообщения</a>
+        </li>
+        <li class="active">Новое сообщение</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <form id="w0" method="post">
+          {% csrf_token %}
+          <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+          </div>
+          <div class="box-body">
+            <input type="hidden" name="Message[user_admin_from_id]" value="1" />
+            <input type="hidden" name="Message[status]" value="5" />
+            <input type="hidden" name="Message[type]" value="default" />
+            <div class="form-group field-message-name required">
+              {{ form.title }}
+              <div class="help-block"></div>
+            </div>
+            <div class="form-group field-message-description required has-error">{{ form.description|safe }}</div>
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <h4>Кому отправить:</h4>
+                <div class="form-group field-messageaddress-user_id">
+                  <label class="control-label" for="messageaddress-user_id">Владелец квартир</label>
+                  {{ form.full_name }}
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="pull-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-envelope-o"></i> Отправить
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
+  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      $('#{{ form.description.id_for_label }}').wysihtml5({
+        toolbar: {
+          "font-styles": true,
+          "emphasis": true,
+          "lists": true,
+          "html": true,
+          "link": true,
+          "image": true,
+          "color": true
+        },
+        locale: 'ru-RU'
+      });
+    });
+  </script>
+{% endblock content %}

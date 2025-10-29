@@ -1,0 +1,145 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Лицевой счет</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:account' %}">Лицевые счета</a>
+        </li>
+        <li class="active">Карточка счета</li>
+      </ul>
+    </section>
+    <section class="content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">№</div>
+                  {{ form.account_number }}
+                  {{ form.account_number.errors }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="{{ form.status.id_for_label }}">Статус</label>
+                  {{ form.status }}
+                  {{ form.status.errors }}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.house.id_for_label }}">Дом</label>
+                  {{ form.house }}
+                  {{ form.house.errors }}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.section.id_for_label }}">Секция</label>
+                  {{ form.section }}
+                  {{ form.section.errors }}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.apartment.id_for_label }}">Квартира</label>
+                  {{ form.apartment }}
+                  {{ form.apartment.errors }}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.owner.id_for_label }}">Владелец</label>
+                  {{ form.owner }}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.phone.id_for_label }}">Телефон</label>
+                  {{ form.phone }}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <a href="{% url 'admin:account' %}" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const houseSelect = document.getElementById("id_house");
+      const sectionSelect = document.getElementById("id_section");
+      const apartmentSelect = document.getElementById("id_apartment");
+      const ownerField = document.getElementById("id_owner");
+      const phoneField = document.getElementById("id_phone");
+
+      const getSectionsUrl = "{% url 'admin:get_sections_by_house' %}";
+      const getApartmentsUrl = "{% url 'admin:get_apartments_by_section' %}";
+      const getApartmentOwnerUrl = "{% url 'admin:get_apartment_owner' %}";
+
+      houseSelect.addEventListener("change", function() {
+        const houseId = this.value;
+        sectionSelect.innerHTML = '<option value="">Выберите...</option>';
+        apartmentSelect.innerHTML = '<option value="">Выберите...</option>';
+        ownerField.value = "";
+        phoneField.value = "";
+
+        if (!houseId) return;
+
+        fetch(`${getSectionsUrl}?house_id=${houseId}`)
+          .then(response => response.json())
+          .then(data => {
+            data.forEach(sec => {
+              sectionSelect.innerHTML += `<option value="${sec.id}">${sec.name}</option>`;
+            });
+          });
+      });
+
+      sectionSelect.addEventListener("change", function() {
+        const sectionId = this.value;
+        apartmentSelect.innerHTML = '<option value="">Выберите...</option>';
+        ownerField.value = "";
+        phoneField.value = "";
+
+        if (!sectionId) return;
+
+        fetch(`${getApartmentsUrl}?section_id=${sectionId}`)
+          .then(response => response.json())
+          .then(data => {
+            data.forEach(apt => {
+              apartmentSelect.innerHTML += `<option value="${apt.id}">${apt.apartment_number}</option>`;
+            });
+          });
+      });
+
+      apartmentSelect.addEventListener("change", function() {
+        const apartmentId = this.value;
+        ownerField.value = "";
+        phoneField.value = "";
+
+        if (!apartmentId) return;
+
+        fetch(`${getApartmentOwnerUrl}?apartment_id=${apartmentId}`)
+          .then(response => response.json())
+          .then(data => {
+            ownerField.value = data.owner || "";
+            phoneField.value = data.phone || "";
+          });
+      });
+    });
+  </script>
+{% endblock content %}

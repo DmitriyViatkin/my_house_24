@@ -4,6 +4,7 @@ This module defines models for various website components like SEO,
 main page content, about us, gallery, and contact information.
 """
 
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 
@@ -26,21 +27,32 @@ class Main(models.Model):
     slide2 = models.ImageField(upload_to="slides/", blank=True, null=True)
     slide3 = models.ImageField(upload_to="slides/", blank=True, null=True)
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = RichTextUploadingField()
     seo = models.OneToOneField(SEO, on_delete=models.CASCADE)
 
     def __str__(self):
         """Return the title of the main page content."""
         return self.title
 
+    def get_slides(self):
+        """Return a list of related slides for this object."""
+        slides = []
+        if self.slide:
+            slides.append({"image": self.slide, "title": self.title})
+        if self.slide2:
+            slides.append({"image": self.slide2, "title": self.title})
+        if self.slide3:
+            slides.append({"image": self.slide3, "title": self.title})
+        return slides
+
 
 class Block(models.Model):
     """Content block on the main page."""
 
-    image = models.ImageField(upload_to="blocks/")
+    image = models.ImageField(upload_to="blocks/", blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    main = models.OneToOneField(Main, on_delete=models.CASCADE)
+    main = models.ForeignKey(Main, on_delete=models.CASCADE, related_name="blocks")
 
     def __str__(self):
         """Return the title of the content block."""
@@ -53,6 +65,8 @@ class AboutUs(models.Model):
     image = models.ImageField(upload_to="about_us/")
     title = models.CharField(max_length=255)
     description = models.TextField()
+    title2 = models.CharField(max_length=255)
+    description2 = models.TextField()
     seo = models.OneToOneField(SEO, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -63,7 +77,12 @@ class AboutUs(models.Model):
 class Gallery(models.Model):
     """Gallery linked to the 'About Us' page."""
 
-    about_us = models.ForeignKey(AboutUs, on_delete=models.CASCADE)
+    about_us = models.ForeignKey(
+        AboutUs, on_delete=models.CASCADE, related_name="galleries"
+    )
+    name = models.CharField(
+        max_length=50, choices=(("main", "Основная"), ("additional", "Дополнительная"))
+    )
 
     def __str__(self):
         """Return a string representation of the gallery."""
@@ -73,7 +92,9 @@ class Gallery(models.Model):
 class Image(models.Model):
     """Image within a gallery."""
 
-    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    gallery = models.ForeignKey(
+        Gallery, on_delete=models.CASCADE, related_name="images"
+    )
     image = models.ImageField(upload_to="gallery/")
 
     def __str__(self):
@@ -84,8 +105,11 @@ class Image(models.Model):
 class Document(models.Model):
     """Document attached to the 'About Us' page."""
 
+    title = models.CharField(max_length=255)
     document = models.FileField(upload_to="documents/")
-    about_us = models.ForeignKey(AboutUs, on_delete=models.CASCADE)
+    about_us = models.ForeignKey(
+        AboutUs, on_delete=models.CASCADE, related_name="documents"
+    )
 
     def __str__(self):
         """Return a string representation of the document."""
@@ -110,6 +134,7 @@ class Contact(models.Model):
     """Contact information for the organization."""
 
     full_name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=255)
     phone = models.CharField(max_length=50)

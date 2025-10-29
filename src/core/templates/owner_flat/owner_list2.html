@@ -1,0 +1,194 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+<style>
+  .label {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .label-success {
+    background-color: #28a745;
+  }
+
+  /* зелёный */
+  .label-danger {
+    background-color: #dc3545;
+  }
+
+  /* красный */
+  .label-warning {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  /* жёлтый */
+
+  .content-minheight {
+    min-height: 839px;
+  }
+</style>
+{% block content %}
+  <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <div class="content-wrapper content-minheight">
+    <section class="content-header">
+      <h1>Собственники</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Собственники</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="btn-group pull-right margin-bottom">
+            <button type="button"
+                    class="btn btn-success dropdown-toggle"
+                    data-toggle="dropdown">
+              Выберите действие <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="{% url 'admin:owner_create' %}">Добавить владельца квартиры</a>
+              </li>
+              <li>
+                <a href="{% url 'admin:send_message' %}?only_debtors=1">Отправить сообщение должникам</a>
+              </li>
+              <li>
+                <a href="{% url 'admin:send_invitation' %}">Отправить приглашение</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+          </div>
+          <div class="box-body table-responsive no-padding">
+            <form method="post" class="p-2">
+              {% csrf_token %}
+              <table class="table table-bordered table-hover table-striped linkedRow">
+                <thead>
+                  <tr>
+                    <th>{{ filter_form.user_id.label_tag }}</th>
+                    <th>{{ filter_form.ФИО.label_tag }}</th>
+                    <th>{{ filter_form.телефон.label_tag }}</th>
+                    <th>{{ filter_form.email.label_tag }}</th>
+                    <th>{{ filter_form.house.label_tag }}</th>
+                    <th>{{ filter_form.Квартира.label_tag }}</th>
+                    <th>{{ filter_form.Дата_добавления.label_tag }}</th>
+                    <th>{{ filter_form.Статус.label_tag }}</th>
+                  </tr>
+                  <tr class="filters">
+                    <td>{{ filter_form.user_id }}</td>
+                    <td>{{ filter_form.ФИО }}</td>
+                    <td>{{ filter_form.телефон }}</td>
+                    <td>{{ filter_form.email }}</td>
+                    <td>{{ filter_form.house }}</td>
+                    <td>{{ filter_form.Квартира }}</td>
+                    <td>{{ filter_form.Дата_добавления }}</td>
+                    <td>{{ filter_form.Статус }}</td>
+                    <td>
+                      <button type="submit" class="btn btn-primary btn-sm">Поиск</button>
+                      <div class="box-tools">
+                        <a href="{% url 'admin:owners' %}" class="btn btn-default btn-sm">
+                          <span class="hidden-xs">Очистить</span>
+                          <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                </thead>
+              </table>
+            </form>
+            <table id="owner_table"
+                   class="table table-bordered table-hover table-striped linkedRow">
+              <thead>
+                <tr class="clicable-row" data-url="{% url 'admin:owner_create' %}">
+                  <th>ID</th>
+                  <th>Пользователь</th>
+                  <th>Телефон</th>
+                  <th>Email (логин)</th>
+                  <th>Дом</th>
+                  <th>Квартира</th>
+                  <th>Дата регистрации</th>
+                  <th>Статус</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+  <script>
+    (function($) {
+      $(document).ready(function() {
+        var table = AjaxDatatableViewUtils.initialize_table(
+          $('#owner_table'),
+          "{% url 'admin:owner_list_ajax' %}", {
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            searching: false,
+            lengthChange: false,
+            scrollX: false,
+            pageLength: 50,
+            initComplete: function(settings, json) {
+              console.log('Table initialized');
+            }
+          }, {
+            user_id: function() {
+              return $('#id_user_id').val();
+            },
+            full_name: function() {
+              return $('#id_ФИО').val();
+            },
+            phone: function() {
+              return $('#id_телефон').val();
+            },
+            email: function() {
+              return $('#id_email').val();
+            },
+            house: function() {
+              return $('#id_house').val();
+            },
+            apartment: function() {
+              return $('#id_Квартира').val();
+            },
+            date_added: function() {
+              return $('#id_Дата_добавления').val();
+            },
+            status: function() {
+              return $('#id_Статус').val();
+            }
+          }
+        );
+
+        $('#owner_table').on('click', 'tbody tr', function(e) {
+          const rowId = this.id;
+          const userId = rowId ? rowId.replace('row-', '') : null;
+          if (userId) {
+            window.location.href = `/admin/card_user/${userId}/`;
+          } else {
+            console.warn('❌ Не удалось определить userId, rowId =', rowId);
+          }
+        });
+      });
+    })(jQuery);
+  </script>
+{% endblock content %}

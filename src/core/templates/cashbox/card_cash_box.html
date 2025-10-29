@@ -1,0 +1,166 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        {% if cashbox.payment_articles.record_type == "out" %}
+          Расходная ведомость
+        {% else %}
+          Приходная ведомость
+        {% endif %}
+        №{{ cashbox.cash_box_number }}
+      </h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:account_transaction_index' %}">Платежи</a>
+        </li>
+        <li class="active">
+          {% if cashbox.payment_articles.record_type == "out" %}
+            Расходная ведомость
+          {% else %}
+            Приходная ведомость
+          {% endif %}
+          №{{ cashbox.cash_box_number }}
+        </li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-6">
+          <div class="page-header-spec">
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">№</div>
+                <div class="form-control pull-right">{{ cashbox.cash_box_number }}</div>
+              </div>
+            </div>
+            <span class="label-mid">от</span>
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </div>
+                <div class="form-control pull-right">{{ cashbox.date }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            {% if cashbox.payment_articles.record_type == "out" %}
+              Расходная ведомость
+            {% else %}
+              Приходная ведомость
+            {% endif %}
+          </h3>
+          <div class="box-tools">
+            {% if cashbox.payment_articles.record_type == "out" %}
+              <a href="{% url 'admin:expense_report_copy' cashbox.id %}"
+                 class="btn btn-default btn-sm">
+                <span class="hidden-xs">Копировать</span>
+                <i class="fa fa-print visible-xs" aria-hidden="true"></i>
+              </a>
+            {% else %}
+              <a href="{% url 'admin:receipt_statement_copy' cashbox.id %}"
+                 class="btn btn-default btn-sm">
+                <span class="hidden-xs">Копировать</span>
+                <i class="fa fa-print visible-xs" aria-hidden="true"></i>
+              </a>
+            {% endif %}
+            <form action="{% url 'admin:cashbox_delete' cashbox.id %}"
+                  method="post"
+                  class="inline-form">
+              {% csrf_token %}
+              <button type="submit"
+                      class="btn btn-default btn-sm"
+                      onclick="return confirm('Вы уверены, что хотите удалить этот элемент?');">
+                <span class="hidden-xs">Удалить</span>
+                <i class="fa fa-envelope-o visible-xs" aria-hidden="true"></i>
+              </button>
+            </form>
+            {% if cashbox.payment_articles.record_type == "out" %}
+              <a href="{% url 'admin:update_expense_report' cashbox.id %}"
+                 class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать ведомость</span>
+                <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+              </a>
+            {% else %}
+              <a href="{% url 'admin:update_receipt_statement' cashbox.id %}"
+                 class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать ведомость</span>
+                <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+              </a>
+            {% endif %}
+            <a href="{% url 'admin:export_user_cash_box' cashbox.id %}"
+               class="btn btn-default btn-sm">
+              <span class="hidden-xs">Выгрузить в Excel</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="box-body">
+          <table class="table table-bordered table-striped table-view">
+            <tbody>
+              <tr>
+                <td>Владелец квартиры</td>
+                <td>
+                  {% if cashbox.owner %}
+                    <a href="{% url 'admin:card_user' cashbox.owner.id %}">{{ cashbox.owner }}</a>
+                  {% else %}
+                    <span>Нет владельца</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>Лицевой счет</td>
+                <td>
+                  {% if cashbox.personal_account %}
+                    <a href="{% url 'admin:card' cashbox.personal_account.id %}">{{ cashbox.personal_account }}</a>
+                  {% else %}
+                    <span>Нет лицевого счета</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>Статья</td>
+                <td>{{ cashbox.payment_articles }}</td>
+              </tr>
+              <tr>
+                <td>Квитанция</td>
+                <td>не указано</td>
+              </tr>
+              <tr>
+                <td>Услуга</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Менеджер</td>
+                <td>
+                  <a href="{% url 'admin:card_staff' cashbox.manager.id %}">{{ cashbox.manager }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Сумма</td>
+                <td>
+                  <span class="text-green">{{ cashbox.suma }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Комментарий</td>
+                <td>{{ cashbox.comment }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

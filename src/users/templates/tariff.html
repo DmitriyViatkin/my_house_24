@@ -1,14 +1,14 @@
-{% extends '/main.html' %}
+{% extends 'main.html' %}
 
 {% block content %}
-  <div class="content-wrapper" style="min-height: 839px;">
+  <div class="content-wrapper content-wrapper-min-height">
     <section class="content-header">
-      <h1>Тарифы - Дом ЗЕЛЁНЫЙ, кв.1</h1>
+      <h1>Тарифы - {{ apartment.house.title }}, кв. {{ apartment.apartment_number }}</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="/cabinet/"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'cabinet:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
-        <li class="active">Тарифы - Дом ЗЕЛЁНЫЙ, кв.1</li>
+        <li class="active">Тарифы - {{ apartment.house.title }}, кв. {{ apartment.apartment_number }}</li>
       </ul>
     </section>
     <section class="content">
@@ -18,12 +18,23 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th style="min-width:250px">Услуга</th>
-                  <th style="min-width:150px">Ед. изм.</th>
-                  <th style="min-width:150px">Цена за ед., грн</th>
+                  <th class="tariff-th-service">Услуга</th>
+                  <th class="tariff-th-unit">Ед. изм.</th>
+                  <th class="tariff-th-price">Цена за ед., грн</th>
                 </tr>
               </thead>
               <tbody>
+                {% for ts in services %}
+                  <tr>
+                    <td>{{ ts.service.name }}</td>
+                    <td>{{ ts.unit.name }}</td>
+                    <td>{{ ts.price }} {{ ts.currency }}</td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="3">Нет услуг для данного тарифа</td>
+                  </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -31,4 +42,4 @@
       </div>
     </section>
   </div>
-{% endblock %}
+{% endblock content %}

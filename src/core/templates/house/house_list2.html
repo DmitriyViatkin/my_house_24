@@ -1,0 +1,124 @@
+{% load static %}
+
+{% block content %}
+  <style>
+    .table-width-40 {
+      width: 40px;
+    }
+
+    .table-width-80 {
+      width: 80px;
+    }
+  </style>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>{{ page_title }}</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">{{ page_title }}</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="{% url 'admin:add_house' %}">Добавить дом</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Список домов</h3>
+              <div class="box-tools">
+                <a href="{% url 'admin:house' %}" class="btn btn-default btn-sm">
+                  <span class="hidden-xs">Очистить</span>
+                  <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+              <form method="post" class="p-2">
+                {% csrf_token %}
+                <table class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th class="table-width-40">#</th>
+                      <th>
+                        <label>{{ filter_form.title.label_tag }}</label>
+                      </th>
+                      <th>
+                        <label>{{ filter_form.address.label_tag }}</label>
+                      </th>
+                      <th class="table-width-80">Действия</th>
+                    </tr>
+                    <tr class="filters">
+                      <td>&nbsp;</td>
+                      <td>{{ filter_form.title }}</td>
+                      <td>{{ filter_form.address }}</td>
+                      <td>
+                        <button type="submit" class="btn btn-primary btn-sm">Поиск</button>
+                      </td>
+                    </tr>
+                  </thead>
+                </table>
+              </form>
+              <table id="datatable_house"
+                     class="table table-bordered table-hover table-striped linkedRow">
+                <thead>
+                  <tr>
+                    <th class="table-width-40">#</th>
+                    <th>Название</th>
+                    <th>Адрес</th>
+                    <th class="table-width-80">Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% comment %} Данные подгружаются через Ajax, пустой tbody удаляем {% endcomment %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      AjaxDatatableViewUtils.initialize_table(
+        $('#datatable_house'),
+        "{% url 'admin:house_list' %}", {
+          searching: false,
+          processing: true,
+          lengthChange: false,
+          pageLength: 50,
+          autoWidth: false,
+          full_row_select: true,
+          scrollX: false
+        }, {
+          title: function() {
+            return $('#id_title').val();
+          },
+          address: function() {
+            return $('#id_address').val();
+          }
+        }
+      );
+
+      $('#datatable_house tbody').on('click', 'tr', function() {
+        const houseId = this.id?.split('-').pop();
+        if (houseId) {
+          window.location.href = `/admin/house_card/${houseId}/`;
+        }
+      });
+    });
+  </script>
+{% endblock content %}

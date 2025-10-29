@@ -1,0 +1,182 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <div class="content-wrapper min-height-wrapper">
+    <section class="content-header">
+      <h1>Сводка — {{ apartment.house.title }}, {{ apartment.apartment_number }}</h1>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-4">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{{ balance|floatformat:2 }} грн</h3>
+              <p>Баланс по квартире</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+            <span class="small-box-footer">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+          <div class="small-box bg-blue">
+            <div class="inner">
+              {% if account %}
+                <h3>{{ apartment.account }}</h3>
+              {% else %}
+                <h3>Не создан</h3>
+              {% endif %}
+              <p>Лицевой счёт</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <span class="small-box-footer">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ avg_month_expense|floatformat:2 }} грн</h3>
+              <p>Средний расход за месяц</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-pie-chart"></i>
+            </div>
+            <span class="small-box-footer">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <div class="box chart-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Диаграмма расходов — Текущий месяц</h3>
+            </div>
+            <div class="box-body">
+              <canvas id="chartThisMonth"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="box chart-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Диаграмма расходов — Прошлый месяц</h3>
+            </div>
+            <div class="box-body">
+              <canvas id="chartLastMonth"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Диаграмма расходов по месяцам за год</h3>
+            </div>
+            <div class="box-body chart-body">
+              <canvas id="chartYear"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctxThis = document.getElementById('chartThisMonth');
+    const ctxLast = document.getElementById('chartLastMonth');
+    const ctxYear = document.getElementById('chartYear');
+
+    // --- Текущий месяц ---
+    if (ctxThis) {
+      new Chart(ctxThis, {
+        type: 'pie',
+        data: {
+          labels: {
+            {
+              chart_labels_this | safe
+            }
+          },
+          datasets: [{
+            data: {
+              {
+                chart_data_this | safe
+              }
+            },
+            backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#FF5722', '#9C27B0']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // --- Прошлый месяц ---
+    if (ctxLast) {
+      new Chart(ctxLast, {
+        type: 'pie',
+        data: {
+          labels: {
+            {
+              chart_labels_last | safe
+            }
+          },
+          datasets: [{
+            data: {
+              {
+                chart_data_last | safe
+              }
+            },
+            backgroundColor: ['#8BC34A', '#03A9F4', '#FF9800', '#E91E63', '#673AB7']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // --- За год (помесячно) ---
+    if (ctxYear) {
+      new Chart(ctxYear, {
+        type: 'bar',
+        data: {
+          labels: {
+            {
+              chart_labels_year | safe
+            }
+          },
+          datasets: [{
+            label: 'Расходы, грн',
+            data: {
+              {
+                chart_data_year | safe
+              }
+            },
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: value => value + ' грн'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+{% endblock content %}

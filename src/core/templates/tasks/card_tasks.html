@@ -1,0 +1,122 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper content-wrapper-min-height">
+    <section class="content-header">
+      <h1>Заявка №{{ tasks.id }}</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:master_request_index' %}">Заявки вызова мастера</a>
+        </li>
+        <li class="active">Заявка №{{ tasks.id }}</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-6">
+          <div class="page-header-spec">
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </div>
+                <div class="form-control pull-right">{{ tasks.date }}</div>
+              </div>
+            </div>
+            <span class="label-mid">от</span>
+            <div class="form-group">
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="glyphicon glyphicon-time"></i>
+                </div>
+                <div class="form-control pull-right">{{ tasks.time }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title"></h3>
+              <div class="box-tools">
+                <a href="{% url 'admin:edit_ticket' tasks.id %}"
+                   class="btn btn-primary btn-sm">
+                  <span class="hidden-xs">Редактировать заявку</span>
+                  <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div class="box-body">
+              <table class="table table-bordered table-striped table-view">
+                <tbody>
+                  <tr>
+                    <td>Статус</td>
+                    <td>
+                      <small class="label label-primary">{{ tasks.status }}</small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Владелец</td>
+                    <td>
+                      <a href="{% url 'admin:card_user' tasks.user.id %}">{{ tasks.user.full_name }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Телефон</td>
+                    <td>{{ tasks.user.phone }}</td>
+                  </tr>
+                  <tr>
+                    <td>Квартира</td>
+                    <td>
+                      {% if tasks.apartment %}
+                        <a href="{% url 'admin:card_flat' tasks.apartment.id %}">
+                          кв. {{ tasks.apartment.apartment_number }}, {{ tasks.apartment.house.title }}
+                        </a>
+                      {% else %}
+                        нет квартиры
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Тип мастера</td>
+                    <td>{{ tasks.role }}</td>
+                  </tr>
+                  <tr>
+                    <td>Мастер</td>
+                    <td>
+                      {% if tasks.worker %}
+                        <a href="{% url 'admin:card_staff' tasks.worker.id %}">{{ tasks.worker }} ({{ tasks.worker.role }})</a>
+                      {% else %}
+                        Не назначен
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Описание</td>
+                    <td>{{ tasks.summary }}</td>
+                  </tr>
+                  <tr>
+                    <td>Добавлено</td>
+                    <td>{{ tasks.date }} - {{ tasks.time }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}
+<style>
+  .content-wrapper-min-height {
+    min-height: 876px;
+  }
+</style>

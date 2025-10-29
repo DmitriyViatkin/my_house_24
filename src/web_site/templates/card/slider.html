@@ -1,0 +1,12 @@
+{% load static %}
+
+<div class="slider">
+  {% for slide in main_page.get_slides %}
+    <div>
+      <div class="slideTitle hidden-xs">{{ slide.title }}</div>
+      <img src="{{ slide.image.url }}"
+           class="img-responsive"
+           alt="{{ slide.title }}" />
+    </div>
+  {% endfor %}
+</div>

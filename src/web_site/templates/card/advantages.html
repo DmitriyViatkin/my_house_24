@@ -1,0 +1,26 @@
+<div class="advantages">
+  <div class="container">
+    <div class="row row-eq-height">
+      <div class="col-xs-12">
+        <div class="page-header">
+          <h3>Рядом с нами</h3>
+        </div>
+      </div>
+      {% for block in main_page.blocks.all %}
+        <div class="col-xs-12 col-sm-6 col-md-4 advantage-item">
+          <div class="thumbnail">
+            {% if block.image %}
+              <img src="{{ block.image.url }}"
+                   class="img-responsive"
+                   alt="{{ block.title }}" />
+            {% endif %}
+            <div class="caption">
+              <h3>{{ block.title }}</h3>
+              <p>{{ block.description|safe }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

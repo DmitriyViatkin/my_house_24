@@ -1,0 +1,140 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Профиль владельца</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'cabinet' %}">Владельцы квартир</a>
+        </li>
+        <li class="active">Профиль владельца</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-header with-border">
+          <div class="box-tools">
+            <a href="https://myhouse24.demodev.cc/cabinet/?token=2EUFdo2aL1in11U4YpITHUTuJ0qFNcfB"
+               target="_blank"
+               class="btn btn-default btn-sm">
+              <i class="fa fa-external-link"></i> Перейти в кабинет
+            </a>
+            <a href="{% url 'update_profile' user.pk %}"
+               class="btn btn-primary btn-sm">
+              <span class="hidden-xs">Редактировать профиль</span>
+              <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="userAvatar text-center mb-3">
+                {% if user.image %}
+                  <img class="profile-user-img img-responsive img-circle"
+                       src="{{ user.image.url }}?w=160&h=160&fit=crop"
+                       alt="Аватар владельца" />
+                {% else %}
+                  <img class="profile-user-img img-responsive img-circle"
+                       src="https://myhouse24.demodev.cc/site/glide?path=%2Fupload%2FUser%2F2%2Favatar.jpg&w=160&h=160&fit=crop"
+                       alt="Аватар владельца" />
+                {% endif %}
+              </div>
+              <div class="table-responsive no-padding">
+                <table class="table table-bordered table-striped table-view">
+                  <tbody>
+                    <tr>
+                      <td>Статус</td>
+                      <td>
+                        <small class="label label-danger">{{ user.status }}</small>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ID</td>
+                      <td>{{ user.user_id }}</td>
+                    </tr>
+                    <tr>
+                      <td>Фамилия</td>
+                      <td>{{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Имя</td>
+                      <td>{{ user.first_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Отчество</td>
+                      <td>{{ user.second_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Дата рождения</td>
+                      <td>{{ user.date_birthday }}</td>
+                    </tr>
+                    <tr>
+                      <td>О владельце (заметки)</td>
+                      <td>{{ user.description }}</td>
+                    </tr>
+                    <tr>
+                      <td>Телефон</td>
+                      <td>{{ user.phone }}</td>
+                    </tr>
+                    <tr>
+                      <td>Viber</td>
+                      <td>{{ user.viber }}</td>
+                    </tr>
+                    <tr>
+                      <td>Telegram</td>
+                      <td>{{ user.telegram }}</td>
+                    </tr>
+                    <tr>
+                      <td>Email</td>
+                      <td>{{ user.email }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <h4>Квартиры</h4>
+              <div class="table-responsive no-padding mt-3">
+                {% for apartment in apartments %}
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Дом</th>
+                        <th>Секция</th>
+                        <th>Квартира</th>
+                        <th>Лицевой счет</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                          <a href="{% url 'admin:house_card' apartment.house.id %}">{{ apartment.house.title }}</a>
+                        </td>
+                        <td>{{ apartment.section.name }}</td>
+                        <td>
+                          <a href="{% url 'admin:card_flat' apartment.id %}">{{ apartment.apartment_number }}</a>
+                        </td>
+                        <td>
+                          {% if apartment.account %}
+                            <a href="{% url 'admin:card' apartment.account.id %}">{{ apartment.account.account_number }}</a>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

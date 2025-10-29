@@ -1,0 +1,167 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
+  <style>
+    .wysihtml5-sandbox {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 200px;
+      width: 100% !important;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .content-minheight {
+      min-height: 839px;
+    }
+
+    .desc-wrapper {
+      width: 900px;
+    }
+  </style>
+  <div class="content-wrapper content-minheight">
+    <section class="content-header">
+      <h1>Редактирование страницы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Редактирование страницы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Редактирование страницы "Главная"</h3>
+            </div>
+            <div class="box-body">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                <h3 class="page-header">Слайдер</h3>
+                <div class="row site-main-slider">
+                  {% for num in "123" %}
+                    {% with slide="slide"|add:num %}
+                      <div class="col-md-4">
+                        <h4>Слайд {{ num }}</h4>
+                        <img id="preview-{{ slide }}"
+                             src="{% if form|getattr:slide.value %}{{ form|getattr:slide.value.url }}{% elif object|getattr:slide %}{{ object|getattr:slide.url }}{% else %}{% static 'img.png' %}{% endif %}"
+                             alt=""
+                             class="img-responsive margin-bottom-15" />
+                        <div class="form-group margin-bottom-30">
+                          <label for="{{ form|getattr:slide.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                          {{ form|getattr:slide }}
+                          {{ form|getattr:slide.errors }}
+                        </div>
+                      </div>
+                    {% endwith %}
+                  {% endfor %}
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="page-header">Краткая информация</h3>
+                    <div class="form-group">
+                      <label for="{{ form.title.id_for_label }}">Заголовок</label>
+                      {{ form.title }}
+                      {{ form.title.errors }}
+                    </div>
+                    <div class="form-group">
+                      <label for="{{ form.description.id_for_label }}">Краткий текст</label>
+                      <div class="desc-wrapper">
+                        {{ form.description }}
+                        {{ form.description.errors }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row near-img">
+                  <div class="col-xs-12">
+                    <h3 class="page-header">Рядом с нами</h3>
+                  </div>
+                  <div class="col-md-12">
+                    {{ formset.management_form }}
+                    {% for f in formset %}
+                      {{ f.id }}
+                      <div class="block-form col-md-4">
+                        <h4>Блок {{ forloop.counter }}</h4>
+                        <img id="preview-{{ forloop.counter }}"
+                             src="{% if f.image.value %}{{ f.image.value.url }}{% else %}{% static 'img.png' %}{% endif %}?w=522&h=350&fit=crop"
+                             alt=""
+                             class="img-responsive margin-bottom-15" />
+                        <div class="form-group margin-bottom-30">
+                          <label for="{{ f.image.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                          {{ f.image }}
+                          {{ f.image.errors }}
+                        </div>
+                        <div class="form-group">
+                          {{ f.title.label_tag }}
+                          {{ f.title }}
+                          {{ f.title.errors }}
+                        </div>
+                        <div class="form-group">
+                          {{ f.description.label_tag }}
+                          {{ f.description }}
+                          {{ f.description.errors }}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <h3 class="page-header">Настройки SEO</h3>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      {{ seo_form.title.label_tag }}
+                      {{ seo_form.title }}
+                    </div>
+                    <div class="form-group">
+                      {{ seo_form.description.label_tag }}
+                      {{ seo_form.description }}
+                    </div>
+                    <div class="form-group">
+                      {{ seo_form.keyword.label_tag }}
+                      {{ seo_form.keyword }}
+                    </div>
+                  </div>
+                </div>
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
+  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      if ($('.wysihtml5').length) {
+        $('.wysihtml5').wysihtml5({
+          locale: 'ru-RU'
+        });
+      }
+    });
+  </script>
+  <script>
+    function previewImage(input, previewId) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById(previewId).src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+{% endblock content %}

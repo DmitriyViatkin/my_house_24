@@ -1,15 +1,26 @@
-{% extends "/index.html" %}
+{% extends "index.html" %}
 
+{% load static %}
+
+<style>
+  .content-wrapper-min-height {
+    min-height: 839px;
+  }
+
+  .hidden-select {
+    display: none;
+  }
+</style>
 {% block content %}
-  <div class="content-wrapper" style="min-height: 839px;">
+  <div class="content-wrapper content-wrapper-min-height">
     <section class="content-header">
       <h1>Новая квартира</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="/admin/flat/index">Квартиры</a>
+          <a href="{% url 'admin:flat' %}">Квартиры</a>
         </li>
         <li class="active">Новая квартира</li>
       </ul>
@@ -17,517 +28,105 @@
     <section class="content">
       <div class="box">
         <div class="box-body">
-          <form id="w0" action="/admin/flat/create" method="post">
-            <input type="hidden"
-                   name="_csrf-backend"
-                   value="IBXitZP8nu04jp0QQch4KRAXhX7PZ040Aqrpr4kWkcNxJrjH4MrGonXq_GQRilVLIk_tNIxRB3VB3pDI4E6npQ==" />
+          <form method="post">
+            {% csrf_token %}
             <div class="row">
               <div class="col-xs-12 col-sm-6 col-sm-push-6">
-                <div class="form-group field-flatform-account_uid ">
-                  <label class="control-label" for="flatform-account_uid">Лицевой счет</label>
-                  <input type="text"
-                         id="flatform-account_uid"
-                         class="form-control"
-                         name="FlatForm[account_uid]" />
+                <div class="form-group">
+                  <label for="flatform-account_uid">Лицевой счет</label>
+                  {{ form.account_uid }}
                   <select id="account_uid"
-                          class="form-control select2-hidden-accessible"
-                          name="account_uid"
-                          onchange="if ($(this).val()) { $(&quot;#flatform-account_uid&quot;).val($(this).val()); $(&quot;#account_uid&quot;).val(&quot;&quot;).trigger(&quot;change&quot;); }"
-                          data-s2-options="s2options_7ebc6538"
-                          data-krajee-select2="select2_27ecbd8a"
-                          style="display:none"
-                          tabindex="-1"
-                          aria-hidden="true">
+                          class="form-control select2-hidden-accessible hidden-select">
                     <option value="">или выберите из списка...</option>
+                    {% for account in accounts %}<option value="{{ account.uid }}">{{ account.uid }}</option>{% endfor %}
                   </select>
-                  <span class="select2 select2-container select2-container--default"
-                        dir="ltr"
-                        style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-account_uid-container"><span class="select2-selection__rendered"
-      id="select2-account_uid-container"><span class="select2-selection__placeholder">или выберите из списка...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                  <div class="help-block"></div>
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6 col-sm-pull-6">
-                <input type="hidden" id="flatform-id" name="FlatForm[id]" />
-                <div class="form-group field-flatform-flat required">
-                  <label class="control-label" for="flatform-flat">Номер квартиры</label>
-                  <input type="text"
-                         id="flatform-flat"
-                         class="form-control"
-                         name="FlatForm[flat]"
-                         maxlength="255"
-                         aria-required="true" />
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-flat">Номер квартиры</label>
+                  {{ form.apartment_number }}
                 </div>
-                <div class="form-group field-flatform-square">
-                  <label class="control-label" for="flatform-square">Площадь (кв.м.)</label>
-                  <input type="text"
-                         id="flatform-square"
-                         class="form-control"
-                         name="FlatForm[square]" />
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-square">Площадь</label>
+                  {{ form.area }}
                 </div>
-                <div class="form-group field-flatform-house_id required">
-                  <label class="control-label" for="flatform-house_id">Дом</label>
-                  <select id="flatform-house_id"
-                          class="form-control"
-                          name="FlatForm[house_id]"
-                          onchange=" $.get(&quot;/admin/flat/get-lists-by-house?house_id=&quot;+$(this).val(), function(data) { $(&quot;select#flatform-section_id&quot;).html(data.sections); $(&quot;select#flatform-riser_id&quot;).html(data.risers); $(&quot;select#flatform-floor_id&quot;).html(data.floors); }); "
-                          aria-required="true">
-                    <option value="">Выберите...</option>
-                    <option value="1">ЖК "Башня Чкалов"</option>
-                    <option value="2">ЖК "Морская Симфония"</option>
-                    <option value="3">ЖК "Дом Каркашадзе"</option>
-                    <option value="4">ЖК "Королевские сады"</option>
-                    <option value="6">ЖК "Балковский"</option>
-                    <option value="11">ЖК "Адмирал" Дом №11</option>
-                    <option value="12">ЖК "Адмирал" Дом №12</option>
-                    <option value="13">ЖК "Адмирал" Дом №13</option>
-                    <option value="14">ЖК "Новые Черемушки"</option>
-                    <option value="18">ЖК "Manhattan"</option>
-                    <option value="19">ЖК "Скай Сити"</option>
-                    <option value="20">ЖК "Альтаир 3"</option>
-                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
-                    <option value="24">Н-О</option>
-                    <option value="25">ЖК Искринский</option>
-                    <option value="51">ЖК Suncity-Солнечный город</option>
-                    <option value="56">Дом 56</option>
-                    <option value="61">Жилой район Приморские сады</option>
-                    <option value="78">Золотая Эра</option>
-                    <option value="85">Микрорайон «Таировские Сады»</option>
-                    <option value="100">ЖК "Удобний"</option>
-                    <option value="101">Житловий комплекс «Будинок №1»</option>
-                    <option value="105">ЖК "Луч"</option>
-                    <option value="106">Торговельний Центр «Афіна»</option>
-                    <option value="107">ЖК «Санторіні»</option>
-                    <option value="132">ЖК «Крит»</option>
-                    <option value="133">Континент</option>
-                    <option value="134">Континент</option>
-                    <option value="139">ЖК Чайка</option>
-                    <option value="142">Офісний центр на Французькому бульварі</option>
-                    <option value="145">БЦ на Глибочицькій</option>
-                    <option value="158">ЖК «Лімнос»</option>
-                    <option value="165">ЖК "Помидор"</option>
-                    <option value="170">Готельно-житловий комплекс «Міконос»</option>
-                    <option value="173">ЖК «Корфу»</option>
-                    <option value="174">Аквамарин</option>
-                    <option value="175">Генарёк хаус</option>
-                    <option value="183">ЖК «Мілос»</option>
-                    <option value="185">Аполлон на Карантинній</option>
-                    <option value="186">Апарт-комплекс «Каліпсо»</option>
-                    <option value="188">ЖК «Родос»</option>
-                    <option value="193">ЖК "Эдельвейс"</option>
-                    <option value="194">ЖК Авиньйон</option>
-                    <option value="196">Аполлон на Куликовському</option>
-                    <option value="197">Бізнес-Центр «Ольвія»</option>
-                    <option value="199">ЖК «Акрополь»</option>
-                    <option value="201">ЖК «Еллада»</option>
-                    <option value="202">Бізнес-Центр «Платон»</option>
-                    <option value="203">Апарт-комплекс «Ітака»</option>
-                    <option value="204">ЖК «Посейдон»</option>
-                    <option value="205">Житловий комплекс «Будинок №1»</option>
-                    <option value="206">Дом ЗЕЛЁНЫЙ</option>
-                    <option value="213">Апарт-комплекс «Aтлант»</option>
-                    <option value="216">ЖК "Україна"</option>
-                    <option value="219">ЖК "Котон"</option>
-                    <option value="220">Жк Комфорт таун</option>
-                    <option value="222">ЖК ''Перлина''</option>
-                    <option value="223">ЖК ''Перлина 2''</option>
-                    <option value="224">ЖК Перемога</option>
-                    <option value="225">ЖК Перемога України</option>
-                    <option value="226"></option>
-                    <option value="227">Акрополь</option>
-                    <option value="230">Перлина 3</option>
-                    <option value="233">ЖК "Україна"</option>
-                    <option value="236">ЖК House Of Bugs</option>
-                    <option value="237">Жк Комфорт таун</option>
-                    <option value="239">ЖК Independent</option>
-                    <option value="241">ЖК "Україна"</option>
-                    <option value="250">Світланин рай</option>
-                    <option value="251">ЖК "Зелень"</option>
-                    <option value="254">New House</option>
-                    <option value="257">ЖЖ Аркадия</option>
-                    <option value="260">Тестовый дом 1</option>
-                    <option value="262">ЖК "Світлании оазис"</option>
-                    <option value="263"></option>
-                    <option value="264">ЖК Місто Квітів</option>
-                    <option value="265">ЖК Місто Квітів2</option>
-                    <option value="266">ЖК "Котон"</option>
-                    <option value="267">Вільний ЖК</option>
-                    <option value="268"></option>
-                    <option value="270">Будинок</option>
-                    <option value="273">New House</option>
-                    <option value="274">ЖК Місто Квітів</option>
-                    <option value="275">Ррррррррррррррррррррррррр</option>
-                    <option value="276">Вільний ЖК</option>
-                    <option value="278">Ннннннннннннн</option>
-                    <option value="279">22</option>
-                    <option value="282">Вільний ЖК 2</option>
-                    <option value="284">ЖК Місто Квітів</option>
-                    <option value="285">ЖК "Котон"</option>
-                    <option value="287">ЖК "Проблем нема"</option>
-                    <option value="290">ЖК "Рожевий рай"</option>
-                    <option value="291">ЖК "Рожевий рай"</option>
-                    <option value="294"></option>
-                    <option value="296">ЖК "Рожевий рай"</option>
-                    <option value="297">ЖК "Рожевий рай"</option>
-                    <option value="301">Тест</option>
-                    <option value="304">ЖК Атлант</option>
-                    <option value="305">ЖК Атлант</option>
-                    <option value="315">ЖК Молодість</option>
-                    <option value="316">Відпочинок</option>
-                    <option value="319">ЖК Атлант</option>
-                    <option value="321">ЖК Будинок</option>
-                    <option value="325">ЖК Молодіжний</option>
-                    <option value="326">ЖК новий</option>
-                    <option value="328">Вільний ЖК 3</option>
-                    <option value="329">ранок</option>
-                    <option value="339">dx</option>
-                    <option value="342">Мій1</option>
-                    <option value="346">ЖК OZONE</option>
-                    <option value="351">ЖК Санторіні</option>
-                    <option value="354">ЖК Кімолос</option>
-                    <option value="357">Unity Towers</option>
-                    <option value="360">ЖК Еллада</option>
-                    <option value="361">Апарт-комплекс Breeze Marine</option>
-                    <option value="364">Апарт-комплекс Итака</option>
-                    <option value="370">ЖК Прохоровський квартал</option>
-                    <option value="372">Радужний</option>
-                    <option value="373">ЖК "Евро+"</option>
-                    <option value="374">ЖК "Калипсо"</option>
-                    <option value="376">ЖК Клубная резиденция</option>
-                    <option value="377">ЖК Акрополь</option>
-                    <option value="378">ЖК Посейдон</option>
-                    <option value="379">Аврора</option>
-                    <option value="380">ЖК Золотая Ера</option>
-                    <option value="388">Стрела</option>
-                    <option value="389">ЖК Modern</option>
-                  </select>
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-house_id">Дом</label>
+                  {{ form.house }}
                 </div>
-                <div class="form-group field-flatform-section_id">
-                  <label class="control-label" for="flatform-section_id">Секция</label>
-                  <select id="flatform-section_id"
-                          class="form-control"
-                          name="FlatForm[section_id]">
-                    <option value="">Выберите...</option>
-                  </select>
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-section_id">Секция</label>
+                  {{ form.section }}
                 </div>
-                <div class="form-group field-flatform-floor_id">
-                  <label class="control-label" for="flatform-floor_id">Этаж</label>
-                  <select id="flatform-floor_id" class="form-control" name="FlatForm[floor_id]">
-                    <option value="">Выберите...</option>
-                  </select>
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-floor_id">Этаж</label>
+                  {{ form.floor }}
                 </div>
-                <div class="form-group field-flatform-user_id">
-                  <label class="control-label" for="flatform-user_id">Владелец</label>
-                  <select id="flatform-user_id"
-                          class="form-control select2-hidden-accessible"
-                          name="FlatForm[user_id]"
-                          data-s2-options="s2options_7ebc6538"
-                          data-krajee-select2="select2_cbc543bf"
-                          style="display:none"
-                          tabindex="-1"
-                          aria-hidden="true">
-                    <option value="">Выберите...</option>
-                    <option value="1">Лисенко Павел Михайлович</option>
-                    <option value="2">Иванов Иван  Сидорович</option>
-                    <option value="3">Булгаков Михаил Афанасьевич</option>
-                    <option value="4">Гоголь Николай Васильевич</option>
-                    <option value="5">Купер Джеймс Фенимор</option>
-                    <option value="6">Кант Иммануил</option>
-                    <option value="9">Петросян Иван</option>
-                    <option value="10">Громов Павел</option>
-                    <option value="99">Баранов Егор Андреевич</option>
-                    <option value="100">Сидоренко Илья Антонович</option>
-                    <option value="101">Test User</option>
-                    <option value="102">Ефросинин Аристарх Петрович</option>
-                    <option value="103">Коваль Борис Сергеевич</option>
-                    <option value="104">Кузьменко Оксана Дмитриевна</option>
-                    <option value="105">hehe@som.com</option>
-                    <option value="106">Петро Петрович Петренко</option>
-                    <option value="107">123@123.com</option>
-                    <option value="108">1petro@petrenko.com</option>
-                    <option value="109">Вася</option>
-                    <option value="110">pro100moneyfarmer@gmail.com</option>
-                    <option value="111">qwe@gmail.com</option>
-                    <option value="112">333@333.com</option>
-                    <option value="113">1@1.com</option>
-                    <option value="114">2@2.com</option>
-                    <option value="115">3@3.com</option>
-                    <option value="116">4@4.com</option>
-                    <option value="117">5@5.com</option>
-                    <option value="118">6@6.com</option>
-                    <option value="119">7@7.com</option>
-                    <option value="120">8@8.com</option>
-                    <option value="121">9@9.com</option>
-                    <option value="122">10@10.com</option>
-                    <option value="123">11@11.com</option>
-                    <option value="124">12@12.com</option>
-                    <option value="125">13@13.com</option>
-                    <option value="126">14@14.com</option>
-                    <option value="127">15@15.com</option>
-                    <option value="128">16@16.com</option>
-                    <option value="129">17@17.com</option>
-                    <option value="130">18@18.com</option>
-                    <option value="131">19@19.com</option>
-                    <option value="132">20@20.com</option>
-                    <option value="133">21@21.com</option>
-                    <option value="134">22@22.com</option>
-                    <option value="135">23@23.com</option>
-                    <option value="136">24@24.com</option>
-                    <option value="137">25@25.com</option>
-                    <option value="138">26@26.com</option>
-                    <option value="139">йцуке фіва нрт</option>
-                    <option value="140">28@28.com</option>
-                    <option value="141">29@29.com</option>
-                    <option value="142">Цекало</option>
-                    <option value="143">444444@gmail.com</option>
-                    <option value="144">adminfdgd@admin.com</option>
-                    <option value="145">adminius@admin.com</option>
-                    <option value="146">owner233@admin.com</option>
-                    <option value="147">bogdan24ro@gmail.com</option>
-                    <option value="148">Торишний</option>
-                    <option value="149">Титаренко</option>
-                    <option value="151">test@tse.com</option>
-                    <option value="152">Артем</option>
-                    <option value="153">Порох! Микола! Микола!</option>
-                    <option value="156">Зеля Вова Петрович</option>
-                    <option value="157">Боря Петя Толя</option>
-                    <option value="158">Иванов Иван  Иванович</option>
-                    <option value="159">22povileiolena@gmail.com</option>
-                    <option value="160">Руденко</option>
-                    <option value="161">Приходько</option>
-                    <option value="162">Kasparov Alexandr</option>
-                    <option value="164">Коля Микола Константинович</option>
-                    <option value="170">Полищук</option>
-                    <option value="171">Палагута</option>
-                    <option value="172">rty@gmail.com</option>
-                    <option value="173">Пазюра</option>
-                    <option value="174">Полищук</option>
-                    <option value="175">Фамилия Имя Отчество</option>
-                    <option value="176">Паламарчук</option>
-                    <option value="177">Негода</option>
-                    <option value="178">Лановой</option>
-                    <option value="179">Леша Леша</option>
-                    <option value="180">Кучма</option>
-                    <option value="181">Еревин Кирилл Потапыч</option>
-                    <option value="182">Кравец Иван</option>
-                    <option value="183">Кошевой</option>
-                    <option value="184">Костенко</option>
-                    <option value="186">Лымар Андрей</option>
-                    <option value="187">Корсун</option>
-                    <option value="188">Артем Артем Артем</option>
-                    <option value="189">Коломиец</option>
-                    <option value="190">John Doe Man</option>
-                    <option value="191">Завирюха</option>
-                    <option value="192">Журба</option>
-                    <option value="193">Запашный</option>
-                    <option value="194">Довгаль</option>
-                    <option value="195">Гудзь</option>
-                    <option value="196">Величко</option>
-                    <option value="197">Горбань</option>
-                    <option value="198">Матвиенко</option>
-                    <option value="199">Бутко</option>
-                    <option value="200">Ковальчук</option>
-                    <option value="201">Кравчук</option>
-                    <option value="202">Коваль</option>
-                    <option value="203">Беконович</option>
-                    <option value="204">Горбацевич</option>
-                    <option value="206">Коганович</option>
-                    <option value="207">nikitin</option>
-                    <option value="208">Мишкевич</option>
-                    <option value="209">Гузенко</option>
-                    <option value="210">Онищенко</option>
-                    <option value="211">Романюк Николай Владимирович</option>
-                    <option value="212">Тимошенко</option>
-                    <option value="213">Винниченко</option>
-                    <option value="214">Тищенко</option>
-                    <option value="215">Гончаренко</option>
-                    <option value="216">Хитрук Артур</option>
-                    <option value="217">Скрипко</option>
-                    <option value="218">Лещенко</option>
-                    <option value="219">Плющенко</option>
-                    <option value="220">Степаненко</option>
-                    <option value="221">Ткаченко</option>
-                    <option value="222">Сердюк</option>
-                    <option value="223">Вичук</option>
-                    <option value="224">Тарасюк</option>
-                    <option value="225">Полищук</option>
-                    <option value="226">Мороз Яна  Вікторівна</option>
-                    <option value="227">Полько Марк  Володимирович</option>
-                    <option value="228">Зеленський Володимир Олександрович</option>
-                    <option value="229">onufriienko</option>
-                    <option value="230">Потапенко Іван Степанович</option>
-                    <option value="231">Прокопенко Іван Степанович</option>
-                    <option value="232">Хома Михайло Степанович</option>
-                    <option value="233">Пилипчук Юлія Андріївна</option>
-                    <option value="234">Олександрааа Олександраа Олександрівнаа</option>
-                    <option value="235">veronikasviezhentsea@gmail.com</option>
-                    <option value="236">test123@test.com</option>
-                    <option value="238">testtest123@test.com</option>
-                    <option value="239">Букатов Никита Александрович</option>
-                    <option value="240">Yuraу Matsakу Vladimirovichу</option>
-                    <option value="241">Yura Matsak Vladimirovich</option>
-                    <option value="242">Смирнов Павел Викторович</option>
-                    <option value="243">Тестеров Иван Иванович</option>
-                    <option value="244">Віка Вік Вікторівна</option>
-                    <option value="245">Андрій Андре Андрійович</option>
-                    <option value="246">Пантелеєв Іван Іванович</option>
-                    <option value="247">Маркушин Марк Степанович</option>
-                    <option value="248">Власник 1 Власник 1</option>
-                    <option value="249">Власник 2</option>
-                    <option value="250">Власник 3</option>
-                    <option value="251">Тестерович Данил Сергеевич</option>
-                    <option value="252">Ірина Іра Ігорівна</option>
-                    <option value="253">Вікторов Віктор Вікторович</option>
-                    <option value="254"></option>
-                    <option value="255">Волков Андрей</option>
-                    <option value="256">Кулибин Сергей</option>
-                    <option value="257">Любов Антон</option>
-                    <option value="258">в в в</option>
-                    <option value="259">ф ф ф</option>
-                    <option value="260">Просто  Саша Вікторівна</option>
-                    <option value="261">prosto20@gmail.com</option>
-                    <option value="262">procto53@gmail.com</option>
-                    <option value="263">fcnroie@gmail.com</option>
-                    <option value="264">Романенко Влада Олеговна</option>
-                    <option value="265">Зеленська Олена Володимирiвна</option>
-                    <option value="266">Мазуров Степан Петрович</option>
-                    <option value="267">Куджо Джотаро Жожович</option>
-                    <option value="268">vero@gmail.com</option>
-                    <option value="269">svit@gmail.com</option>
-                    <option value="270">asdf@gmail.com</option>
-                    <option value="271">maru@gmail.com</option>
-                    <option value="272">Maruna Kate</option>
-                    <option value="273">Maruin@gmail.com</option>
-                    <option value="274">Стартовий Олег Олегович</option>
-                    <option value="275">Yurka Yurii Yurievich</option>
-                    <option value="276">66 66 666</option>
-                    <option value="277">Олександрова Олександра Юріївна</option>
-                    <option value="278">Світланенко Руслан Васильович</option>
-                    <option value="279">Безпроблемний Руслан</option>
-                    <option value="280">Тест Тест</option>
-                    <option value="281">Вольова Наталія Ігорівна</option>
-                    <option value="282">Світланенко Руслан</option>
-                    <option value="283">Олександрова Олександра Олександрівна</option>
-                    <option value="284">&nbsp;Світоана</option>
-                    <option value="285">Миколаїв Микола 2 Миколайович</option>
-                    <option value="286">rfgtrf.n@gmail.com</option>
-                    <option value="287">пані людмила  Вікторівна</option>
-                    <option value="288">ТестМакса Вася Петрович</option>
-                    <option value="289">2112121 !qRYv%KT0cGQmD</option>
-                    <option value="290">gotovo@gmail.com</option>
-                    <option value="291">талпа катя</option>
-                    <option value="292">тестсчетчика тест тест</option>
-                    <option value="293">test1@test.test</option>
-                    <option value="294">Любитель Макс Максимович</option>
-                    <option value="295">Бандера Стефан</option>
-                    <option value="296">Ласкавий Валентин</option>
-                    <option value="297">Матросов Іван</option>
-                    <option value="298">Єй Я Й</option>
-                    <option value="299">Безпроблемний Іван</option>
-                    <option value="300">Сори Пришлость Очистить</option>
-                    <option value="301">yay@i.ua</option>
-                    <option value="302">Первый рембо анатольевич</option>
-                    <option value="303">Атаманчук Петр Алексеевич</option>
-                    <option value="304">чорний чорнявий</option>
-                    <option value="305">Мазурова Вероника Андреевна</option>
-                    <option value="306">Борисов Влад Денисович</option>
-                    <option value="307">Андрей Триска</option>
-                    <option value="315">Мартынов Олег Батькович</option>
-                    <option value="316">Шаренко Елена</option>
-                    <option value="317">Шаренко Елена</option>
-                    <option value="318">Шаренко111111  Елена11111111112  111111111122222</option>
-                    <option value="319">Елена Шаренко</option>
-                    <option value="320">Огурцов Игорь Викторович</option>
-                    <option value="321">Огурцова Оля Валерия</option>
-                    <option value="322">Огурцов Миша Игоревич</option>
-                    <option value="323">Шабашный Александр 123</option>
-                    <option value="324">qwe@qweqwe.com</option>
-                    <option value="325">asdfghjjk@gmail.com</option>
-                    <option value="326">Виктор</option>
-                    <option value="327">Паша</option>
-                    <option value="328">анл три</option>
-                    <option value="329">Чернецкий Никита</option>
-                    <option value="330">Владимиров Артем</option>
-                    <option value="331">Таранюк  Катерина Миколаївна</option>
-                    <option value="332">Булкин Аркадий Ефграфович</option>
-                    <option value="333">оооо 111 111</option>
-                    <option value="334">Дрозд Ангелина Власовна</option>
-                    <option value="335">2234475546%^&amp;×26""": ^^&amp;&amp;₴₴ 5гаро з 3456</option>
-                    <option value="336">Таранюк  Каткрина Миколаївна</option>
-                    <option value="337">Чарна Валентина</option>
-                    <option value="338">Полищук Юлия</option>
-                    <option value="339">Бобров Юрий</option>
-                    <option value="340">Таранюк  Максим</option>
-                    <option value="341">Юрченко Роман</option>
-                    <option value="342">Маслова Мария Сергеевна</option>
-                    <option value="343">Марчук Анастасия</option>
-                    <option value="344">Степанова Ольга</option>
-                    <option value="345">Ильчук Андрей</option>
-                    <option value="347">Тарасюк Сергей</option>
-                    <option value="348">Шершнев Игорь</option>
-                    <option value="349">Сухарева Владлена</option>
-                    <option value="350">Марков Андрей</option>
-                    <option value="351">Зоря Алина</option>
-                    <option value="353">Орлов Денис Олегович</option>
-                    <option value="354">Степанова Алена</option>
-                  </select>
-                  <span class="select2 select2-container select2-container--default"
-                        dir="ltr"
-                        style="width: 100%"><span class="selection"><span class="select2-selection select2-selection--single"
-      role="combobox"
-      aria-haspopup="true"
-      aria-expanded="false"
-      tabindex="0"
-      aria-labelledby="select2-flatform-user_id-container"><span class="select2-selection__rendered"
-      id="select2-flatform-user_id-container"><span class="select2-selection__placeholder">Выберите...</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-user_id">Владелец</label>
+                  {{ form.user }}
                 </div>
-                <div class="form-group field-flatform-tariff_id">
-                  <label class="control-label" for="flatform-tariff_id">Тариф</label>
-                  <select id="flatform-tariff_id"
-                          class="form-control"
-                          name="FlatForm[tariff_id]">
-                    <option value="">Выберите...</option>
-                    <option value="215">Аренда квартиры</option>
-                    <option value="226">Пенсионный тариф</option>
-                    <option value="227">Стандарт</option>
-                    <option value="228">Льготный</option>
-                    <option value="229">Большая семья</option>
-                    <option value="230">Аренда помещений</option>
-                    <option value="231">Паркинг</option>
-                  </select>
-                  <div class="help-block"></div>
+                <div class="form-group">
+                  <label for="flatform-tariff_id">Тариф</label>
+                  {{ form.tariff }}
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-xs-12 text-right">
-                <div class="form-group">
-                  <a href="/admin/flat/index" class="btn btn-default margin-bottom-15">Отменить</a>
-                  <input type="submit"
-                         class="btn btn-success margin-bottom-15"
-                         name="action_save"
-                         value="Сохранить" />
-                  <input type="submit"
-                         class="btn btn-success margin-bottom-15 bg-green-active"
-                         name="action_save_add"
-                         value="Сохранить и добавить новую" />
-                </div>
-              </div>
+            <div class="row text-right">
+              <a href="{% url 'admin:flat' %}" class="btn btn-default">Отменить</a>
+              <input type="submit"
+                     class="btn btn-success"
+                     name="action_save"
+                     value="Сохранить" />
+              <input type="submit"
+                     class="btn btn-success bg-green-active"
+                     name="action_save_add"
+                     value="Сохранить и добавить новую" />
             </div>
           </form>
         </div>
       </div>
     </section>
   </div>
-{% endblock %}
+  <script>
+    $(document).ready(function() {
+      // При изменении дома → подгружаем секции и этажи
+      $("#flatform-house_id").change(function() {
+        let house_id = $(this).val();
+
+        if (house_id) {
+          $.get("{% url 'admin:get_sections_by_house2' %}", {
+            house_id: house_id
+          }, function(data) {
+            $("#flatform-section_id").html(data);
+          });
+
+          $.get("{% url 'admin:get_floors' %}", {
+            house_id: house_id
+          }, function(data) {
+            $("#flatform-floor_id").html(data);
+          });
+        } else {
+          $("#flatform-section_id").html('<option value="">-- Выберите секцию --</option>');
+          $("#flatform-floor_id").html('<option value="">-- Выберите этаж --</option>');
+        }
+      });
+
+      // При изменении владельца → подгружаем лицевой счет
+      $("#flatform-user_id").change(function() {
+        let user_id = $(this).val();
+        if (!user_id) {
+          $("#flatform-account_uid").val('');
+          return;
+        }
+
+        $.get("{% url 'admin:get_user_account' %}", {
+          user_id: user_id
+        }, function(data) {
+          $("#flatform-account_uid").val(data.account_number || '');
+        });
+      });
+    });
+  </script>
+{% endblock content %}

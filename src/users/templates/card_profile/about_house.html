@@ -1,0 +1,104 @@
+{% load static %}
+
+<style>
+  .apartment-table th.title-column {
+    min-width: 200px;
+    font-weight: normal;
+  }
+
+  .apartment-table th.value-column {
+    font-weight: normal;
+  }
+</style>
+<div class="col-lg-9">
+  <h2 class="page-header">Мои квартиры</h2>
+  {% if apartments %}
+    <ul>
+      {% for apartment in apartments %}
+        <li>
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Описание квартиры</h3>
+            </div>
+            <div class="box-body">
+              <p>
+                {{ apartment.house.title }}. {{ apartment.house.address }},
+                кв. {{ apartment.apartment_number }}
+              </p>
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  {% if apartment.house.image1 %}
+                    <img class="img-responsive largeImg margin-bottom-30"
+                         src="{{ apartment.house.image1.url }}?w=522&h=350&fit=crop"
+                         alt="Apartment Image 1" />
+                  {% else %}
+                    <img class="img-responsive largeImg margin-bottom-30"
+                         src="{% static 'img.png' %}?w=522&h=350&fit=crop"
+                         alt="Placeholder Image" />
+                  {% endif %}
+                </div>
+                <div class="col-xs-6 col-md-3">
+                  {% if apartment.house.image2 %}
+                    <img class="img-responsive smallImg margin-bottom-30"
+                         src="{{ apartment.house.image2.url }}?w=248&h=160&fit=crop"
+                         alt="Apartment Image 2" />
+                  {% else %}
+                    <img class="img-responsive smallImg margin-bottom-30"
+                         src="{% static 'img.png' %}?w=248&h=160&fit=crop"
+                         alt="Placeholder Image" />
+                  {% endif %}
+                </div>
+                <!-- Repeat similarly for image3, image4, image5 -->
+              </div>
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped apartment-table">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Описание</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th class="title-column">Название дома</th>
+                      <th class="value-column">{{ apartment.house.title }}</th>
+                    </tr>
+                    <tr>
+                      <td>Адрес</td>
+                      <td>{{ apartment.house.address }}</td>
+                    </tr>
+                    <tr>
+                      <td>№ квартиры</td>
+                      <td>{{ apartment.apartment_number }}</td>
+                    </tr>
+                    <tr>
+                      <td>Площадь</td>
+                      <td>
+                        {{ apartment.area }}<sup>2</sup>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Этаж</td>
+                      <td>{{ apartment.floor.name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Секция</td>
+                      <td>{{ apartment.section.name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Лицевой счет</td>
+                      <td>
+                        {% if apartment.account %}{{ apartment.account.account_number }}{% endif %}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You are not associated with any apartments yet.</p>
+  {% endif %}
+</div>

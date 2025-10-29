@@ -94,9 +94,7 @@ class Floor(models.Model):
     """
 
     name = models.CharField(max_length=50, verbose_name="Этаж")
-    section = models.ForeignKey(
-        Section, on_delete=models.CASCADE, related_name="floors"
-    )
+    house = models.ForeignKey(House, on_delete=models.CASCADE, related_name="floors")
 
     class Meta:
         """Meta options for the Floor model."""
@@ -106,7 +104,7 @@ class Floor(models.Model):
 
     def __str__(self):
         """Return the floor number."""
-        return f"Floor {self.number}"
+        return f"Floor {self.name}"
 
 
 class Apartment(models.Model):
@@ -122,13 +120,30 @@ class Apartment(models.Model):
 
     apartment_number = models.PositiveIntegerField(verbose_name="Номер квартиры")
     area = models.FloatField(verbose_name="Площадь, м²")
+    house = models.ForeignKey("building.House", on_delete=models.CASCADE)
+    section = models.ForeignKey("building.Section", on_delete=models.CASCADE)
     floor = models.ForeignKey(
-        Floor, on_delete=models.CASCADE, related_name="apartments"
+        "building.Floor", on_delete=models.CASCADE, related_name="apartments"
     )
     tariff = models.ForeignKey(
         "services.Tariff", on_delete=models.SET_NULL, null=True, blank=True
     )
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(
+        "users.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="apartments",
+    )
+
+    # связь один-к-одному с лицевым счётом
+    account = models.OneToOneField(
+        "financials.PersonalAccount",
+        on_delete=models.CASCADE,
+        related_name="apartment",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         """Meta options for the Floor model."""
@@ -138,4 +153,4 @@ class Apartment(models.Model):
 
     def __str__(self):
         """Return the apartment number."""
-        return f"Apartment {self.number}"
+        return f"Apartment {self.apartment_number}"

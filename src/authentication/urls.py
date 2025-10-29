@@ -13,4 +13,6 @@ urlpatterns = [
         name="logout",
     ),
     path("", views.CustomLoginView.as_view(), name="login"),
+    path("registration", views.RegistrationView.as_view(), name="registration"),
+    path("private_policy", views.PrivatePolicy.as_view(), name="private_policy"),
 ]

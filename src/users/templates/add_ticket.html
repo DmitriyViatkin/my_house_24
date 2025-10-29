@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <style>
+    .content-min-height {
+      min-height: 911px;
+    }
+  </style>
+  <div class="content-wrapper content-min-height">
+    <section class="content-header">
+      <h1>Новая заявка</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'cabinet_home' %}">
+            <i class="fa fa-home"></i> Главная
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'master_request_index' %}">Вызов мастера</a>
+        </li>
+        <li class="active">Новая заявка</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form method="post" id="ticket-form">
+            {% csrf_token %}
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="{{ form.role.id_for_label }}">Тип мастера</label>
+                {{ form.role }}
+                <div class="help-block"></div>
+              </div>
+              <div class="form-group">
+                <label for="{{ form.house.id_for_label }}">Квартира</label>
+                {{ form.house }}
+                <div class="help-block"></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Дата заявки</label>
+                    {{ form.date }}
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Время заявки</label>
+                    {{ form.time }}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="{{ form.comment.id_for_label }}">Описание</label>
+                {{ form.comment }}
+                <div class="help-block"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Отправить заявку</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

@@ -1,0 +1,230 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
+  <style>
+    .img-preview {
+      max-width: 100%;
+      max-height: 200px;
+      height: auto;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      padding: 3px;
+      border-radius: 4px;
+    }
+
+    .wysihtml5-sandbox {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 100px;
+      width: 100% !important;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .form-websiteservice {
+      margin-bottom: 20px;
+    }
+
+    #empty-form-template {
+      display: none;
+    }
+
+    .hidden-delete {
+      display: none;
+    }
+
+    .content-wrapper {
+      min-height: 839px;
+    }
+  </style>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Редактирование страницы</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li class="active">Редактирование страницы</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Редактирование страницы "Тарифы"</h3>
+            </div>
+            <div class="box-body">
+              <form id="tariff-form"
+                    action="{% url 'admin:tariffs' %}"
+                    method="post"
+                    enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                {{ form.media }}
+                <div class="row near-img" id="form-websiteservice-rows">
+                  {% for form in formset %}
+                    <div class="col-md-4 form-websiteservice">
+                      {{ form.id }}
+                      <div class="hidden-delete">{{ form.DELETE }}</div>
+                      <h4>
+                        Тариф {{ forloop.counter }}
+                        {% if form.instance.pk or form.id %}
+                          <button type="button" class="pull-right text-red remove-service-btn">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        {% endif %}
+                      </h4>
+                      {% if form.instance.image %}
+                        <img src="{{ form.instance.image.url }}" alt="preview" class="img-preview" />
+                      {% else %}
+                        <img src="{% static 'img.png' %}?w=522&h=350&fit=crop"
+                             alt="preview"
+                             class="img-preview" />
+                      {% endif %}
+                      <div class="form-group">
+                        <label>Рекомендуемый размер: (650x300)</label>
+                        {{ form.image }}
+                      </div>
+                      <div class="form-group">
+                        <label>Название Тарифа</label>
+                        {{ form.title }}
+                      </div>
+                      <div class="form-group">
+                        <label>Описание Тарифа</label>
+                        {{ form.description }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3>SEO настройки</h3>
+                    <div class="form-group">
+                      {{ form.title.label_tag }}
+                      {{ form.title }}
+                    </div>
+                    <div class="form-group">
+                      {{ form.description.label_tag }}
+                      {{ form.description }}
+                    </div>
+                    <div class="form-group">
+                      {{ form.keyword.label_tag }}
+                      {{ form.keyword }}
+                    </div>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="form-group">
+                    <a href="{% url 'admin:tariffs' %}" class="btn btn-default">Отменить</a>
+                    <div id="empty-form-template">
+                      <div class="col-md-4 form-websiteservice">
+                        {{ formset.empty_form.id }}
+                        <div class="hidden-delete">{{ formset.empty_form.DELETE }}</div>
+                        <h4>
+                          Тариф <span class="service-number-placeholder"></span>
+                          <button type="button" class="pull-right text-red remove-service-btn">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </h4>
+                        <img src="{% static 'img.png' %}?w=522&h=350&fit=crop"
+                             alt="preview"
+                             class="img-preview" />
+                        <div class="form-group">
+                          <label>Рекомендуемый размер: (650x300)</label>
+                          {{ formset.empty_form.image }}
+                        </div>
+                        <div class="form-group">
+                          <label>Название тарифа</label>
+                          {{ formset.empty_form.title }}
+                        </div>
+                        <div class="form-group">
+                          <label>Описание тарифа</label>
+                          {{ formset.empty_form.description }}
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button"
+                            id="add-service-btn"
+                            class="btn btn-success bg-green-active">Добавить тариф</button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
+  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      function initWysihtml5(el) {
+        let $el = $(el);
+        $el.show();
+        $el.siblings('iframe.wysihtml5-sandbox').remove();
+        $el.siblings('input[name="_wysihtml5_mode"]').remove();
+        $el.closest('.form-group').find('.wysihtml5-toolbar').remove();
+        $el.wysihtml5({
+          locale: 'ru-RU'
+        });
+      }
+
+      $('.wysihtml5').each(function() {
+        initWysihtml5(this);
+      });
+
+      $('#add-service-btn').click(function(e) {
+        e.preventDefault();
+        let totalForms = $('#id_form-TOTAL_FORMS');
+        let currentCount = parseInt(totalForms.val());
+        let formRow = $('#empty-form-template .form-websiteservice').clone(false);
+        formRow.find('*').each(function() {
+          let $el = $(this);
+          if ($el.attr('name')) $el.attr('name', $el.attr('name').replace(/__prefix__/g, currentCount));
+          if ($el.attr('id')) $el.attr('id', $el.attr('id').replace(/__prefix__/g, currentCount));
+          if ($el.attr('for')) $el.attr('for', $el.attr('for').replace(/__prefix__/g, currentCount));
+        });
+        formRow.find('.service-number-placeholder').text(currentCount + 1);
+        $('#form-websiteservice-rows').append(formRow);
+        totalForms.val(currentCount + 1);
+        formRow.find('textarea.wysihtml5').each(function() {
+          initWysihtml5(this);
+        });
+      });
+
+      $(document).on('change', 'input[type="file"]', function(e) {
+        let input = e.target;
+        if (input.files && input.files[0]) {
+          let reader = new FileReader();
+          let preview = $(input).closest('.form-websiteservice').find('.img-preview');
+          reader.onload = function(ev) {
+            preview.attr('src', ev.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      });
+
+      $(document).on('click', '.remove-service-btn', function(e) {
+        e.preventDefault();
+        let formRow = $(this).closest('.form-websiteservice');
+        let deleteInput = formRow.find('input[type="checkbox"][name$="-DELETE"]');
+        if (deleteInput.length) {
+          deleteInput.prop('checked', true);
+          formRow.hide();
+        } else {
+          formRow.remove();
+          let totalForms = $('#id_form-TOTAL_FORMS');
+          totalForms.val(parseInt(totalForms.val()) - 1);
+        }
+      });
+    });
+  </script>
+{% endblock content %}

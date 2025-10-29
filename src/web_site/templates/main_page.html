@@ -1,0 +1,28 @@
+{% block seo %}
+  <!-- SEO по умолчанию -->
+  <title>{{ main_page.seo.title }}</title>
+  <meta name="description" content="{{ main_page.seo.description }}" />
+  <meta name="keywords" content="{{ main_page.seo.keyword }}" />
+{% endblock seo %}
+{% block content %}
+  <style>
+    .slick-prev,
+    .slick-next {
+      opacity: 0.5;
+      /* прозрачность по умолчанию */
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+
+    .slick-prev:hover,
+    .slick-next:hover {
+      opacity: 1;
+      /* при наведении становятся полностью видимыми */
+    }
+  </style>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  {% include "card/slider.html" %}
+  {% include "card/info.html" %}
+  {% include "card/advantages.html" %}
+{% endblock content %}

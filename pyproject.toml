@@ -21,6 +21,15 @@ django-ajax-datatable = "4.5.0"
 django-filter = "^25.1"
 django-recaptcha = "^4.1.0"
 django-recaptcha3 = "^0.4.0"
+django-ckeditor = "^6.7.3"
+django-wysihtml5 = "^1.2b3"
+django-glide = "^0.6.0"
+pandas = "^2.3.2"
+openpyxl = "^3.1.5"
+django-autocomplete-light = "^3.12.1"
+weasyprint = "^66.0"
+celery = "^5.5.3"
+redis = "^6.4.0"
 
 
 [tool.poetry.group.dev.dependencies]

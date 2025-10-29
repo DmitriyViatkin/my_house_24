@@ -1,36 +1,23 @@
-{% extends '/base.html' %}
+{% extends "base.html" %}
 
+{% load static %}
+
+{% block seo %}
+  <!-- SEO по умолчанию -->
+  <title>{{ contact.seo.title }}</title>
+  <meta name="description" content="{{ contact.seo.description }}" />
+  <meta name="keywords" content="{{ contact.seo.keyword }}" />
+{% endblock seo %}
 {% block content %}
-  <div style="width: 100%">
-    <iframe width="100%"
-            height="600"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Odessa%20Ukraine%20Avada%20Media+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-      <a href="https://www.maps.ie/distance-area-calculator.html">measure acres/hectares on map</a>
-    </iframe>
-  </div>
+  <div class="contact-map">{{ contact.map|safe }}</div>
   <div class="contacts">
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-8">
           <div class="page-header">
-            <h1>❤️❤️❤️</h1>
+            <h1>{{ contact.title }}</h1>
           </div>
-          <div class="box">
-            <p>
-              <b></b><b></b><b></b>Р<b></b><u></u>азработчиком системы&nbsp;"Мой Дом 24" является компания AVADA-MEDIA -&nbsp;наша компания, специализируется на разработке web и мобильных п<b></b><u></u>риложений разного уровня сложности, но неизменно высокого качества!!!
-              <br />
-            </p>
-            <p>
-              <b><i>Официальный сайт компании -&nbsp;</i></b><a target="_blank" rel="nofollow" href="https://avada-media.ua/"><b><i></i></b><u></u>https://avada-media.ua/</a>
-            </p>
-            <p>
-              <b></b>
-            </p>
-          </div>
+          <div class="box">{{ contact.description|safe }}</div>
         </div>
         <div class="col-xs-12 col-sm-5 col-md-4">
           <div class="page-header">
@@ -38,23 +25,23 @@
           </div>
           <div class="box">
             <p>
-              <i class="fas fa-user-circle"></i> AVADA-MEDIА
+              <i class="fas fa-user-circle"></i> {{ contact.full_name }}
             </p>
             <p>
-              <i class="fas fa-compass"></i> ул. Космонавтов, 32
+              <i class="fas fa-compass"></i> {{ contact.location }}
             </p>
             <p>
-              <i class="fas fa-map-marker"></i> Малиновский р-н, г. Одесса
+              <i class="fas fa-map-marker"></i> {{ contact.address }}
             </p>
             <p>
-              <i class="fas fa-phone"></i> <a href="tel:+380971799663">+38 (097) 179-96-63</a>
+              <i class="fas fa-phone"></i> <a href="tel:{{ contact.phone }}">{{ contact.phone }}</a>
             </p>
             <p>
-              <i class="fas fa-envelope"></i> <a href="mailto:info@avada-media.com.ua">info@avada-media.com.ua</a>
+              <i class="fas fa-envelope"></i> <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
+{% endblock content %}

@@ -505,7 +505,7 @@ window.AjaxDatatableViewUtils = (function() {
                 Object.assign(options, extra_options);
             }
 
-            var table = element.DataTable(options);
+            var table = element.dataTable(options);
 
             _daterange_widget_initialize(table, data);
             after_table_initialization(table, data, url, options, extra_data);

@@ -1,0 +1,186 @@
+{% extends "main.html" %}
+
+{% load static %}
+
+{% block content %}
+  <style>
+    .content-wrapper {
+      min-height: 839px;
+    }
+  </style>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Новый владелец</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:owners' %}">Владельцы квартир</a>
+        </li>
+        <li class="active">Новый владелец</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form id="w0" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="is_new_record" value="1" />
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="userAvatar">
+                  <div class="userAvatar">
+                    <img id="avatarPreview"
+                         class="img-circle pull-left img-responsive"
+                         src="{% static 'img.png' %}?w=160&h=160&fit=crop"
+                         width="160"
+                         height="160"
+                         alt="User avatar preview" />
+                    <div class="form-group">
+                      {{ form.image.label_tag }}
+                      {{ form.image }}
+                      {{ form.image.errors }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                  {{ form.status.label_tag }}
+                  {{ form.status }}
+                  {{ form.status.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.user_id.label_tag }}
+                  {{ form.user_id }}
+                  {{ form.user_id.errors }}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                  {{ form.last_name.label_tag }}
+                  {{ form.last_name }}
+                  {{ form.last_name.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.first_name.label_tag }}
+                  {{ form.first_name }}
+                  {{ form.first_name.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.second_name.label_tag }}
+                  {{ form.second_name }}
+                  {{ form.second_name.errors }}
+                </div>
+                <div class="form-group field-userform-birthdate">
+                  {{ form.date_birthday.label_tag }}
+                  <div id="userform-birthdate-kvdate" class="input-group date">
+                    {{ form.date_birthday }}
+                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                  </div>
+                  {{ form.date_birthday.errors }}
+                </div>
+                <h2 class="page-header">Контактные данные</h2>
+                <div class="form-group">
+                  {{ form.phone.label_tag }}
+                  {{ form.phone }}
+                  {{ form.phone.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.viber.label_tag }}
+                  {{ form.viber }}
+                  {{ form.viber.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.telegram.label_tag }}
+                  {{ form.telegram }}
+                  {{ form.telegram.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.email.label_tag }}
+                  {{ form.email }}
+                  {{ form.email.errors }}
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <h2 class="page-header">Контактные данные</h2>
+                <div class="form-group">
+                  {{ form.description.label_tag }}
+                  {{ form.description }}
+                  {{ form.description.errors }}
+                </div>
+                <h2 class="page-header">Изменить пароль</h2>
+                <div class="form-group field-userform-password">
+                  {{ form.password.label_tag }}
+                  <div class="input-group">
+                    {{ form.password }}
+                    <span class="input-group-btn">
+                      <button class="btn btn-default"
+                              type="button"
+                              onclick="generatePassword('.pass-value')">Сгенерировать</button>
+                      <button type="button" class="btn btn-primary" id="showPass">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+                  {{ form.password.errors }}
+                </div>
+                <div class="form-group">
+                  {{ form.password2.label_tag }}
+                  {{ form.password2 }}
+                  {{ form.password2.errors }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 text-right">
+                  <a href="{% url 'admin:owners' %}" class="btn btn-default">Отменить</a>
+                  <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+              </div>
+            </form>
+            <script>
+              function generatePassword(targetSelector) {
+                var pass = Math.random().toString(36).substring(4);
+                $('input' + targetSelector).val(pass);
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('#userform-birthdate').datepicker({
+        format: 'dd.mm.yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        language: 'ru'
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const fileInput = document.querySelector('input[name="image"]');
+      const preview = document.getElementById("avatarPreview");
+
+      if (fileInput) {
+        fileInput.addEventListener("change", function(event) {
+          const file = event.target.files[0];
+          if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    });
+  </script>
+{% endblock content %}

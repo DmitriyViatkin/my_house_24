@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Сообщение</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:home' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:message' %}">Сообщения</a>
+        </li>
+        <li class="active">Сообщение</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <div class="box-body no-padding">
+          <div class="mailbox-read-info">
+            <h3>{{ object.title }}</h3>
+            <h5>
+              {{ object.sender }}
+              <span class="mailbox-read-time pull-right">{{ object.created_at }}</span>
+            </h5>
+          </div>
+          <div class="mailbox-read-message">
+            <p>{{ object.text|safe }}</p>
+          </div>
+        </div>
+        <div class="box-footer">
+          <form action="{% url 'admin:message_delete' pk=object.pk %}"
+                method="post"
+                class="d-inline">
+            {% csrf_token %}
+            <button type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Вы уверены, что хотите удалить это сообщение?');">
+              <i class="fa fa-trash-o"></i> Удалить
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block seo %}
+  {% if tariffs %}
+    <title>{{ tariffs.0.seo.title }}</title>
+    <meta name="description" content="{{ tariffs.0.seo.description }}" />
+    <meta name="keywords" content="{{ tariffs.0.seo.keyword }}" />
+  {% else %}
+    <title>Наши тарифы</title>
+    <meta name="description" content="Описание услуг" />
+    <meta name="keywords" content="услуги" />
+  {% endif %}
+{% endblock seo %}
+{% block content %}
+  <div class="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="page-header">
+            <h1>Наши Тарифы</h1>
+          </div>
+        </div>
+      </div>
+      {% for tariff in tariffs %}
+        <div class="row">
+          <div class="col-xs-12 col-md-7">
+            <img src="{{ tariff.image.url }}"
+                 class="img-responsive img-thumbnail"
+                 alt="{{ tariff.title }}" />
+          </div>
+          <div class="col-xs-12 col-md-5">
+            <div class="page-header">
+              <h3>{{ tariff.title }}</h3>
+            </div>
+            {{ tariff.description|safe }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="paginations">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <nav aria-label="Page navigation">
+            <!-- Здесь можно вставить пагинацию -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

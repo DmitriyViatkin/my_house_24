@@ -1,0 +1,16 @@
+<div class="gallery g2">
+  <div class="container">
+    <div class="row">
+      {% for image in additional_gallery.images.all %}
+        <div class="col-xs-12 col-sm-6 col-md-3 item"
+             data-src="{{ image.image.url }}">
+          <a href="{{ image.image.url }}" class="big">
+            <img src="{{ image.image.url }}"
+                 alt="Gallery image"
+                 class="img-responsive img-thumbnail" />
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

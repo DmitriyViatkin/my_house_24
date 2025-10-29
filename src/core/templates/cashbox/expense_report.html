@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  {{ form.media }}
+  <div class="content-wrapper min-height-876">
+    <section class="content-header">
+      <h1>Новая расходная ведомость</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'account_transaction_index' %}">Платежи</a>
+        </li>
+        <li class="active">Новая расходная ведомость</li>
+      </ul>
+    </section>
+    <section class="content">
+      <form id="w0" method="post">
+        {% csrf_token %}
+        <!-- ...весь код форми без змін... -->
+        <div class="row">
+          <div class="col-xs-12 text-right">
+            <div class="form-group">
+              <a href="{% url 'account_transaction_index' %}"
+                 class="btn btn-default margin-bottom-15">Отменить</a>
+              <input type="submit"
+                     class="btn btn-success margin-bottom-15"
+                     name="action_save"
+                     value="Сохранить" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock content %}

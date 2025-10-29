@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block content %}
+  <style>
+    .content-min-height {
+      min-height: 876px;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
+  <div class="content-wrapper content-min-height">
+    <section class="content-header">
+      <h1>Новое сообщение</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:message' %}">Сообщения</a>
+        </li>
+        <li class="active">Новое сообщение</li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="box">
+        <form id="send-message-form"
+              action="{% url 'admin:send_message' %}"
+              method="post">
+          {% csrf_token %}
+          <div class="box-header with-border">
+            <h3 class="box-title">Отправка массового сообщения</h3>
+          </div>
+          <div class="box-body">
+            <div class="form-group required">
+              <label class="control-label" for="{{ form.title.id_for_label }}">Заголовок</label>
+              {{ form.title }}
+              <div class="help-block">{{ form.title.errors }}</div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label" for="{{ form.text.id_for_label }}">Текст сообщения</label>
+              {{ form.text }}
+              <div class="help-block">{{ form.text.errors }}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <h4>Кому отправить:</h4>
+                <div class="form-group form-check">
+                  <label class="form-check-label">
+                    {{ form.only_debtors }}
+                    Владельцам с задолженностями
+                  </label>
+                  <div class="help-block">{{ form.only_debtors.errors }}</div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="{{ form.house.id_for_label }}">ЖК</label>
+                  {{ form.house }}
+                  <div class="help-block">{{ form.house.errors }}</div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="{{ form.section.id_for_label }}">Секция</label>
+                  {{ form.section }}
+                  <div class="help-block">{{ form.section.errors }}</div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="{{ form.floor.id_for_label }}">Этаж</label>
+                  {{ form.floor }}
+                  <div class="help-block">{{ form.floor.errors }}</div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="{{ form.flat.id_for_label }}">Квартира</label>
+                  {{ form.flat }}
+                  <div class="help-block">{{ form.flat.errors }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="pull-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-envelope-o"></i> Отправить
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {{ form.media }}
+  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
+  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
+  <script>
+    $(document).ready(function() {
+      // Инициализация WYSIWYG-редактора
+      $('#{{ form.text.id_for_label }}').wysihtml5({
+        toolbar: {
+          "font-styles": true,
+          "emphasis": true,
+          "lists": true,
+          "html": true,
+          "link": true,
+          "image": true,
+          "color": true
+        },
+        locale: 'ru-RU'
+      });
+    });
+  </script>
+{% endblock content %}

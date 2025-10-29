@@ -13,66 +13,68 @@
     </section>
     <section class="content">
       <div class="box">
- <form method="post">
-    {% csrf_token %}
-    {{ formset.management_form }}
-     <div class="box-body table-responsive no-padding">
+        <form method="post">
+          {% csrf_token %}
+          {{ formset.management_form }}
+          <div class="box-body table-responsive no-padding">
             <table class="table table-bordered table-hover table-striped">
-               <thead>
-<tr>
-    <th>Роль</th>
-    <th class="text-center">Статистика</th>
-    <th class="text-center">Касса</th>
-    <th class="text-center">Квитанции</th>
-    <th class="text-center">Лицевой счёт</th>
-    <th class="text-center">Работники</th>
-    <th class="text-center">Владельцы</th>
-    <th class="text-center">Сообщения</th>
-    <th class="text-center">Заявки вызова мастера</th>
-    <th class="text-center">Счётчики</th>
-    <th class="text-center">Управление</th>
-    <th class="text-center">Услуги</th>
-    <th class="text-center">Роли</th>
-    <th class="text-center">Тарифы</th>
-    <th class="text-center">Платежные данные</th>
-</tr>
-</thead>
-<tbody>
-{% for form in formset %}
-<tr>
-    <td>
-        {{ form.id }}
-        {{ form.name.as_hidden }}
-        {{ form.instance.name }}
-    </td>
-    <td class="text-center">{{ form.has_statistic }}</td>
-    <td class="text-center">{{ form.has_cashbox }}</td>
-    <td class="text-center">{{ form.has_invoice }}</td>
-    <td class="text-center">{{ form.has_personal_account }}</td>
-    <td class="text-center">{{ form.has_user }}</td>
-    <td class="text-center">{{ form.has_owner }}</td>
-    <td class="text-center">{{ form.has_message }}</td>
-    <td class="text-center">{{ form.has_applications }}</td>
-    <td class="text-center">{{ form.has_counter }}</td>
-    <td class="text-center">{{ form.has_managment }}</td>
-    <td class="text-center">{{ form.has_service }}</td>
-    <td class="text-center">{{ form.has_role }}</td>
-    <td class="text-center">{{ form.has_tariff }}</td>
-    <td class="text-center">{{ form.has_payment_details }}</td>
-</tr>
-                    {% endfor %}
-                </tbody>
-
-    </table>
-         <div class="col-xs-12 text-right">
-        <div class="form-group margin-top-15 margin-right-15">
-            <a href="{% url 'admin:role' %}" class="btn btn-default">Отменить</a>
-            <button type="submit" class="btn btn-success">Сохранить</button>
-        </div>
-     </div>
-</div>
-</form>
-
+              <thead>
+                <tr>
+                  <th>Роль</th>
+                  <th class="text-center">Статистика</th>
+                  <th class="text-center">Дома</th>
+                  <th class="text-center">Касса</th>
+                  <th class="text-center">Квитанции</th>
+                  <th class="text-center">Квартиры</th>
+                  <th class="text-center">Лицевой счёт</th>
+                  <th class="text-center">Работники</th>
+                  <th class="text-center">Владельцы</th>
+                  <th class="text-center">Сообщения</th>
+                  <th class="text-center">Заявки вызова мастера</th>
+                  <th class="text-center">Счётчики</th>
+                  <th class="text-center">Управление</th>
+                  <th class="text-center">Услуги</th>
+                  <th class="text-center">Роли</th>
+                  <th class="text-center">Тарифы</th>
+                  <th class="text-center">Платежные данные</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for form in formset %}
+                  <tr>
+                    <td>
+                      {{ form.id }}
+                      {{ form.name.as_hidden }}
+                      {{ form.instance.name }}
+                    </td>
+                    <td class="text-center">{{ form.has_statistic }}</td>
+                    <td class="text-center">{{ form.has_house }}</td>
+                    <td class="text-center">{{ form.has_cashbox }}</td>
+                    <td class="text-center">{{ form.has_invoice }}</td>
+                    <td class="text-center">{{ form.has_apartment }}</td>
+                    <td class="text-center">{{ form.has_personal_account }}</td>
+                    <td class="text-center">{{ form.has_user }}</td>
+                    <td class="text-center">{{ form.has_owner }}</td>
+                    <td class="text-center">{{ form.has_message }}</td>
+                    <td class="text-center">{{ form.has_applications }}</td>
+                    <td class="text-center">{{ form.has_counter }}</td>
+                    <td class="text-center">{{ form.has_managment }}</td>
+                    <td class="text-center">{{ form.has_service }}</td>
+                    <td class="text-center">{{ form.has_role }}</td>
+                    <td class="text-center">{{ form.has_tariff }}</td>
+                    <td class="text-center">{{ form.has_payment_details }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="col-xs-12 text-right">
+              <div class="form-group margin-top-15 margin-right-15">
+                <a href="{% url 'admin:role' %}" class="btn btn-default">Отменить</a>
+                <button type="submit" class="btn btn-success">Сохранить</button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
   </div>
