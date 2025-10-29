@@ -2,31 +2,246 @@
 
 {% load static %}
 
-{% block extra_head %}
+{% block content %}
   <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
   <link rel="stylesheet"
         href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-{% endblock extra_head %}
-{% block content %}
   <div class="content-wrapper content-wrapper-min-height">
     <section class="content-header">
       <h1>Лицевые счета</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}">
+            <i class="fa fa-home"></i> Главная
+          </a>
         </li>
         <li class="active">Лицевые счета</li>
       </ul>
     </section>
     <section class="content">
-      <!-- здесь твои таблицы и кнопки -->
+      <div class="row">
+        <div class="col-xs-12 col-lg-9">
+          <div class="row">
+            <div class="col-xs-12 col-md-4">
+              <div class="small-box bg-green overflow-hidden">
+                <div class="inner">
+                  <h3>{{ cashbox_balance }} грн</h3>
+                  <p>Состояние кассы</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-dollar"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <div class="small-box bg-blue overflow-hidden">
+                <div class="inner">
+                  <h3>{{ personal_balance }} грн</h3>
+                  <p>Баланс по счетам</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-dollar"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <div class="small-box bg-red overflow-hidden">
+                <div class="inner">
+                  <h3>{{ debt }} грн</h3>
+                  <p>Задолженность по счетам</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-dollar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+          <div class="btn-group pull-right margin-bottom">
+            <button type="button"
+                    class="btn btn-success dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              Выберите действие <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="{% url 'admin:add_account' %}">Добавить лицевой счет</a>
+              </li>
+              <li>
+                <a href="{% url 'admin:export_accounts' %}">Выгрузить в Excel</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title"></h3>
+              <div class="box-tools">
+                <a href="{% url 'admin:account' %}" class="btn btn-default btn-sm">
+                  <span class="hidden-xs">Очистить</span>
+                  <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div class="grid-view">
+              <div class="box-body table-responsive no-padding">
+                <table id="filter"
+                       class="table table-bordered table-hover table-striped linkedRow">
+                  <thead>
+                    <tr>
+                      <th>{{ filter_form.account_number.label_tag }}</th>
+                      <th>{{ filter_form.status.label_tag }}</th>
+                      <th>{{ filter_form.apartment_number.label_tag }}</th>
+                      <th>{{ filter_form.house_title.label_tag }}</th>
+                      <th>{{ filter_form.house_section.label_tag }}</th>
+                      <th>{{ filter_form.full_name.label_tag }}</th>
+                      <th>{{ filter_form.cashbox_sum.label_tag }}</th>
+                      <th>Действия</th>
+                    </tr>
+                    <tr>
+                      <th>{{ filter_form.account_number }}</th>
+                      <th>{{ filter_form.status }}</th>
+                      <th>{{ filter_form.apartment_number }}</th>
+                      <th>{{ filter_form.house_title }}</th>
+                      <th>{{ filter_form.house_section }}</th>
+                      <th>{{ filter_form.full_name }}</th>
+                      <th>{{ filter_form.cashbox_sum }}</th>
+                      <th>
+                        <button type="submit" class="btn btn-primary btn-sm">Поиск</button>
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="grid-view">
+                <div class="box-body table-responsive no-padding">
+                  <table id="personalaccount"
+                         class="table table-bordered table-hover table-striped linkedRow">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Статус</th>
+                        <th>Квартира</th>
+                        <th>Дом</th>
+                        <th>Секция</th>
+                        <th>Пользователь</th>
+                        <th>Баланс</th>
+                        <th>Действия</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+                <div class="box-footer clearfix"></div>
+              </div>
+              <div class="box-footer">
+                <div>
+                  Количество счетов: <span class="text-bold">{{ total_accounts|default:"0" }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
   <script>
     $(document).ready(function() {
-      // JS код для таблиц
+      let table = $('#personalaccount').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: false,
+        lengthChange: false,
+        pageLength: 50,
+        ajax: {
+          url: '{% url "admin:ajax_datatable_personal_account" %}',
+          type: 'POST',
+          data: function(d) {
+            d.account_number = $('#id_account_number').val();
+            d.house_title = $('#id_house_title').val();
+            d.house_section = $('#id_house_section').val();
+            d.apartment_number = $('#id_apartment_number').val();
+            d.full_name = $('#id_full_name').val();
+          }
+        },
+        columns: [{
+          data: 'account_number'
+        }, {
+          data: 'status'
+        }, {
+          data: 'apartment_number'
+        }, {
+          data: 'house_title'
+        }, {
+          data: 'house_section'
+        }, {
+          data: 'full_name'
+        }, {
+          data: 'cashbox_sum'
+        }, {
+          data: 'actions'
+        }]
+      });
+
+      $('#personalaccount tbody').on('click', 'tr', function(e) {
+        if ($(e.target).closest('a, button, input').length) return;
+        let data = table.row(this).data();
+        if (data && data.id) {
+          window.location.href = '{% url "admin:card" 0 %}'.replace('/0/', '/' + data.id + '/');
+        }
+      });
+
+      $('#id_account_number, #id_house_title, #id_house_section, #id_apartment_number, #id_full_name')
+        .on('change keyup', function() {
+          table.ajax.reload(null, false);
+        });
+
+      $('#id_house_title').on('change', function() {
+        let houseId = $(this).val();
+        let sectionSelect = $('#id_house_section');
+        sectionSelect.empty().append('<option value="">Все</option>');
+        if (!houseId) return table.ajax.reload();
+        $.get('{% url "admin:get_sections_ajax" %}', {
+          house_id: houseId
+        }, function(data) {
+          data.forEach(s => sectionSelect.append('<option value="' + s.id + '">' + s.name + '</option>'));
+          table.ajax.reload();
+        });
+      });
+
+      $('#id_house_section').on('change', function() {
+        let sectionId = $(this).val();
+        let apartmentSelect = $('#id_apartment_number');
+        apartmentSelect.empty().append('<option value="">Все</option>');
+        if (!sectionId) return table.ajax.reload();
+        $.get('{% url "admin:get_apartments_ajax" %}', {
+          section_id: sectionId
+        }, function(data) {
+          data.forEach(a => apartmentSelect.append('<option value="' + a.id + '">' + a.apartment_number + '</option>'));
+          table.ajax.reload();
+        });
+      });
+
+      $('#id_apartment_number').on('change', function() {
+        let aptId = $(this).val();
+        if (!aptId) {
+          $('#id_full_name').val('');
+          return table.ajax.reload();
+        }
+        $.get('{% url "admin:get_apartment_owner_ajax" %}', {
+          apartment_id: aptId
+        }, function(data) {
+          $('#id_full_name').val(data.owner);
+          table.ajax.reload();
+        });
+      });
     });
   </script>
 {% endblock content %}

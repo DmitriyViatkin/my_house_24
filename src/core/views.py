@@ -1753,6 +1753,21 @@ class CardHouseView(LoginRequiredMixin, RolePermissionRequiredMixin, TemplateVie
         return context
 
 
+class HouseDeleteView(LoginRequiredMixin, RolePermissionRequiredMixin, DeleteView):
+    """View for deleting a house."""
+
+    model = House
+    template_name = "house/house_confirm_delete.html"
+    success_url = reverse_lazy("admin:house")
+    role_permission = "has_house"
+
+    def delete(self, request, *args, **kwargs):
+        """Add success message after deletion."""
+        house = self.get_object()
+        messages.success(request, f"Дом '{house.title}' был успешно удалён.")
+        return super().delete(request, *args, **kwargs)
+
+
 # ToDo Квитанции
 class InvoiceView(LoginRequiredMixin, RolePermissionRequiredMixin, ListView, FormView):
     """View for managing invoices and receipts."""
@@ -5121,3 +5136,30 @@ def trigger_mass_email(request):
     context = {"form": form, "title": "Новое сообщение"}
     # Здесь используется имя шаблона, которое вы предоставили
     return render(request, "admin/send_message_form.html", context)
+
+
+def get_sections_ajax(request):
+    """Возвращает список секций для выбранного дома."""
+    house_id = request.GET.get("house_id")
+    sections = Section.objects.filter(house_id=house_id).values("id", "name")
+    return JsonResponse(list(sections), safe=False)
+
+
+def get_apartments_ajax(request):
+    """Возвращает список квартир для выбранной секции."""
+    section_id = request.GET.get("section_id")
+    apartments = Apartment.objects.filter(section_id=section_id).values(
+        "id", "apartment_number"
+    )
+    return JsonResponse(list(apartments), safe=False)
+
+
+def get_apartment_owner_ajax(request):
+    """Возвращает владельца квартиры."""
+    apartment_id = request.GET.get("apartment_id")
+    apartment = (
+        Apartment.objects.filter(id=apartment_id).select_related("owner").first()
+    )
+    if apartment and apartment.owner:
+        return JsonResponse({"owner": apartment.owner.get_full_name()})
+    return JsonResponse({"owner": ""})

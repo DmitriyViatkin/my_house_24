@@ -387,4 +387,11 @@ urlpatterns = [
         name="account-autocomplete",
     ),
     path("ajax/get-owner/", views.get_owner, name="get_owner"),
+    path("ajax/get-sections/", views.get_sections_ajax, name="get_sections_ajax"),
+    path("ajax/get-apartments/", views.get_apartments_ajax, name="get_apartments_ajax"),
+    path(
+        "ajax/get-apartment-owner/",
+        views.get_apartment_owner_ajax,
+        name="get_apartment_owner_ajax",
+    ),
 ]

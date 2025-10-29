@@ -107,7 +107,8 @@
                     </ul>
                   </li>
                   <li class="footer">
-                    <a href="{% url 'admin:user_index' %}">Перейти в раздел пользователей</a>
+                    <a href="{% url 'admin:owners' %}">Перейти в раздел
+                    пользователей</a>
                   </li>
                 </ul>
               </li>
@@ -124,7 +125,7 @@
                   </li>
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a class="btn btn-default btn-flat" href="{% url 'admin:profile' %}">Профиль</a>
+                      <a class="btn btn-default btn-flat" href="{% url 'admin:card_staff' request.user.pk %}>Профиль</a>
                     </div>
                     <div class="pull-right">
                       <form id="logout-form"
@@ -149,16 +150,14 @@
         {% include "card/sidebar.html" %}
       </aside>
       <!-- Main content -->
-      <div class="content-wrapper content-min-height">
-        {% block content %}
-          <!-- Статистика и графики -->
-        {% endblock content %}
-      </div>
+      {% block content %}
+        <!-- Статистика и графики -->
+      {% endblock content %}
       <!-- Footer -->
       <footer class="main-footer">
         Разработано <a href="https://avada-media.ua/">AVADA-MEDIA</a>.
         На базе системы управления <a href="https://avada-media.ua/moydom24/">"МойДом24"</a>.
-        Документация API доступна <a href="{% url 'admin:api_docs' %}">по ссылке</a>.
+        Документация API доступна <a href="#">по ссылке</a>.
       </footer>
     </div>
     <!-- JS -->

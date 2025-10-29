@@ -68,6 +68,12 @@ TemplateFormSet = modelformset_factory(
     Template, form=TemplateForm, can_delete=True, extra=1
 )
 
+STATUS_CHOICES = [
+    ("draft", "Черновик"),
+    ("counted", "Рассчитан"),
+    ("zero", "Обнулен"),
+]
+
 
 class InvoiceFilterForm(forms.Form):
     """Form for filtering invoices based on various criteria.
@@ -99,7 +105,7 @@ class InvoiceFilterForm(forms.Form):
         widget=forms.DateInput(attrs={"class": "form-control", "type": "month"}),
     )
 
-    status_choices = [("", "---------"), *Invoice.STATUS_CHOICES]
+    status_choices = [("", "---------"), *STATUS_CHOICES]
 
     status = forms.ChoiceField(
         choices=status_choices,

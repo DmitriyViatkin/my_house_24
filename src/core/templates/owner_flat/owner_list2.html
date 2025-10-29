@@ -2,47 +2,16 @@
 
 {% load static %}
 
-<style>
-  .label {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .label-success {
-    background-color: #28a745;
-  }
-
-  /* зелёный */
-  .label-danger {
-    background-color: #dc3545;
-  }
-
-  /* красный */
-  .label-warning {
-    background-color: #ffc107;
-    color: #000;
-  }
-
-  /* жёлтый */
-
-  .content-minheight {
-    min-height: 839px;
-  }
-</style>
 {% block content %}
   <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
   <link rel="stylesheet"
         href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-  <div class="content-wrapper content-minheight">
+  <div class="content-wrapper" style="width:100%;">
     <section class="content-header">
       <h1>Собственники</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Собственники</li>
       </ul>
@@ -143,7 +112,7 @@
           "{% url 'admin:owner_list_ajax' %}", {
             processing: true,
             serverSide: true,
-            autoWidth: false,
+            autoWidth: true,
             searching: false,
             lengthChange: false,
             scrollX: false,

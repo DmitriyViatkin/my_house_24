@@ -45,7 +45,7 @@
       <h1>Редактирование страницы</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Редактирование страницы</li>
       </ul>
@@ -58,10 +58,7 @@
               <h3 class="box-title">Редактирование страницы "Услуги"</h3>
             </div>
             <div class="box-body">
-              <form id="services-form"
-                    action="{% url 'admin:website_services' %}"
-                    method="post"
-                    enctype="multipart/form-data">
+              <form id="services-form"  method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ formset.management_form }}
                 {{ form.media }}

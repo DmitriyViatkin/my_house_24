@@ -29,7 +29,7 @@
       <h1>Редактирование страницы</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Редактирование страницы</li>
       </ul>
@@ -45,25 +45,50 @@
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.media }}
+                <!-- Слайдер -->
                 <h3 class="page-header">Слайдер</h3>
                 <div class="row site-main-slider">
-                  {% for num in "123" %}
-                    {% with slide="slide"|add:num %}
-                      <div class="col-md-4">
-                        <h4>Слайд {{ num }}</h4>
-                        <img id="preview-{{ slide }}"
-                             src="{% if form|getattr:slide.value %}{{ form|getattr:slide.value.url }}{% elif object|getattr:slide %}{{ object|getattr:slide.url }}{% else %}{% static 'img.png' %}{% endif %}"
-                             alt=""
-                             class="img-responsive margin-bottom-15" />
-                        <div class="form-group margin-bottom-30">
-                          <label for="{{ form|getattr:slide.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
-                          {{ form|getattr:slide }}
-                          {{ form|getattr:slide.errors }}
-                        </div>
-                      </div>
-                    {% endwith %}
-                  {% endfor %}
+                  <!-- Слайд 1 -->
+                  <div class="col-md-4">
+                    <h4>Слайд 1</h4>
+                    <img id="preview-slide1"
+                         src="{% if form.slide1.value %}{{ form.slide1.value.url }}{% elif object.slide1 %}{{ object.slide1.url }}{% else %}{% static 'img.png' %}{% endif %}"
+                         alt=""
+                         class="img-responsive margin-bottom-15" />
+                    <div class="form-group margin-bottom-30">
+                      <label for="{{ form.slide1.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                      {{ form.slide1 }}
+                      {{ form.slide1.errors }}
+                    </div>
+                  </div>
+                  <!-- Слайд 2 -->
+                  <div class="col-md-4">
+                    <h4>Слайд 2</h4>
+                    <img id="preview-slide2"
+                         src="{% if form.slide2.value %}{{ form.slide2.value.url }}{% elif object.slide2 %}{{ object.slide2.url }}{% else %}{% static 'img.png' %}{% endif %}"
+                         alt=""
+                         class="img-responsive margin-bottom-15" />
+                    <div class="form-group margin-bottom-30">
+                      <label for="{{ form.slide2.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                      {{ form.slide2 }}
+                      {{ form.slide2.errors }}
+                    </div>
+                  </div>
+                  <!-- Слайд 3 -->
+                  <div class="col-md-4">
+                    <h4>Слайд 3</h4>
+                    <img id="preview-slide3"
+                         src="{% if form.slide3.value %}{{ form.slide3.value.url }}{% elif object.slide3 %}{{ object.slide3.url }}{% else %}{% static 'img.png' %}{% endif %}"
+                         alt=""
+                         class="img-responsive margin-bottom-15" />
+                    <div class="form-group margin-bottom-30">
+                      <label for="{{ form.slide3.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                      {{ form.slide3 }}
+                      {{ form.slide3.errors }}
+                    </div>
+                  </div>
                 </div>
+                <!-- Краткая информация -->
                 <div class="row">
                   <div class="col-md-12">
                     <h3 class="page-header">Краткая информация</h3>
@@ -81,6 +106,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- Рядом с нами -->
                 <div class="row near-img">
                   <div class="col-xs-12">
                     <h3 class="page-header">Рядом с нами</h3>
@@ -88,7 +114,6 @@
                   <div class="col-md-12">
                     {{ formset.management_form }}
                     {% for f in formset %}
-                      {{ f.id }}
                       <div class="block-form col-md-4">
                         <h4>Блок {{ forloop.counter }}</h4>
                         <img id="preview-{{ forloop.counter }}"
@@ -114,6 +139,7 @@
                     {% endfor %}
                   </div>
                 </div>
+                <!-- SEO -->
                 <h3 class="page-header">Настройки SEO</h3>
                 <div class="row">
                   <div class="col-md-12">
@@ -151,8 +177,7 @@
         });
       }
     });
-  </script>
-  <script>
+
     function previewImage(input, previewId) {
       const file = input.files[0];
       if (file) {

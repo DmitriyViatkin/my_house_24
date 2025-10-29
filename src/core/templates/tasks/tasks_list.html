@@ -8,7 +8,7 @@
       <h1>Заявки вызова мастера</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Заявки вызова мастера</li>
       </ul>
@@ -26,8 +26,7 @@
           <div class="box">
             <div class="box-header with-border">
               <div class="box-tools">
-                <a href="{% url 'admin:master_request_list' %}"
-                   class="btn btn-default btn-sm">
+                <a href="{% url 'admin:ticket' %}" class="btn btn-default btn-sm">
                   <span class="hidden-xs">Очистить</span>
                   <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
                 </a>
@@ -58,72 +57,65 @@
                 <thead>
                   <tr>
                     <th class="min-w-[100px] w-[100px]">
-                      <a class="desc"
-                         href="{% url 'admin:master_request_list' %}?sort=id"
-                         data-sort="id">№ заявки</a>
+                      № заявки<
                     </th>
                     <th class="min-w-[135px] w-[135px]">
-                      <a href="{% url 'admin:master_request_list' %}?sort=searchDateRequest"
-                         data-sort="searchDateRequest">Удобное время</a>
-                    </th>
-                    <th class="min-w-[125px]">
-                      <a href="{% url 'admin:master_request_list' %}?sort=type"
-                         data-sort="type">Тип мастера</a>
-                    </th>
-                    <th class="min-w-[350px]">Описание</th>
-                    <th class="min-w-[200px]">Квартира</th>
-                    <th class="min-w-[200px]">Владелец</th>
-                    <th>Телефон</th>
-                    <th class="min-w-[125px]">Мастер</th>
-                    <th class="min-w-[135px] w-[135px]">Статус</th>
-                    <th class="min-w-[80px] w-[80px]">&nbsp;</th>
-                  </tr>
-                </thead>
-              </table>
+                      Удобное время
+                      <th class="min-w-[125px]">Тип мастера</th>
+                      <th class="min-w-[350px]">Описание</th>
+                      <th class="min-w-[200px]">Квартира</th>
+                      <th class="min-w-[200px]">Владелец</th>
+                      <th>Телефон</th>
+                      <th class="min-w-[125px]">Мастер</th>
+                      <th class="min-w-[135px] w-[135px]">Статус</th>
+                      <th class="min-w-[80px] w-[80px]">&nbsp;</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="box-footer clearfix"></div>
             </div>
-            <div class="box-footer clearfix"></div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet"
-        href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
-  <script>
-    $(function() {
-      AjaxDatatableViewUtils.initialize_table(
-        $('#datatable_tasklist'),
-        "{% url 'admin:task_list_ajax' %}", {
-          searching: false,
-          lengthChange: false,
-          pageLength: 50,
-          processing: false,
-          autoWidth: true,
-          full_row_select: false,
-          scrollX: true,
-          createdRow: function(row, data) {
-            if (data.row_url) $(row).attr('data-row-url', data.row_url);
-            $(row).off('click').on('click', function(e) {
-              if ($(e.target).closest('a, button, input').length) return;
-              let url = $(row).data('row-url') || data.row_url;
-              if (url) window.location.href = url;
-            });
+      </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+    <script>
+      $(function() {
+        AjaxDatatableViewUtils.initialize_table(
+          $('#datatable_tasklist'),
+          "{% url 'admin:task_list_ajax' %}", {
+            searching: false,
+            lengthChange: false,
+            pageLength: 50,
+            processing: false,
+            autoWidth: true,
+            full_row_select: false,
+            scrollX: true,
+            createdRow: function(row, data) {
+              if (data.row_url) $(row).attr('data-row-url', data.row_url);
+              $(row).off('click').on('click', function(e) {
+                if ($(e.target).closest('a, button, input').length) return;
+                let url = $(row).data('row-url') || data.row_url;
+                if (url) window.location.href = url;
+              });
+            }
+          }, {
+            role: () => $('#id_role').val() || '',
+            worker: () => $('#id_worker').val() || '',
+            status: () => $('#id_status').val() || '',
+            owner: () => $('#id_owner').val() || '',
+            user_full_name: () => $('#id_user_full_name').val() || '',
+            phone: () => $('#id_phone').val() || '',
+            comment: () => $('#id_comment').val() || '',
+            user_apartments: () => $('#id_user_apartments').val() || '',
+            time_from: () => $('#id_time').val() || ''
           }
-        }, {
-          role: () => $('#id_role').val() || '',
-          worker: () => $('#id_worker').val() || '',
-          status: () => $('#id_status').val() || '',
-          owner: () => $('#id_owner').val() || '',
-          user_full_name: () => $('#id_user_full_name').val() || '',
-          phone: () => $('#id_phone').val() || '',
-          comment: () => $('#id_comment').val() || '',
-          user_apartments: () => $('#id_user_apartments').val() || '',
-          time_from: () => $('#id_time').val() || ''
-        }
-      );
-    });
-  </script>
-{% endblock content %}
+        );
+      });
+    </script>
+  {% endblock content %}
