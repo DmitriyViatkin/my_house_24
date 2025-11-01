@@ -144,13 +144,13 @@ class HouseForm(forms.ModelForm):
             "image5": forms.FileInput(attrs={"class": "form-control-file"}),
         }
         labels = {
-            "title": "Title",
-            "address": "Address",
-            "image1": "Image #1 (522x350)",
-            "image2": "Image #2 (248x160)",
-            "image3": "Image #3 (248x160)",
-            "image4": "Image #4 (248x160)",
-            "image5": "Image #5 (248x160)",
+            "title": "Название",
+            "address": "Адресс",
+            "image1": "Изображение #1 (522x350)",
+            "image2": "Изображение#2 (248x160)",
+            "image3": "Изображение #3 (248x160)",
+            "image4": "Изображение#4 (248x160)",
+            "image5": "Изображение #5 (248x160)",
         }
 
 
@@ -167,7 +167,7 @@ class SectionForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Name"}
             )
         }
-        labels = {"name": "Name"}
+        labels = {"name": "Название"}
 
 
 class FloorForm(forms.ModelForm):
@@ -180,10 +180,10 @@ class FloorForm(forms.ModelForm):
         fields = ["name"]
         widgets = {
             "name": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Name"}
+                attrs={"class": "form-control", "placeholder": "Название"}
             )
         }
-        labels = {"name": "Name"}
+        labels = {"name": "Название"}
 
 
 class StaffForm(forms.ModelForm):

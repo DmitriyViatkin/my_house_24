@@ -1184,80 +1184,53 @@ class CounterView(
 
 
 class AddCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, FormView):
-    """View for adding a new Counter.
-
-    Handles both GET and POST requests. Supports pre-filling initial values
-    from GET parameters (house, section, apartment). Access restricted by role.
-    """
+    """View for adding a new Counter with detailed logging."""
 
     template_name = "counter/new_reading.html"
     form_class = CounterForm
     role_permission = "has_counter"
 
     def get_context_data(self, **kwargs):
-        """Add extra context data for template rendering.
-
-        Args:
-            **kwargs: Arbitrary keyword arguments.
-
-        Returns:
-            dict: Context dictionary for template.
-
-        """
         context = super().get_context_data(**kwargs)
         context["active_section"] = "counters"
+        logger.debug("Context data prepared: %s", context)
         return context
 
     def get_form_kwargs(self):
-        """Pass request object to the form.
-
-        Returns:
-            dict: Form keyword arguments including request.
-
-        """
         kwargs = super().get_form_kwargs()
         kwargs["request"] = self.request
+        logger.debug("Form kwargs: %s", kwargs)
         return kwargs
 
     def get_initial(self):
-        """Pre-fill form initial data from GET parameters.
-
-        Returns:
-            dict: Initial values for the form fields.
-
-        """
         initial = super().get_initial()
         params = self.request.GET
+        logger.debug("GET params: %s", params)
         if params.get("house"):
             initial["house"] = params["house"]
         if params.get("section"):
             initial["section"] = params["section"]
         if params.get("apartment"):
             initial["apartment"] = params["apartment"]
+        logger.debug("Initial form data: %s", initial)
         return initial
 
     def form_valid(self, form):
-        """Handle valid form submission.
-
-        Sets the date if not provided, saves the Counter instance, and optionally
-        redirects back to the "add" page if user clicked "save and add".
-
-        Args:
-            form (Form): The submitted form.
-
-        Returns:
-            HttpResponse: Redirect or standard success response.
-
-        """
+        logger.debug("Form is valid: %s", form.cleaned_data)
         instance = form.save(commit=False)
+
         if not instance.date:
-            # Если поле ожидает date, используем .date()
             instance.date = timezone.now().date()
+            logger.debug("Date not provided, set to now: %s", instance.date)
 
-        instance.save()
-        logger.info("[FORM SAVE] Счётчик сохранён: %s (ID=%s)", instance, instance.pk)
+        try:
+            instance.save()
+            logger.info("[FORM SAVE] Counter saved: %s (ID=%s)", instance, instance.pk)
+        except Exception as e:
+            logger.error("[FORM SAVE] Error saving counter: %s", e)
+            raise
 
-        self.object = instance  # нужно для get_success_url
+        self.object = instance
 
         if "action_save_add" in self.request.POST:
             query = urlencode(
@@ -1267,18 +1240,19 @@ class AddCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, FormView):
                     "apartment": instance.apartment.id,
                 }
             )
+            logger.debug("Redirecting to add another counter with query: %s", query)
             return redirect(f"{reverse('admin:counters_add')}?{query}")
 
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        logger.warning("[FORM INVALID] Form errors: %s", form.errors)
+        return super().form_invalid(form)
+
     def get_success_url(self):
-        """Return URL to redirect after successful form submission.
-
-        Returns:
-            str: URL of the counters list for the current apartment.
-
-        """
-        return reverse("admin:counters", args=[self.object.apartment.id])
+        url = reverse("admin:counters", args=[self.object.apartment.id])
+        logger.debug("Success URL: %s", url)
+        return url
 
 
 class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
@@ -1292,52 +1266,80 @@ class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateV
     model = Counter
     template_name = "counter/new_reading.html"
     form_class = CounterForm
-    success_url = reverse_lazy("admin:counters")
     role_permission = "has_counter"
 
     def get_context_data(self, **kwargs):
         """Add context data for the Counter update view."""
         context = super().get_context_data(**kwargs)
         context["active_section"] = "counters"
+        logger.debug("[CONTEXT DATA] Context prepared: %s", context)
         return context
 
     def get_object(self, queryset=None):
         """Retrieve the Counter object to edit, or create a new one."""
         pk = self.kwargs.get("pk")
         if pk:
-            return get_object_or_404(Counter, pk=pk)
+            obj = get_object_or_404(Counter, pk=pk)
+            logger.debug("[GET OBJECT] Editing Counter: %s (ID=%s)", obj, obj.pk)
+            return obj
         # Create new object with default date
         obj = Counter(date=timezone.now())
         obj.counter_number = generate_id_with_random_number()
+        logger.debug("[GET OBJECT] Creating new Counter: %s", obj)
         return obj
+
+    def get_form_kwargs(self):
+        """Pass request to the form and log kwargs."""
+        kwargs = super().get_form_kwargs()
+        kwargs["request"] = self.request
+        logger.debug("[FORM KWARGS] %s", kwargs)
+        return kwargs
 
     def form_valid(self, form):
         """Handle valid form submission and save the Counter instance."""
         instance = form.save(commit=False)
 
-        if not instance.pk or not instance.counter_number:
+        if not instance.counter_number:
             instance.counter_number = generate_id_with_random_number()
+            logger.debug(
+                "[FORM VALID] Generated new counter_number: %s", instance.counter_number
+            )
 
         if not instance.date:
             instance.date = timezone.now()
+            logger.debug("[FORM VALID] Set current date: %s", instance.date)
 
         instance.save()
-
+        self.object = instance  # нужно для get_success_url
         logger.debug(
-            "[FORM SAVE] Counter saved or updated: %s (ID=%s)",
-            instance,
-            instance.pk,
+            "[FORM SAVE] Counter saved or updated: %s (ID=%s)", instance, instance.pk
         )
 
         if "action_save_add" in self.request.POST:
+            logger.debug("[FORM VALID] User clicked 'save and add'. Redirecting...")
             return redirect("admin:counters_add")
 
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        """Handle invalid form submission."""
+        """Handle invalid form submission with detailed debug."""
         logger.debug("[FORM INVALID] Form errors: %s", form.errors.as_json())
+        logger.debug("[FORM INVALID] Bound data: %s", form.data)
+        logger.debug(
+            "[FORM INVALID] Form field querysets: %s",
+            {f: getattr(form.fields[f], "queryset", "N/A") for f in form.fields},
+        )
         return super().form_invalid(form)
+
+    def get_success_url(self):
+        """Redirect to the list of counters for the apartment."""
+        if hasattr(self, "object") and self.object.apartment:
+            url = reverse("admin:counters", args=[self.object.apartment.id])
+            logger.debug("[SUCCESS URL] Redirecting to: %s", url)
+            return url
+        url = reverse("admin:counters_add")
+        logger.debug("[SUCCESS URL] Fallback redirect to: %s", url)
+        return url
 
 
 class CounterlistView(

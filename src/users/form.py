@@ -365,8 +365,6 @@ class TicketUserForm(forms.ModelForm):
 
 
 class CreateOwnerFlatForm(forms.ModelForm):
-    """Form for creating or editing owner users."""
-
     date_birthday = forms.DateField(
         label="Дата рождения",
         required=False,
@@ -380,17 +378,22 @@ class CreateOwnerFlatForm(forms.ModelForm):
             format="%d.%m.%Y",
         ),
     )
+
+    # Эти поля не связаны с моделью напрямую!
     password = forms.CharField(
+        label="Пароль",
         required=False,
         widget=forms.PasswordInput(attrs={"class": "form-control pass-value"}),
+        help_text="Оставьте пустым, чтобы не менять пароль",
     )
     password2 = forms.CharField(
-        required=False, widget=forms.PasswordInput(attrs={"class": "form-control"})
+        label="Повторите пароль",
+        required=False,
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        help_text="Повторите новый пароль",
     )
 
     class Meta:
-        """Meta configuration for CreateOwnerFlatForm."""
-
         model = User
         fields = [
             "first_name",
@@ -403,53 +406,126 @@ class CreateOwnerFlatForm(forms.ModelForm):
             "email",
             "image",
             "date_birthday",
-            "password",
             "status",
             "description",
         ]
-        labels = {
-            "user_id": "ID",
-            "first_name": "Имя",
-            "second_name": "Отчество",
-            "last_name": "Фамилия",
-            "email": "Email (логин)",
-            "password": "Пароль",
-            "phone": "Телефон",
-            "description": "О владельце (заметки)",
-            "status": "Статус",
-            "is_staff": "Доступ к админ-панели",
-            "is_active": "Активен",
+        widgets = {
+            "image": forms.FileInput(attrs={"class": "form-control-file"}),
         }
 
     def __init__(self, *args, **kwargs):
-        """Initialize form and generate user_id for new users."""
         super().__init__(*args, **kwargs)
-        self.initial["is_staff"] = False
+
         if not self.instance.pk:
+            # Новый пользователь
             self.initial["user_id"] = generate_id_with_random_number()
+        else:
+            # Редактирование существующего — обнуляем поля пароля
+            self.fields["password"].initial = ""
+            self.fields["password2"].initial = ""
 
     def clean(self):
-        """Validate passwords if provided and ensure they match."""
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
 
         if password or password2:
-            if password and password2 and password != password2:
+            if password != password2:
                 self.add_error("password2", "Пароли не совпадают.")
-            elif not password:
-                self.add_error("password", "Пожалуйста, введите новый пароль.")
-            elif not password2:
-                self.add_error("password2", "Пожалуйста, подтвердите новый пароль.")
 
         return cleaned_data
 
-    def save(self, *, commit=True):
-        """Save owner user and set password if provided."""
+    def save(self, commit=True):
         user = super().save(commit=False)
-        if self.cleaned_data.get("password"):
-            user.set_password(self.cleaned_data["password"])
-        user.is_staff = False
+        password = self.cleaned_data.get("password")
+        if password:
+            user.set_password(password)
+        if commit:
+            user.save()
+        return user
+
+
+class CreateOwnerFlatForm1(forms.ModelForm):
+    date_birthday = forms.DateField(
+        label="Дата рождения",
+        required=False,
+        input_formats=["%d.%m.%Y"],
+        widget=forms.DateInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "дд.мм.гггг",
+                "autocomplete": "off",
+            },
+            format="%d.%m.%Y",
+        ),
+    )
+
+    password = forms.CharField(
+        label="Пароль",
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control pass-value",
+                "autocomplete": "new-password",
+            }
+        ),
+        help_text="Оставьте пустым, чтобы не менять пароль",
+    )
+
+    password2 = forms.CharField(
+        label="Повторите пароль",
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "autocomplete": "new-password",
+            }
+        ),
+        help_text="Повторите новый пароль",
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "second_name",
+            "user_id",
+            "viber",
+            "telegram",
+            "phone",
+            "email",
+            "image",
+            "date_birthday",
+            "description",
+        ]
+        widgets = {
+            "image": forms.FileInput(attrs={"class": "form-control-file"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not self.instance.pk:
+            # Новый пользователь
+            self.initial["user_id"] = generate_id_with_random_number()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
+        if password or password2:
+            if password != password2:
+                self.add_error("password2", "Пароли не совпадают.")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get("password")
+        if password:
+            user.set_password(password)
         if commit:
             user.save()
         return user

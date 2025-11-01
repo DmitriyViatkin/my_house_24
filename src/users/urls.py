@@ -29,7 +29,7 @@ urlpatterns = [
     path("profile/tickets_list/", views.ListTicketsView.as_view(), name="tickets_list"),
     path("tickets_list/add_ticket/", views.AddTicketsView.as_view(), name="add_ticket"),
     path(
-        "cabinet/user/update/<int:pk>/",
+        "profile/update/<int:pk>/",
         views.UpdateProfile.as_view(),
         name="update_profile",
     ),

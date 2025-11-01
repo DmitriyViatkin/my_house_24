@@ -2,30 +2,8 @@
 
 {% load static %}
 
-<style>
-  .content-minheight {
-    min-height: 896px;
-  }
-
-  .chart-canvas {
-    height: 200px;
-  }
-
-  .chart-row {
-    width: 60%;
-    height: 30%;
-  }
-
-  .legend-income {
-    background-color: rgba(0, 166, 90, 1);
-  }
-
-  .legend-expense {
-    background-color: rgba(221, 75, 57, 1);
-  }
-</style>
 {% block content %}
-  <div class="content-wrapper content-minheight">
+  <div class="content-wrapper" style="min-height: 896px;">
     <section class="content-header">
       <h1>Статистика</h1>
     </section>
@@ -36,7 +14,7 @@
         </div>
       </div>
       <div class="row">
-        <!-- Панель домов -->
+        <!-- Панель домов  -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-primary">
             <div class="inner">
@@ -46,12 +24,12 @@
             <div class="icon">
               <i class="fa fa-building"></i>
             </div>
-            <a href="{% url 'admin:house_list' %}" class="small-box-footer">
+            <a href="/admin/house/index" class="small-box-footer">
               Перейти в дома <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
-        <!-- Активные владельцы -->
+        <!--  Активных владельцев -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-green">
             <div class="inner">
@@ -61,12 +39,11 @@
             <div class="icon">
               <i class="fa fa-users"></i>
             </div>
-            <a href="{% url 'admin:owners' %}" class="small-box-footer">
+            <a href="/admin/user/index" class="small-box-footer">
               Перейти к владельцам <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
-        <!-- Заявки мастера -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -76,12 +53,11 @@
             <div class="icon">
               <i class="fa fa-wrench"></i>
             </div>
-            <a href="{% url 'admin:ticket' %}" class="small-box-footer">
+            <a href="/admin/master-request/index" class="small-box-footer">
               Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
-        <!-- Квартиры -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-primary">
             <div class="inner">
@@ -91,12 +67,11 @@
             <div class="icon">
               <i class="fa fa-key"></i>
             </div>
-            <a href="{% url 'admin:flat' %}" class="small-box-footer">
+            <a href="/admin/flat/index" class="small-box-footer">
               Перейти в квартиры <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
-        <!-- Лицевые счета -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-green">
             <div class="inner">
@@ -106,12 +81,11 @@
             <div class="icon">
               <i class="fa fa-child"></i>
             </div>
-            <a href="{% url 'admin:account' %}" class="small-box-footer">
+            <a href="/admin/account/index" class="small-box-footer">
               Перейти к счетам <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
-        <!-- Новые заявки -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -121,13 +95,12 @@
             <div class="icon">
               <i class="fa fa-user-plus"></i>
             </div>
-            <a href="{% url 'admin:ticket' %}" class="small-box-footer">
+            <a href="/admin/master-request/index" class="small-box-footer">
               Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
       </div>
-      <!-- Графики -->
       <div class="row">
         <div class="col-lg-8 col-md-7 col-xs-12">
           <div class="box box-default">
@@ -135,7 +108,7 @@
               <h3 class="box-title">График квитанций по месяцам, грн</h3>
             </div>
             <div class="box-body">
-              <canvas id="invoiceChart" class="chart-canvas"></canvas>
+              <canvas id="invoiceChart" style="height: 200px;"></canvas>
             </div>
           </div>
         </div>
@@ -161,24 +134,38 @@
               <span class="info-box-number">{{ cash_balance }}</span>
             </div>
           </div>
+          <!--        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Задолженность за месяц, грн</span>
+                <span class="info-box-number">1 156.00</span>
+            </div>
+        </div>
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Задолженность за квартал, грн</span>
+                <span class="info-box-number">1 156.00</span>
+            </div>
+        </div>-->
         </div>
       </div>
-      <div class="row chart-row">
+      <div class="row">
         <div class="col-xs-12">
           <div class="box box-default">
             <div class="box-header with-border">
               <h3 class="box-title">График приходов и расходов по кассе, грн (по месяцам)</h3>
             </div>
             <div class="box-body">
-              <div class="chart">
+              <div class="chart" style="width: 60%; height: 30%;">
                 <canvas id="barChart2"></canvas>
                 <div id="barChart2-legend" class="text-center">
                   <ul class="bar-legend">
                     <li>
-                      <span class="legend-income"></span>Приход
+                      <span style="background-color:rgba(0, 166, 90, 1)"></span>Приход
                     </li>
                     <li>
-                      <span class="legend-expense"></span>Расход
+                      <span style="background-color:rgba(221, 75, 57, 1)"></span>Расход
                     </li>
                   </ul>
                 </div>
@@ -189,8 +176,91 @@
       </div>
     </section>
   </div>
+  <script src="{% static 'path/to/AjaxDatatableViewUtils.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // JS chart setup remains unchanged
+    // График приходов/расходов
+    const ctxBar = document.getElementById('barChart2').getContext('2d');
+    const barChart2 = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: {
+          {
+            chart_labels | safe
+          }
+        },
+        datasets: [{
+          label: 'Приход',
+          backgroundColor: 'rgba(0, 166, 90, 1)',
+          data: {
+            {
+              chart_incoming | safe
+            }
+          }
+        }, {
+          label: 'Расход',
+          backgroundColor: 'rgba(221, 75, 57, 1)',
+          data: {
+            {
+              chart_outgoing | safe
+            }
+          }
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: false
+          },
+          y: {
+            stacked: false
+          }
+        }
+      }
+    });
+
+    // График квитанций
+    const ctxInvoice = document.getElementById('invoiceChart').getContext('2d');
+    const invoiceChart = new Chart(ctxInvoice, {
+      type: 'bar',
+      data: {
+        labels: {
+          {
+            invoice_chart_labels | safe
+          }
+        },
+        datasets: [{
+          label: 'Все квитанции',
+          backgroundColor: 'rgba(221, 75, 57, 0.7)',
+          data: {
+            {
+              invoice_chart_total | safe
+            }
+          }
+        }, {
+          label: 'Оплаченные квитанции',
+          backgroundColor: 'rgba(0, 166, 90, 0.7)',
+          data: {
+            {
+              invoice_chart_paid | safe
+            }
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: false
+          },
+          y: {
+            stacked: false
+          }
+        }
+      }
+    });
   </script>
-{% endblock content %}
+{% endblock %}

@@ -28,8 +28,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
-# S104: Убираем "0.0.0.0" из ALLOWED_HOSTS в dev, оставляем только безопасные
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 AUTH_USER_MODEL = "users.User"
 INTERNAL_IPS = ["127.0.0.1"]
@@ -106,8 +106,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
-            "djangфвмвo.contrib.auth.password_validation"
-            ".UserAttributeSimilarityValidator"
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
         )
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -133,7 +132,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles_collected"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"  # PTH118: заменяем os.path.join на Path
+MEDIA_ROOT = BASE_DIR / "media"
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_CONFIGS = {
@@ -172,15 +171,26 @@ LOGGING = {
         "verbose": {"format": "%(levelname)s %(asctime)s %(name)s %(message)s"}
     },
     "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": BASE_DIR / "logs/site_debug.log",  # S108: безопасный путь
+        "console": {
+            "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
     },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
     "loggers": {
-        "": {"handlers": ["console", "file"], "level": "DEBUG"},
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "celery": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 
@@ -202,8 +212,8 @@ SERVER_EMAIL = os.getenv("SERVER_EMAIL", EMAIL_HOST_USER)
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
 
 # Celery
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"

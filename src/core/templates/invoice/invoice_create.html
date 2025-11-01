@@ -18,7 +18,7 @@
     </section>
     <section class="content">
       <div class="invoice-create">
-        <form id="invoice-form" method="post">
+        <form id="invoice-form"   method="post">
           {% csrf_token %}
           <div class="row">
             <div class="col-xs-12 col-md-7 col-lg-6">
@@ -31,10 +31,8 @@
                 </div>
                 <span class="label-mid">от</span>
                 <div class="form-group field-invoice-uid_date">
-                  <div class="input-group date" id="invoice-uid_date-kvdate">
-                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
-                      <i class="glyphicon glyphicon-calendar"></i>
-                    </span>
+                  <div id="invoice-uid_date-kvdate" class="input-group  date">
+                    <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i class="glyphicon glyphicon-calendar"></i></span>
                     {{ form.date }}
                   </div>
                 </div>
@@ -44,7 +42,9 @@
               <div class="btn-group pull-right margin-bottom">
                 <button type="button"
                         class="btn btn-success dropdown-toggle"
-                        data-toggle="dropdown">
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
                   Выберите действие <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -61,76 +61,424 @@
           <div class="box">
             <div class="box-body">
               <input type="hidden" id="invoice-id" name="Invoice[id]" />
-              <!-- Таблица услуг -->
-              <div class="table-responsive no-padding">
-                {{ formset.management_form }}
-                <table class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th class="min-width-200">Услуга</th>
-                      <th class="min-width-180">Расход</th>
-                      <th class="min-width-120">Ед. изм.</th>
-                      <th class="min-width-180">Цена за ед., грн.</th>
-                      <th class="min-width-180">Стоимость, грн.</th>
-                      <th class="min-width-40"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="form-invoiceservice-rows">
-                    {% for form in formset %}
-                      {{ form.id }}
-                      <tr>
-                        <td>{{ form.tariff_service }}</td>
-                        <td>{{ form.count }}</td>
-                        <td>{{ form.unit }}</td>
-                        <td>{{ form.price }}</td>
-                        <td>{{ form.total }}</td>
-                        <td>
-                          {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                        </td>
-                      </tr>
-                    {% endfor %}
-                    <!-- Шаблон новой строки -->
-                    <tr id="items-empty_form" class="d-none">
-                      <td>{{ formset.empty_form.tariff_service }}</td>
-                      <td>{{ formset.empty_form.count }}</td>
-                      <td>{{ formset.empty_form.unit }}</td>
-                      <td>{{ formset.empty_form.price }}</td>
-                      <td>{{ formset.empty_form.total }}</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="4">
-                        <button type="button" class="btn btn-default form-row-add-invoiceservice-btn">Добавить услугу</button>
-                        <button type="button" class="btn btn-default set-tariff-services">Установить все услуги согласно тарифу</button>
-                        <button type="button" class="btn btn-default add-counters">Добавить показания счетчиков</button>
-                      </td>
-                      <td class="min-width-180">
-                        <div class="h4">
-                          Итого: <b><span id="price-total">0.00</span></b> грн
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="house_id">Дом</label>
+                    <div>{{ form.house }}</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="section_id">Секция</label>
+                    <div>{{ form.section }}</div>
+                  </div>
+                  <div class="form-group field-invoice-flat_id required">
+                    <label class="control-label" for="invoice-flat_id">Квартира</label>
+                    <div class="filters">{{ form.flat }}</div>
+                    <div class="help-block"></div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group field-invoice-is_checked">
+                    {{ form.conducted }}
+                    <label>
+                      <input type="checkbox"
+                             id="invoice-is_checked"
+                             name="Invoice[is_checked]"
+                             value="1"
+                             checked="" />
+                      Проведена
+                    </label>
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group field-invoice-status required">
+                    <label class="control-label" for="invoice-status">Статус</label>
+                    {{ form.status }}
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="form-group field-invoice-tariff_id required">
+                    <label class="control-label" for="invoice-tariff_id">Тариф</label>
+                    {{ form.tariff }}
+                    <div class="help-block"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div class="form-group field-invoice-period_start">
+                        <label class="control-label" for="invoice-period_start">Период с</label>
+                        <div id="invoice-period_start-kvdate" class="input-group  date">
+                          <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                          </span>
+                          {{ form.start_date }}
                         </div>
-                      </td>
-                      <td class="min-width-40"></td>
-                    </tr>
-                  </tfoot>
-                </table>
+                        <div class="help-block"></div>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="form-group field-invoice-period_end">
+                        <label class="control-label" for="invoice-period_end">Период по</label>
+                        <div id="invoice-period_end-kvdate" class="input-group  date">
+                          <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
+                            <i class="glyphicon glyphicon-calendar"></i></span>
+                          {{ form.end_date }}
+                        </div>
+                        <div class="help-block"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="account_uid">Лицевой счет</label>
+                    {{ form.personal_account }}{{ form.mount }}
+                  </div>
+                  <p>
+                    <b>Владелец:</b> <span id="user-fullname">{{ form.owner }}</span>
+                  </p>
+                  <p>
+                    <b>Телефон:</b> <span id="user-phone">{{ form.phone }}</span>
+                  </p>
+                </div>
+                <div class="col-xs-12 col-sm-6"></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="table-responsive no-padding">
+                    {{ formset.management_form }}
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th style="min-width: 200px;">Услуга</th>
+                          <!--<th style="min-width: 180px;">Показания</th>-->
+                          <th style="min-width: 180px;">Расход</th>
+                          <th style="min-width: 120px;">Ед. изм.</th>
+                          <th style="min-width: 180px;">Цена за ед., грн.</th>
+                          <th style="min-width: 180px;">Стоимость, грн.</th>
+                          <th style="width: 40px; min-width: 40px;"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="form-invoiceservice-rows">
+                        {% for form in formset %}
+                          {{ form.id }}
+                          <tr>
+                            <td>{{ form.tariff_service }}</td>
+                            <td>{{ form.count }}</td>
+                            <td>{{ form.unit }}</td>
+                            <td>{{ form.price }}</td>
+                            <td>{{ form.total }}</td>
+                            <td>
+                              {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                            </td>
+                          </tr>
+                        {% endfor %}
+                        <!-- 👇 Шаблон пустой строки -->
+                        <tr id="items-empty_form" style="display: none;">
+                          <td>{{ formset.empty_form.tariff_service }}</td>
+                          <td>{{ formset.empty_form.count }}</td>
+                          <td>{{ formset.empty_form.unit }}</td>
+                          <td>{{ formset.empty_form.price }}</td>
+                          <td>{{ formset.empty_form.total }}</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="4" valing="middle">
+                            <button type="button"
+                                    class="btn btn-default btn-hover-change form-row-add-invoiceservice-btn">
+                              Добавить услугу
+                            </button>
+                            <button type="button" class="btn btn-default set-tariff-services">Установить все услуги согласно тарифу</button>
+                            <button type="button" class="btn btn-default add-counters">Добавить показания счетчиков</button>
+                          </td>
+                          <td style="min-width: 180px;">
+                            <div class="h4">
+                              Итого: <b><span id="price-total">0.00</span></b> грн
+                            </div>
+                          </td>
+                          <td style="width: 40px; min-width: 40px;"></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-xs-12 text-right">
-                  <a href="{% url 'admin:invoice' %}" class="btn btn-default">Отменить</a>
-                  <button type="submit" class="btn btn-success">Сохранить</button>
+                  <div class="form-group">
+                    <a href="/admin/invoice/index" class="btn btn-default">Отменить</a>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </form>
-      </div>
-    </section>
-  </div>
-  {{ form.media }}
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
-  <script src="{% static 'admin/plugins/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'admin/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
-{% endblock content %}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Показания счетчиков</h3>
+              </div>
+              <div id="counters"
+                   data-pjax-container=""
+                   data-pjax-push-state=""
+                   data-pjax-timeout="1000">
+                <div id="w0" class="grid-view">
+                  <div class="box-body table-responsive no-padding">
+                    <table id="counter-table"
+                           class="table table-bordered table-hover table-striped table-nowrap">
+                      <thead>
+                        <tr>
+                          <th style="width: 125px; min-width: 125px">№</th>
+                          <th>Статус</th>
+                          <th style="width: 125px; min-width: 125px">Дата</th>
+                          <th style="width: 125px; min-width: 125px">Месяц</th>
+                          <th style="min-width: 200px">Дом</th>
+                          <th style="min-width: 160px">Секция</th>
+                          <th style="width: 110px; min-width: 110px">№ квартиры</th>
+                          <th>Счетчик</th>
+                          <th style="width: 90px; min-width: 90px">Показания</th>
+                          <th style="width: 90px; min-width: 90px">Ед. изм.</th>
+                        </tr>
+                        <tr id="w0-filters" class="filter-hidden">
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>
+                            <input type="hidden"
+                                   id="filterMonthYear"
+                                   name="CounterDataSearch[searchUidMonthYear]" />
+                            <input type="hidden" id="filterFlatId" name="CounterDataSearch[flat_id]" />
+                          </td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    {{ form.media }}
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- AjaxDatatable utils -->
+    <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // ------------------------------
+        // 1️⃣ Обновление владельца
+        // ------------------------------
+        function updateOwner(params) {
+          $.ajax({
+            url: "{% url 'admin:get_owner' %}",
+            data: params,
+            success: function(data) {
+              $("#id_owner").val(data.owner);
+              $("#id_phone").val(data.phone);
+              $("#user-fullname").text(data.owner);
+              $("#user-phone").text(data.phone);
+            }
+          });
+        }
+
+        $("#id_account").on("change", function() {
+          updateOwner({
+            account: $(this).val()
+          });
+        });
+
+        $("#id_flat").on("change", function() {
+          updateOwner({
+            flat: $(this).val()
+          });
+          $('#counter-table').DataTable().ajax.reload();
+        });
+
+        // ------------------------------
+        // 2️⃣ DataTable для счетчиков
+        // ------------------------------
+        var table = AjaxDatatableViewUtils.initialize_table(
+          $('#counter-table'),
+          "{% url 'admin:counter_ajax_items' %}", {
+            processing: false,
+            autoWidth: false,
+            full_row_select: true,
+            scrollX: false,
+            serverSide: true,
+            searching: false,
+            lengthMenu: [
+              [50],
+              [50]
+            ],
+            lengthChange: false
+          }, {
+            flat_id: function() {
+              return $('#id_flat').val();
+            }
+          }
+        );
+
+        // ------------------------------
+        // 3️⃣ Пересчет total и суммы
+        // ------------------------------
+        function recalcRowTotal(row) {
+          const countInput = row.querySelector('input[name$="count"]');
+          const priceInput = row.querySelector('input[name$="price"]');
+          const totalInput = row.querySelector('input[name$="total"]');
+          if (!countInput || !priceInput || !totalInput) return 0;
+
+          const count = parseFloat(countInput.value) || 0;
+          const price = parseFloat(priceInput.value) || 0;
+          const total = (count * price).toFixed(2);
+          totalInput.value = total;
+          return parseFloat(total);
+        }
+
+        window.recalcInvoiceTotal = function() {
+          let sum = 0;
+          document.querySelectorAll('#form-invoiceservice-rows tr').forEach(row => {
+            const rowTotal = recalcRowTotal(row);
+            if (!isNaN(rowTotal)) sum += rowTotal;
+          });
+          document.getElementById('price-total').textContent = sum.toFixed(2);
+        }
+
+        document.getElementById("form-invoiceservice-rows").addEventListener('input', function(e) {
+          if (e.target.name && (e.target.name.endsWith('count') || e.target.name.endsWith('price'))) {
+            recalcInvoiceTotal();
+          }
+        });
+
+        recalcInvoiceTotal();
+
+        // ------------------------------
+        // 4️⃣ Добавление новой строки
+        // ------------------------------
+        const formsetRows = document.getElementById("form-invoiceservice-rows");
+        const addButton = document.querySelector(".form-row-add-invoiceservice-btn");
+        const totalFormsInput = document.querySelector("#id_items-TOTAL_FORMS");
+
+        function updateElementIndex(el, prefix, index) {
+          const idRegex = new RegExp(`${prefix}-(\\d+)-`);
+          const replacement = `${prefix}-${index}-`;
+          if (el.id) el.id = el.id.replace(idRegex, replacement);
+          if (el.name) el.name = el.name.replace(idRegex, replacement);
+          if (el.htmlFor) el.htmlFor = el.htmlFor.replace(idRegex, replacement);
+        }
+
+        window.addForm = function() {
+          const formCount = parseInt(totalFormsInput.value, 10);
+          const emptyRow = document.querySelector("#items-empty_form");
+
+          if (!emptyRow) {
+            console.error("❌ Не найден шаблон #items-empty_form");
+            return null;
+          }
+
+          // клонируем шаблон
+          const newRow = emptyRow.cloneNode(true);
+          newRow.removeAttribute("id");
+          newRow.style.display = "";
+
+          // заменяем __prefix__ на индекс
+          newRow.innerHTML = newRow.innerHTML.replace(/__prefix__/g, formCount);
+
+          formsetRows.appendChild(newRow);
+          totalFormsInput.value = formCount + 1;
+
+          recalcInvoiceTotal();
+          return newRow;
+        };
+
+        addButton.addEventListener("click", function(e) {
+          e.preventDefault();
+          addForm();
+        });
+
+        // ------------------------------
+        // 5️⃣ Обработчик выбора тарифной услуги
+        // ------------------------------
+        $(document).on('change', '.tariff-service-select', function() {
+          const $select = $(this);
+          const $row = $select.closest('tr');
+          const selectedId = $select.val();
+          if (!selectedId) return;
+
+          $.ajax({
+            url: "{% url 'admin:get_tariff_service_info' %}",
+            data: {
+              id: selectedId
+            },
+            success: function(data) {
+              // ищем поля по name
+              const formCount = $select.attr("name").match(/items-(\d+)-/)[1];
+              $row.find(`[name="items-${formCount}-unit"]`).val(data.unit);
+              $row.find(`[name="items-${formCount}-price"]`).val(data.price);
+              $row.find(`[name="items-${formCount}-currency"]`).val(data.currency);
+              recalcInvoiceTotal();
+            }
+          });
+        });
+
+        // ------------------------------
+        // 6️⃣ Кнопка "Установить все услуги согласно тарифу"
+        // ------------------------------
+        const setTariffBtns = document.querySelectorAll(".set-tariff-services");
+
+        setTariffBtns.forEach(btn => {
+          btn.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            const tariffId = document.getElementById("id_tariff").value;
+            if (!tariffId) {
+              alert("Сначала выберите тариф!");
+              return;
+            }
+
+            fetch(`/admin/get_tariff_services/${tariffId}/`)
+              .then(res => res.json())
+              .then(data => {
+                console.log("Получены услуги тарифа:", data.services);
+
+                data.services.forEach(service => {
+                  const newRow = window.addForm();
+                  if (!newRow) return;
+
+                  const formCount = parseInt(totalFormsInput.value, 10) - 1;
+
+                  const tariffField = newRow.querySelector(`[name="items-${formCount}-tariff_service"]`);
+                  const unitField = newRow.querySelector(`[name="items-${formCount}-unit"]`);
+                  const priceField = newRow.querySelector(`[name="items-${formCount}-price"]`);
+                  const countField = newRow.querySelector(`[name="items-${formCount}-count"]`);
+                  const totalField = newRow.querySelector(`[name="items-${formCount}-total"]`);
+
+                  if (tariffField) tariffField.value = service.id;
+                  if (unitField) unitField.value = service.unit;
+                  if (priceField) priceField.value = service.price;
+                  if (countField) countField.value = 0;
+                  if (totalField) totalField.value = 0.00;
+                });
+
+                window.recalcInvoiceTotal();
+              })
+              .catch(error => {
+                console.error("Ошибка при получении услуг тарифа:", error);
+                alert("Произошла ошибка при загрузке услуг тарифа.");
+              });
+          });
+        });
+      });
+    </script>
+  {% endblock content %}

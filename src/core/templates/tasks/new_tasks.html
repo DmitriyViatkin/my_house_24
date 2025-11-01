@@ -6,16 +6,19 @@
       <h1>Новая заявка</h1>
       <ul class="breadcrumb">
         <li>
+          {# Используем тег `url` для ссылки на главную страницу админки #}
           <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:master_request_list' %}">Вызов мастера</a>
+          {# Используем тег `url` для ссылки на список заявок мастера #}
+          <a href=" ">Вызов мастера</a>
         </li>
         <li class="active">Новая заявка</li>
       </ul>
     </section>
     <section class="content">
-      <form id="w0" method="post">
+      {# Используем тег `url` для действия формы #}
+      <form id="w0"   method="post">
         {% csrf_token %}
         <div class="row">
           <div class="col-xs-12 col-md-7 col-lg-6">
@@ -29,6 +32,39 @@
               <span class="label-mid">от</span>
               <div class="form-group field-masterrequest-time_request has-success">
                 <div class="input-group bootstrap-timepicker">
+                  <div class="bootstrap-timepicker-widget dropdown-menu">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          </td>
+                          <td class="separator">&nbsp;</td>
+                          <td>
+                            <a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span class="bootstrap-timepicker-hour">14</span>
+                          </td>
+                          <td class="separator">:</td>
+                          <td>
+                            <span class="bootstrap-timepicker-minute">15</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                          </td>
+                          <td class="separator"></td>
+                          <td>
+                            <a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   {{ form.time }}
                   {{ form.time.errors }}
                 </div>
@@ -46,12 +82,14 @@
                   {{ form.user.errors }}
                 </div>
               </div>
+              <div class="col-xs-12 col-md-6"></div>
               <div class="clearfix"></div>
               <div class="col-xs-12 col-sm-6">
                 <div class="form-group field-masterrequest-description required">
-                  <label for="masterrequest-description">Описание</label>
+                  <label class="control-label" for="masterrequest-description">Описание</label>
                   {{ form.summary }}
                   {{ form.summary.errors }}
+                  <div class="help-block"></div>
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
@@ -60,18 +98,21 @@
                   {{ form.apartment }}
                   {{ form.apartment.errors }}
                 </div>
-                <div class="form-group">
-                  <label for="id_role">Тип мастера</label>
+                <div class="form-group field-masterrequest-flat_id required">
+                  <label class="control-label" for="masterrequest-flat_id">
+                    Тип
+                    мастера
+                  </label>
                   {{ form.role }}
                   {{ form.role.errors }}
                 </div>
-                <div class="form-group">
-                  <label for="id_status">Статус заявки</label>
+                <div class="form-group field-masterrequest-flat_id required">
+                  <label class="control-label" for="masterrequest-flat_id">Статус заявки</label>
                   {{ form.status }}
                   {{ form.status.errors }}
                 </div>
-                <div class="form-group">
-                  <label for="id_worker">Мастер</label>
+                <div class="form-group field-masterrequest-flat_id required">
+                  <label class="control-label" for="masterrequest-flat_id">Мастер</label>
                   {{ form.worker }}
                   {{ form.worker.errors }}
                 </div>
@@ -81,72 +122,82 @@
         </div>
         <div class="box">
           <div class="box-body">
-            <div class="form-group">
-              <label for="masterrequest-comment">Комментарий</label>
-              {{ form.comment }}
-              {{ form.comment.errors }}
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-masterrequest-comment">
+                  <label class="control-label" for="masterrequest-comment">Комментарий</label>
+                  <div class="input-group">
+                    {{ form.comment }}
+                    <div class="help-block">{{ form.comment.errors }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="box-footer">
             <div class="row">
               <div class="col-xs-12">
+                {# Используем тег `url` для ссылки "Отмена" #}
                 <a class="btn btn-default" href="{% url 'admin:ticket' %}">Отмена</a>
                 <button type="submit" class="btn btn-success pull-right">Сохранить</button>
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    </section>
-  </div>
-  <script>
-    $(document).ready(function() {
-      $("#id_user").change(function() {
-        let userId = $(this).val();
-        if (!userId) {
-          $("#id_apartment").html('<option value="">Выберите квартиру</option>');
-          return;
-        }
+        </form>
+      </section>
+    </div>
+    <script>
+      $(document).ready(function() {
 
-        $.ajax({
-          url: "{% url 'admin:get_user_apartments' %}",
-          data: {
-            user_id: userId
-          },
-          success: function(data) {
-            let options = '<option value="">Выберите квартиру</option>';
-            data.apartments.forEach(function(apt) {
-              options += `<option value="${apt.id}">${apt.title}</option>`;
-            });
-            $("#id_apartment").html(options);
+        // при выборе владельца
+        $("#id_user").change(function() {
+          let userId = $(this).val();
+
+          if (!userId) {
+            $("#id_apartment").html('<option value="">Выберите квартиру</option>');
+            return;
           }
+
+          $.ajax({
+            url: "{% url 'admin:get_user_apartments' %}",
+            data: {
+              user_id: userId
+            },
+            success: function(data) {
+              console.log(data); // добавь для отладки
+              let options = '<option value="">Выберите квартиру</option>';
+              data.apartments.forEach(function(apt) {
+                options += `<option value="${apt.id}">${apt.title}</option>`;
+              });
+              $("#id_apartment").html(options);
+            }
+          });
+        });
+
+        $("#id_apartment, #id_role").change(function() {
+          let apartmentId = $("#id_apartment").val();
+          let roleId = $("#id_role").val();
+
+          if (!apartmentId) {
+            $("#id_worker").html('<option value="">Выберите мастера</option>');
+            return;
+          }
+
+          $.ajax({
+            url: "{% url 'admin:get_house_workers' %}",
+            data: {
+              apartment_id: apartmentId,
+              role_id: roleId
+            },
+            success: function(data) {
+              let options = '<option value="">Выберите мастера</option>';
+              data.workers.forEach(function(w) {
+                options += `<option value="${w.id}">${w.name}</option>`;
+              });
+              $("#id_worker").html(options);
+            }
+          });
         });
       });
-
-      $("#id_apartment, #id_role").change(function() {
-        let apartmentId = $("#id_apartment").val();
-        let roleId = $("#id_role").val();
-
-        if (!apartmentId) {
-          $("#id_worker").html('<option value="">Выберите мастера</option>');
-          return;
-        }
-
-        $.ajax({
-          url: "{% url 'admin:get_house_workers' %}",
-          data: {
-            apartment_id: apartmentId,
-            role_id: roleId
-          },
-          success: function(data) {
-            let options = '<option value="">Выберите мастера</option>';
-            data.workers.forEach(function(w) {
-              options += `<option value="${w.id}">${w.name}</option>`;
-            });
-            $("#id_worker").html(options);
-          }
-        });
-      });
-    });
-  </script>
-{% endblock content %}
+    </script>
+  {% endblock content %}

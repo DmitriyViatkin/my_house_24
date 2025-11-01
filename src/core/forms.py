@@ -305,11 +305,22 @@ class CounterForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        """Initialize the form, set initial values, and  dynamically."""
         self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
 
-        if not self.instance.pk:
+        # Если объект существует (редактирование)
+        if self.instance and self.instance.pk:
+            house = self.instance.apartment.section.house
+            section = self.instance.apartment.section
+            self.fields["house"].initial = house.id
+            self.fields["section"].queryset = Section.objects.filter(house=house)
+            self.fields["section"].initial = section.id
+            self.fields["apartment"].queryset = Apartment.objects.filter(
+                section=section
+            )
+            self.fields["apartment"].initial = self.instance.apartment.id
+        else:
+            # Новый объект, заполняем через GET параметры
             if self.request:
                 house_id = self.request.GET.get("house")
                 section_id = self.request.GET.get("section")
@@ -332,14 +343,6 @@ class CounterForm(forms.ModelForm):
 
             self.initial.setdefault("counter_number", generate_id_with_random_number())
             self.initial.setdefault("date", now())
-
-        else:
-            self.fields["section"].queryset = Section.objects.filter(
-                house=self.instance.apartment.section.house
-            )
-            self.fields["apartment"].queryset = Apartment.objects.filter(
-                section=self.instance.apartment.section
-            )
 
 
 class FilterApartment(forms.Form):

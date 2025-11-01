@@ -13,7 +13,7 @@
       <h1>Квартира № {{ apartment.apartment_number }}, {{ house.title }}</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
           <a href="{% url 'admin:flat' %}">Квартиры</a>
@@ -26,12 +26,12 @@
         <div class="box-header with-border">
           <h3 class="box-title">Просмотр квартиры</h3>
           <div class="box-tools">
-            <a href="{% url 'admin:create_transaction' type='in' account_id=apartment.account.id %}"
+            <a href="{% url 'admin:create_invoice' %}"
                class="btn btn-default btn-sm">
               <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
               <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
-            <a href="{% url 'admin:create_invoice' flat_id=apartment.id %}"
+            <a href="{% url 'admin:create_invoice' %}"
                class="btn btn-default btn-sm">
               <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
               <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
@@ -83,7 +83,7 @@
                   <tr>
                     <td>Владелец</td>
                     <td>
-                      <a href="{% url 'admin:user_card' owner.id %}">{{ owner.full_name }}</a>
+                      <a href="{% url 'admin:card_user' apartment.user.id %}">{{ owner.full_name }}</a>
                     </td>
                   </tr>
                   <tr>
@@ -100,13 +100,15 @@
               </table>
               <div>
                 <p>
-                  <a href="{% url 'admin:counter_list' %}?CounterDataSearch%5Bflat_id%5D={{ apartment.id }}">Посмотреть показания счетчиков</a>
+                  <a href="{% url 'admin:counters' apartment.id %} ">Посмотреть
+                  показания счетчиков</a>
                 </p>
                 <p>
-                  <a href="{% url 'admin:account_transaction_list' %}?AccountTransactionSearch%5Baccount_id%5D={{ apartment.account.id }}&AccountTransactionSearch%5Btype%5D=in">Посмотреть приходы</a>
+                  <a
+                  href="{% url 'admin:cashbox_list' %} >Посмотреть приходы</a>
                 </p>
                 <p>
-                  <a href="{% url 'admin:invoice_list' %}?InvoiceSearch%5Bflat_id%5D={{ apartment.id }}">Посмотреть квитанции</a>
+                  <a href="{% url 'admin:items_list' %} ">Посмотреть квитанции</a>
                 </p>
               </div>
             </div>

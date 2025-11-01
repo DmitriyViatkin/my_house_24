@@ -1,3 +1,5 @@
+{% extends "index.html" %}
+
 {% load static %}
 
 {% block content %}
@@ -38,23 +40,76 @@
               {% static 'img.png' as default_image %}
               <div class="col-xs-12 col-lg-8">
                 <div class="row">
-                  {% for i in 1|to:5 %}
-                    <div class="col-xs-6 col-md-{{ i == 1|yesno:'12,3' }}">
-                      {% with img_field="image"|add:i %}
-                        {% if form.instance.img_field %}
-                          <img id="preview{{ i }}"
-                               src="{{ form.instance.img_field.url }}"
-                               class="img-responsive {{ i == 1|yesno:'largeImg,smallImg' }} margin-bottom-30"
-                               alt="Изображение #{{ i }}" />
-                        {% else %}
-                          <img id="preview{{ i }}"
-                               src="{{ default_image }}"
-                               class="img-responsive {{ i == 1|yesno:'largeImg,smallImg' }} margin-bottom-30"
-                               alt="Изображение #{{ i }}" />
-                        {% endif %}
-                      {% endwith %}
-                    </div>
-                  {% endfor %}
+                  <!-- Изображение 1 -->
+                  <div class="col-xs-12 col-md-6">
+                    {% if form.instance.image1 %}
+                      <img id="preview1"
+                           src="{{ form.instance.image1.url }}"
+                           class="img-responsive largeImg margin-bottom-30"
+                           alt="Изображение #1" />
+                    {% else %}
+                      <img id="preview1"
+                           src="{{ default_image }}"
+                           class="img-responsive largeImg margin-bottom-30"
+                           alt="Изображение #1" />
+                    {% endif %}
+                  </div>
+                  <!-- Изображение 2 -->
+                  <div class="col-xs-6 col-md-3">
+                    {% if form.instance.image2 %}
+                      <img id="preview2"
+                           src="{{ form.instance.image2.url }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #2" />
+                    {% else %}
+                      <img id="preview2"
+                           src="{{ default_image }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #2" />
+                    {% endif %}
+                  </div>
+                  <!-- Изображение 3 -->
+                  <div class="col-xs-6 col-md-3">
+                    {% if form.instance.image3 %}
+                      <img id="preview3"
+                           src="{{ form.instance.image3.url }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #3" />
+                    {% else %}
+                      <img id="preview3"
+                           src="{{ default_image }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #3" />
+                    {% endif %}
+                  </div>
+                  <!-- Изображение 4 -->
+                  <div class="col-xs-6 col-md-3">
+                    {% if form.instance.image4 %}
+                      <img id="preview4"
+                           src="{{ form.instance.image4.url }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #4" />
+                    {% else %}
+                      <img id="preview4"
+                           src="{{ default_image }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #4" />
+                    {% endif %}
+                  </div>
+                  <!-- Изображение 5 -->
+                  <div class="col-xs-6 col-md-3">
+                    {% if form.instance.image5 %}
+                      <img id="preview5"
+                           src="{{ form.instance.image5.url }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #5" />
+                    {% else %}
+                      <img id="preview5"
+                           src="{{ default_image }}"
+                           class="img-responsive smallImg margin-bottom-30"
+                           alt="Изображение #5" />
+                    {% endif %}
+                  </div>
                 </div>
               </div>
             </div>
@@ -90,18 +145,6 @@
         if (input) {
           input.addEventListener('change', () => previewImage(input, 'preview' + (index + 1)));
         }
-      });
-
-      // Удаление сотрудников (formset)
-      document.querySelectorAll(".delete-staff").forEach(btn => {
-        btn.addEventListener("click", function() {
-          const row = this.closest(".staff-form");
-          const deleteInput = row.querySelector("input[name$='-DELETE']");
-          if (deleteInput) {
-            deleteInput.checked = true;
-            row.style.display = "none";
-          }
-        });
       });
     });
   </script>

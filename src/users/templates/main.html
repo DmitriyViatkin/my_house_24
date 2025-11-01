@@ -152,10 +152,8 @@
       <!-- Sidebar -->
       {% include 'card_profile/sidebar.html' %}
       <!-- Main Content -->
-      <div class="content-wrapper">
-        {% block body %}
-        {% endblock body %}
-      </div>
+      {% block content %}
+      {% endblock content %}
     </div>
     <!-- JS -->
     <script src="{% static 'admin/bower_components/jquery/dist/jquery.min.js' %}"></script>

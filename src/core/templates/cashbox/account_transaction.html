@@ -4,12 +4,12 @@
 
 {% block content %}
   {{ form.media }}
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 916px;">
     <section class="content-header">
       <h1>Касса</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Касса</li>
       </ul>
@@ -21,7 +21,7 @@
             <div class="col-xs-12 col-md-4">
               <div class="small-box bg-green overflow-hidden">
                 <div class="inner">
-                  <h3 class="cashbox-total">{{ cashbox_balance|floatformat:2 }} грн</h3>
+                  <h3 class="cashbox-total">{{ cashbox_balance|floatformat:2 }}грн</h3>
                   <p>Состояние кассы</p>
                 </div>
                 <div class="icon">
@@ -32,7 +32,7 @@
             <div class="col-xs-12 col-md-4">
               <div class="small-box bg-blue overflow-hidden">
                 <div class="inner">
-                  <h3 class="income-total">{{ personal_balance|floatformat:2 }} грн</h3>
+                  <h3 class="income-total">{{ personal_balance|floatformat:2 }}грн</h3>
                   <p>Баланс по счётам</p>
                 </div>
                 <div class="icon">
@@ -44,7 +44,7 @@
               <div class="small-box bg-red overflow-hidden">
                 <div class="inner">
                   <h3 class="expense-total">{{ total_unpaid_invoices|floatformat:2 }} грн</h3>
-                  <p>Задолженность по счётам</p>
+                  <p>Задолженость по счётам</p>
                 </div>
                 <div class="icon">
                   <i class="fa fa-arrow-up"></i>
@@ -150,14 +150,16 @@
       </div>
     </section>
   </div>
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- DataTables -->
   <link rel="stylesheet"
         href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
   <script>
     $(document).ready(function() {
-      let table = $('#cashbox_list').DataTable({
+      table = $('#cashbox_list').DataTable({
         processing: true,
         serverSide: true,
         searching: false,
@@ -177,8 +179,10 @@
             d.suma = $('#id_suma').val();
           },
           dataSrc: function(json) {
+            // Обновляем верхние блоки (берем из БД)
             if (json.total_income !== undefined && json.total_expense !== undefined) {
               const balance = json.balance ?? (json.total_income - json.total_expense);
+
               $('.income-total').text(json.total_income.toLocaleString('uk-UA', {
                 minimumFractionDigits: 2
               }) + ' грн');
@@ -189,6 +193,7 @@
                 minimumFractionDigits: 2
               }) + ' грн');
             }
+
             return json.data;
           }
         },
@@ -213,10 +218,12 @@
         }]
       });
 
+      // фильтры
       $('.filters input, .filters select').on('change keyup paste', function() {
         table.ajax.reload(null, false);
       });
 
+      // клики по ряду
       $('#cashbox_list tbody').on('click', 'tr', function(e) {
         if ($(e.target).closest('a, button, input').length) return;
         let data = table.row(this).data();
@@ -224,6 +231,7 @@
         window.location.href = '/admin/cashbox/cashbox_card/' + data.id + '/';
       });
 
+      // выгрузка в Excel
       $('#export_excel').on('click', function(e) {
         e.preventDefault();
         let ids = getFilteredIds();
@@ -234,33 +242,41 @@
         let url = "{% url 'admin:cash_box_list' %}?ids=" + encodeURIComponent(ids.join(','));
         window.location.href = url;
       });
-
-      function updateLocalStats() {
-        if (!table) return;
-        let income = 0,
-          expense = 0;
-        const visibleData = table.rows({
-          page: 'current'
-        }).data();
-        for (let i = 0; i < visibleData.length; i++) {
-          const row = visibleData[i];
-          const type = row.payment_articles__record_type?.toLowerCase() || "";
-          const suma = parseFloat(row.suma) || 0;
-          if (type.includes("приход")) income += suma;
-          else if (type.includes("расход")) expense += suma;
-        }
-        const balance = income - expense;
-        $('.income-value').text(income.toLocaleString('uk-UA', {
-          minimumFractionDigits: 2
-        }) + ' грн');
-        $('.expense-value').text(expense.toLocaleString('uk-UA', {
-          minimumFractionDigits: 2
-        }) + ' грн');
-        $('.balance-value').text(balance.toLocaleString('uk-UA', {
-          minimumFractionDigits: 2
-        }) + ' грн');
-      }
-      $('#cashbox_list').on('draw.dt', updateLocalStats);
     });
+
+    // --- подсчет статистики по видимым строкам (футер) ---
+    function updateLocalStats() {
+      if (!table) return;
+
+      let income = 0;
+      let expense = 0;
+
+      const visibleData = table.rows({
+        page: 'current'
+      }).data();
+      for (let i = 0; i < visibleData.length; i++) {
+        const row = visibleData[i];
+        const type = row.payment_articles__record_type?.toLowerCase() || "";
+        const suma = parseFloat(row.suma) || 0;
+
+        if (type.includes("приход")) income += suma;
+        else if (type.includes("расход")) expense += suma;
+      }
+
+      const balance = income - expense;
+
+      $('.income-value').text(income.toLocaleString('uk-UA', {
+        minimumFractionDigits: 2
+      }) + ' грн');
+      $('.expense-value').text(expense.toLocaleString('uk-UA', {
+        minimumFractionDigits: 2
+      }) + ' грн');
+      $('.balance-value').text(balance.toLocaleString('uk-UA', {
+        minimumFractionDigits: 2
+      }) + ' грн');
+    }
+
+    // вызываем после каждой отрисовки DataTable
+    $('#cashbox_list').on('draw.dt', updateLocalStats);
   </script>
-{% endblock content %}
+{% endblock %}

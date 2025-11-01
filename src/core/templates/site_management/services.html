@@ -10,10 +10,36 @@
   .hidden-field {
     display: none;
   }
+
+  .img-preview {
+    max-width: 100%;
+    max-height: 200px;
+    height: auto;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 3px;
+    border-radius: 4px;
+  }
+
+  .wysihtml5-sandbox {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 100px;
+    width: 100% !important;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  .form-websiteservice {
+    margin-bottom: 20px;
+  }
 </style>
+{% load static %}
+
 {% block content %}
   <link rel="stylesheet" href="{% static 'css/bootstrap-wysihtml5.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
   <style>
     .img-preview {
       max-width: 100%;
@@ -40,12 +66,12 @@
       margin-bottom: 20px;
     }
   </style>
-  <div class="content-wrapper content-minheight">
+  <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Редактирование страницы</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Редактирование страницы</li>
       </ul>
@@ -58,7 +84,10 @@
               <h3 class="box-title">Редактирование страницы "Услуги"</h3>
             </div>
             <div class="box-body">
-              <form id="services-form"  method="post" enctype="multipart/form-data">
+              <form id="services-form"
+                    action="/admin/website/services"
+                    method="post"
+                    enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ formset.management_form }}
                 {{ form.media }}
@@ -67,7 +96,7 @@
                     {% for form in formset %}
                       <div class="col-md-4 form-websiteservice">
                         {{ form.id }}
-                        <div class="hidden-field">{{ form.DELETE }}</div>
+                        <div style="display: none;">{{ form.DELETE }}</div>
                         <h4>
                           Услуга {{ forloop.counter }}
                           {% if form.instance.pk or form.id %}
@@ -120,10 +149,10 @@
                   <div class="col-xs-12 text-center">
                     <div class="form-group">
                       <a href="{% url 'admin:services' %}" class="btn btn-default">Отменить</a>
-                      <div id="empty-form-template" class="hidden-field">
+                      <div id="empty-form-template" style="display: none;">
                         <div class="col-md-4 form-websiteservice">
                           {{ formset.empty_form.id }}
-                          <div class="hidden-field">{{ formset.empty_form.DELETE }}</div>
+                          <div style="display: none;">{{ formset.empty_form.DELETE }}</div>
                           <h4>
                             Услуга <span class="service-number-placeholder"></span>
                             <button type="button" class="pull-right text-red remove-service-btn">
@@ -164,6 +193,113 @@
   <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
   <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
   <script>
-    // JS left unchanged — wysihtml5 init, renumbering, etc.
+    $(document).ready(function() {
+
+      // функция для инициализации wysihtml5 без дублей
+      function initWysihtml5(el) {
+        let $el = $(el);
+
+        // показываем textarea (если вдруг скрыт)
+        $el.show();
+
+        // убираем артефакты старой инициализации только у этой формы
+        $el.siblings('iframe.wysihtml5-sandbox').remove();
+        $el.siblings('input[name="_wysihtml5_mode"]').remove();
+        $el.closest('.form-group').find('.wysihtml5-toolbar').remove();
+
+        // запускаем заново
+        $el.wysihtml5({
+          locale: 'ru-RU'
+        });
+      }
+
+      // пересчёт номеров тарифов
+      function renumberServices() {
+        $('#form-websiteservice-rows .form-websiteservice:visible').each(function(index) {
+          $(this).find('.service-number-placeholder').text(index + 1);
+        });
+      }
+
+      // инициализация на уже существующих
+      if ($('.wysihtml5').length) {
+        $('.wysihtml5').each(function() {
+          initWysihtml5(this);
+        });
+        renumberServices();
+      }
+
+      // добавление новой формы
+      $('#add-service-btn').click(function(e) {
+        e.preventDefault();
+        let totalForms = $('#id_form-TOTAL_FORMS');
+        let currentCount = parseInt(totalForms.val());
+
+        // клонируем пустую форму
+        let formRow = $('#empty-form-template .form-websiteservice').clone(false);
+
+        // обновляем name/id/for
+        formRow.find('*').each(function() {
+          let $el = $(this);
+          if ($el.attr('name')) {
+            $el.attr('name', $el.attr('name').replace(/__prefix__/g, currentCount));
+          }
+          if ($el.attr('id')) {
+            $el.attr('id', $el.attr('id').replace(/__prefix__/g, currentCount));
+          }
+          if ($el.attr('for')) {
+            $el.attr('for', $el.attr('for').replace(/__prefix__/g, currentCount));
+          }
+        });
+
+        // вставляем в DOM
+        $('#form-websiteservice-rows').append(formRow);
+
+        // увеличиваем TOTAL_FORMS
+        totalForms.val(currentCount + 1);
+
+        // инициализируем wysihtml5 у textarea внутри новой формы
+        formRow.find('textarea.wysihtml5').each(function() {
+          initWysihtml5(this);
+        });
+
+        // пересчёт номеров
+        renumberServices();
+      });
+
+      // Preview при выборе файла
+      $(document).on('change', 'input[type="file"]', function(e) {
+        let input = e.target;
+        if (input.files && input.files[0]) {
+          let reader = new FileReader();
+          let preview = $(input).closest('.form-websiteservice').find('.img-preview');
+          reader.onload = function(ev) {
+            preview.attr('src', ev.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      });
+
+      // Удаление формы
+      $(document).on('click', '.remove-service-btn', function(e) {
+        e.preventDefault();
+        let formRow = $(this).closest('.form-websiteservice');
+        let deleteInput = formRow.find('input[type="checkbox"][name$="-DELETE"]');
+
+        if (deleteInput.length) {
+          // существующая форма → помечаем на удаление и скрываем
+          deleteInput.prop('checked', true);
+          formRow.hide();
+        } else {
+          // новая форма → удаляем из DOM и уменьшаем TOTAL_FORMS
+          formRow.remove();
+          let totalForms = $('#id_form-TOTAL_FORMS');
+          totalForms.val(parseInt(totalForms.val()) - 1);
+        }
+
+        // пересчёт номеров
+        renumberServices();
+      });
+
+    });
   </script>
-{% endblock content %}
+{% endblock %}

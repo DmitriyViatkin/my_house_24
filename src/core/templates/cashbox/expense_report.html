@@ -4,15 +4,15 @@
 
 {% block content %}
   {{ form.media }}
-  <div class="content-wrapper min-height-876">
+  <div class="content-wrapper" style="min-height: 876px;">
     <section class="content-header">
       <h1>Новая расходная ведомость</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'account_transaction_index' %}">Платежи</a>
+          <a href="/admin/account-transaction/index">Платежи</a>
         </li>
         <li class="active">Новая расходная ведомость</li>
       </ul>
@@ -20,20 +20,87 @@
     <section class="content">
       <form id="w0" method="post">
         {% csrf_token %}
-        <!-- ...весь код форми без змін... -->
         <div class="row">
-          <div class="col-xs-12 text-right">
-            <div class="form-group">
-              <a href="{% url 'account_transaction_index' %}"
-                 class="btn btn-default margin-bottom-15">Отменить</a>
-              <input type="submit"
-                     class="btn btn-success margin-bottom-15"
-                     name="action_save"
-                     value="Сохранить" />
+          <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+              <div class="form-group field-accounttransaction-uid required">
+                <div class="input-group">
+                  <div class="input-group-addon">№</div>
+                  {{ form.cash_box_number }}
+                </div>
+              </div>
+              <span class="label-mid">от</span>
+              <div class="form-group field-accounttransaction-uid_date required">
+                <div id="accounttransaction-uid_date-kvdate" class="input-group date">
+                  <span class="input-group-addon kv-date-calendar" title="Выбрать дату">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </span>
+                  {{ form.date }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-sm-offset-6">
+                {{ form.is_conducted }}
+                <label for="is_complete">Проведен</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="form-group field-accounttransaction-transaction_purpose_id">
+                  <label class="control-label" for="accounttransaction-transaction_purpose_id">Статья</label>
+                  {{ form.payment_articles }}
+                  <div class="help-block"></div>
+                </div>
+                <div class="form-group field-accounttransaction-amount required">
+                  <label class="control-label" for="accounttransaction-amount">Сумма</label>
+                  {{ form.suma }}
+                  <div class="help-block"></div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <input type="hidden"
+                       id="accounttransaction-status"
+                       name="AccountTransaction[status]"
+                       value="10" />
+                <input type="hidden"
+                       id="accounttransaction-invoice_id"
+                       name="AccountTransaction[invoice_id]" />
+                <div class="form-group field-accounttransaction-user_admin_id">
+                  <label class="control-label" for="accounttransaction-user_admin_id">Менеджер</label>
+                  {{ form.manager }}
+                  <div class="help-block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <div class="form-group">
+                  <a href="/admin/account-transaction/index"
+                     class="btn btn-default margin-bottom-15">Отменить</a>
+                  <input type="submit"
+                         class="btn btn-success margin-bottom-15"
+                         name="action_save"
+                         value="Сохранить" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group field-accounttransaction-description">
+                  <label class="control-label" for="accounttransaction-description">Комментарий</label>
+                  {{ form.comment }}
+                  <div class="help-block"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </form>
     </section>
   </div>
-{% endblock content %}
+{% endblock %}

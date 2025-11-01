@@ -4,21 +4,21 @@
 
 {% block content %}
   {{ form.media }}
-  <div class="content-wrapper content-wrapper-min-height">
+  <div class="content-wrapper" style="min-height: 876px;">
     <section class="content-header">
       <h1>Новая приходная ведомость</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:account_transaction_index' %}">Платежи</a>
+          <a href="/admin/account-transaction/index">Платежи</a>
         </li>
         <li class="active">Новая приходная ведомость</li>
       </ul>
     </section>
     <section class="content">
-      <form id="w0" method="post">
+      <form id="w0"   method="post">
         {% csrf_token %}
         <div class="row">
           <div class="col-xs-12 col-md-7 col-lg-6">
@@ -89,7 +89,7 @@
             <div class="row">
               <div class="col-xs-12 text-right">
                 <div class="form-group">
-                  <a href="{% url 'admin:account_transaction_index' %}"
+                  <a href="/admin/account-transaction/index"
                      class="btn btn-default margin-bottom-15">Отменить</a>
                   <input type="submit"
                          class="btn btn-success margin-bottom-15"
@@ -112,4 +112,4 @@
       </form>
     </section>
   </div>
-{% endblock content %}
+{% endblock %}

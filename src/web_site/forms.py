@@ -302,7 +302,10 @@ class FormBlock(forms.ModelForm):
         model = Block
         fields = ["image", "title", "description"]
         labels = {"image": "Слайд", "title": "Заголовок", "description": "Описание"}
-        widgets = {"image": forms.ClearableFileInput()}
+
+        widgets = {
+            "image": forms.FileInput(attrs={"class": "form-control"}),
+        }
 
     def save(self, *, commit=True):
         """Save block instance, keeping existing image if not replaced."""

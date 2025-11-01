@@ -15,21 +15,13 @@
       font-family: Arial, sans-serif;
       font-size: 14px;
     }
-
-    .content-minheight {
-      min-height: 839px;
-    }
-
-    .desc-wrapper {
-      width: 900px;
-    }
   </style>
-  <div class="content-wrapper content-minheight">
+  <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Редактирование страницы</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Редактирование страницы</li>
       </ul>
@@ -42,71 +34,58 @@
               <h3 class="box-title">Редактирование страницы "Главная"</h3>
             </div>
             <div class="box-body">
+              <!-- ЕДИНАЯ ФОРМА -->
               <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.media }}
-                <!-- Слайдер -->
+                {% csrf_token %} {{ form.media }}
                 <h3 class="page-header">Слайдер</h3>
                 <div class="row site-main-slider">
-                  <!-- Слайд 1 -->
                   <div class="col-md-4">
                     <h4>Слайд 1</h4>
                     <img id="preview-slide1"
-                         src="{% if form.slide1.value %}{{ form.slide1.value.url }}{% elif object.slide1 %}{{ object.slide1.url }}{% else %}{% static 'img.png' %}{% endif %}"
+                         src="{% if form.slide.value %}{{ form.slide.value.url }}{% elif object.slide %}{{ object.slide.url }}{% else %}{% static 'img.png' %}{% endif %}"
                          alt=""
                          class="img-responsive margin-bottom-15" />
                     <div class="form-group margin-bottom-30">
-                      <label for="{{ form.slide1.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
-                      {{ form.slide1 }}
-                      {{ form.slide1.errors }}
+                      <label for="{{ form.slide.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
+                      {{ form.slide }} {{ form.slide.errors }}
                     </div>
                   </div>
-                  <!-- Слайд 2 -->
                   <div class="col-md-4">
                     <h4>Слайд 2</h4>
-                    <img id="preview-slide2"
+                    <img id="preview-slide1"
                          src="{% if form.slide2.value %}{{ form.slide2.value.url }}{% elif object.slide2 %}{{ object.slide2.url }}{% else %}{% static 'img.png' %}{% endif %}"
                          alt=""
                          class="img-responsive margin-bottom-15" />
                     <div class="form-group margin-bottom-30">
                       <label for="{{ form.slide2.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
-                      {{ form.slide2 }}
-                      {{ form.slide2.errors }}
+                      {{ form.slide2 }} {{ form.slide2.errors }}
                     </div>
                   </div>
-                  <!-- Слайд 3 -->
                   <div class="col-md-4">
                     <h4>Слайд 3</h4>
-                    <img id="preview-slide3"
+                    <img id="preview-slide1"
                          src="{% if form.slide3.value %}{{ form.slide3.value.url }}{% elif object.slide3 %}{{ object.slide3.url }}{% else %}{% static 'img.png' %}{% endif %}"
                          alt=""
                          class="img-responsive margin-bottom-15" />
                     <div class="form-group margin-bottom-30">
                       <label for="{{ form.slide3.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
-                      {{ form.slide3 }}
-                      {{ form.slide3.errors }}
+                      {{ form.slide3 }} {{ form.slide3.errors }}
                     </div>
                   </div>
                 </div>
-                <!-- Краткая информация -->
                 <div class="row">
                   <div class="col-md-12">
                     <h3 class="page-header">Краткая информация</h3>
                     <div class="form-group">
                       <label for="{{ form.title.id_for_label }}">Заголовок</label>
-                      {{ form.title }}
-                      {{ form.title.errors }}
+                      {{ form.title }} {{ form.title.errors }}
                     </div>
                     <div class="form-group">
-                      <label for="{{ form.description.id_for_label }}">Краткий текст</label>
-                      <div class="desc-wrapper">
-                        {{ form.description }}
-                        {{ form.description.errors }}
-                      </div>
+                      <label class="control-label" for="{{ form.description.id_for_label }}">Краткий текст</label>
+                      <div style="width: 900px">{{ form.description }} {{ form.description.errors }}</div>
                     </div>
                   </div>
                 </div>
-                <!-- Рядом с нами -->
                 <div class="row near-img">
                   <div class="col-xs-12">
                     <h3 class="page-header">Рядом с нами</h3>
@@ -114,46 +93,33 @@
                   <div class="col-md-12">
                     {{ formset.management_form }}
                     {% for f in formset %}
+                      {{ f.id }}
                       <div class="block-form col-md-4">
                         <h4>Блок {{ forloop.counter }}</h4>
+                        <!-- Превью картинки -->
                         <img id="preview-{{ forloop.counter }}"
                              src="{% if f.image.value %}{{ f.image.value.url }}{% else %}{% static 'img.png' %}{% endif %}?w=522&h=350&fit=crop"
                              alt=""
                              class="img-responsive margin-bottom-15" />
                         <div class="form-group margin-bottom-30">
                           <label for="{{ f.image.id_for_label }}">Рекомендуемый размер: (1920x800)</label>
-                          {{ f.image }}
-                          {{ f.image.errors }}
+                          {{ f.image }} {{ f.image.errors }}
                         </div>
-                        <div class="form-group">
-                          {{ f.title.label_tag }}
-                          {{ f.title }}
-                          {{ f.title.errors }}
-                        </div>
-                        <div class="form-group">
-                          {{ f.description.label_tag }}
-                          {{ f.description }}
-                          {{ f.description.errors }}
-                        </div>
+                        <div class="form-group">{{ f.title.label_tag }} {{ f.title }} {{ f.title.errors }}</div>
+                        <div class="form-group">{{ f.description.label_tag }} {{ f.description }} {{ f.description.errors }}</div>
                       </div>
                     {% endfor %}
                   </div>
                 </div>
-                <!-- SEO -->
                 <h3 class="page-header">Настройки SEO</h3>
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="form-group">
-                      {{ seo_form.title.label_tag }}
-                      {{ seo_form.title }}
+                    <div class="form-group field-websitehomeform-homemetatitle">{{ seo_form.title.label_tag }} {{ seo_form.title }}</div>
+                    <div class="form-group field-websitehomeform-homemetakeywords">
+                      {{ seo_form.description.label_tag }} {{ seo_form.description }}
                     </div>
-                    <div class="form-group">
-                      {{ seo_form.description.label_tag }}
-                      {{ seo_form.description }}
-                    </div>
-                    <div class="form-group">
-                      {{ seo_form.keyword.label_tag }}
-                      {{ seo_form.keyword }}
+                    <div class="form-group field-websitehomeform-homemetadescription">
+                      {{ seo_form.keyword.label_tag }} {{ seo_form.keyword }}
                     </div>
                   </div>
                 </div>
@@ -161,32 +127,36 @@
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
+              <!-- КОНЕЦ ФОРМЫ -->
             </div>
           </div>
         </div>
       </div>
     </section>
   </div>
-  <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script>
-  <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script>
   <script>
-    $(document).ready(function() {
-      if ($('.wysihtml5').length) {
-        $('.wysihtml5').wysihtml5({
-          locale: 'ru-RU'
-        });
-      }
-    });
-
-    function previewImage(input, previewId) {
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById(previewId).src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  </script>
-{% endblock content %}
+    window.CKEDITOR_BASEPATH = {
+      % static 'ckeditor/ckeditor/' %
+    };
+  </script> <script src="{% static 'js/bootstrap-wysihtml5.js' %}"></script> <script src="{% static 'js/bootstrap-wysihtml5.ru-RU.js' %}"></script> <script>
+   $(document).ready(function() {
+     if ($('.wysihtml5').length) {
+       $('.wysihtml5').wysihtml5({
+         locale: 'ru-RU'
+       });
+     }
+   });
+ </script> <script>
+   function previewImage(input, previewId) {
+     const file = input.files[0];
+     if (file) {
+       const reader = new FileReader();
+       reader.onload = function(e) {
+         document.getElementById(previewId).src = e.target.result;
+       };
+       reader.readAsDataURL(file);
+     }
+   }
+   document.addEventListener("DOMContentLoaded", function() { // Превью для слайдов const slides = [{ inputId: "id_slide", previewId: "preview-slide1" }, { inputId: "id_slide2", previewId: "preview-slide2" }, { inputId: "id_slide3", previewId: "preview-slide3" }, ]; slides.forEach(slide => { const el = document.getElementById(slide.inputId); if (el) el.addEventListener("change", () => previewImage(el, slide.previewId)); }); // Превью для formset { % for f in formset % } const input { { forloop.counter } } = document.getElementById("{{ f.image.id_for_label }}"); if (input { { forloop.counter } }) { input { { forloop.counter } }.addEventListener("change", function() { previewImage(this, "preview-{{ forloop.counter }}"); }); } { % endfor % } }); 
+ </script>
+{% endblock %}

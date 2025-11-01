@@ -3,3 +3,20 @@
     font-family: FontAwesome;
     font-weight: 900; /* если используется FA 5+ */
 }
+.table-header-cell {
+  min-width: 200px;
+  font-weight: normal;
+}
+.table-column-sm {
+    width: 80px;
+}
+
+.table-column-md {
+    width: 125px;
+    min-width: 125px;
+}
+
+.table-column-xs {
+    width: 60px;
+    min-width: 60px;
+}

@@ -26,7 +26,7 @@ from src.financials.models import CashBox
 from src.financials.models import Invoice
 from src.financials.models import InvoiceItem
 
-from .form import CreateOwnerFlatForm
+from .form import CreateOwnerFlatForm1
 from .form import TicketUserForm
 from .models import Message
 from .models import Ticket
@@ -213,7 +213,7 @@ class MessagesDetailView(DetailView):
 class CabinetView(LoginRequiredMixin, TemplateView):
     """Display the user's main cabinet dashboard."""
 
-    template_name = "main.html"
+    template_name = "hello.html"
 
     def get_context_data(self, **kwargs):
         """Add page title and user data to context."""
@@ -472,19 +472,20 @@ class AddTicketsView(LoginRequiredMixin, CreateView):
 
 
 class UpdateProfile(LoginRequiredMixin, UpdateView):
-    """Allow the user to edit their profile information."""
+    """View for editing the user's own profile."""
 
     template_name = "update_profile.html"
     model = User
-    form_class = CreateOwnerFlatForm
-    success_url = reverse_lazy("profile")
+    form_class = CreateOwnerFlatForm1
+    success_url = reverse_lazy("cabinet")
 
     def get_context_data(self, **kwargs):
-        """Add active section info to context."""
+        """Add the page title to the context for the template."""
         context = super().get_context_data(**kwargs)
-        context["active_section"] = "profile"
+        context["active_section"] = "owners"
         return context
 
-    def get_success_url(self):
-        """Redirect to the same profile update page after saving."""
-        return reverse_lazy("update_profile", kwargs={"pk": self.object.pk})
+    def form_valid(self, form):
+        """Save form with password hashing and redirect."""
+        form.save()
+        return redirect(self.success_url)

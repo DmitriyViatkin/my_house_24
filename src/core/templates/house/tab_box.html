@@ -123,68 +123,68 @@
         </div>
       </div>
     </div>
-    <!-- JS Templates -->
-    <div id="form_section_template" class="hidden">
-      <div class="row form-section">
-        <div class="col-xs-12">
-          <input type="hidden" name="section-__prefix__-id" value="" />
-          <div class="form-group">
-            <label>Название</label>
-            <div class="input-group">
-              <input type="text"
-                     class="form-control"
-                     name="section-__prefix__-name"
-                     value="" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-danger form-row-remove-btn">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </span>
-            </div>
+  </div>
+  <!-- JS Templates -->
+  <div id="form_section_template" class="hidden">
+    <div class="row form-section">
+      <div class="col-xs-12">
+        <input type="hidden" name="section-__prefix__-id" value="" />
+        <div class="form-group">
+          <label>Название</label>
+          <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   name="section-__prefix__-name"
+                   value="" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-danger form-row-remove-btn">
+                <i class="fa fa-trash"></i>
+              </button>
+            </span>
           </div>
         </div>
       </div>
     </div>
-    <div id="form_floor_template" class="hidden">
-      <div class="row form-floor">
-        <div class="col-xs-12">
-          <input type="hidden" name="floor-__prefix__-id" value="" />
-          <div class="form-group">
-            <label>Название</label>
-            <div class="input-group">
-              <input type="text"
-                     name="floor-__prefix__-name"
-                     class="form-control"
-                     placeholder="Название этажа" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-danger form-row-remove-btn">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </span>
-            </div>
+  </div>
+  <div id="form_floor_template" class="hidden">
+    <div class="row form-floor">
+      <div class="col-xs-12">
+        <input type="hidden" name="floor-__prefix__-id" value="" />
+        <div class="form-group">
+          <label>Название</label>
+          <div class="input-group">
+            <input type="text"
+                   name="floor-__prefix__-name"
+                   class="form-control"
+                   placeholder="Название этажа" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-danger form-row-remove-btn">
+                <i class="fa fa-trash"></i>
+              </button>
+            </span>
           </div>
         </div>
       </div>
     </div>
-    <div id="form_staff_template" class="hidden">
-      <div class="row form-houseuseradmin">
-        <div class="col-xs-12 col-sm-7">
-          <div class="form-group">
-            {{ staff_set.empty_form.user.label_tag }}
-            {{ staff_set.empty_form.user }}
-          </div>
+  </div>
+  <div id="form_staff_template" class="hidden">
+    <div class="row form-houseuseradmin">
+      <div class="col-xs-12 col-sm-7">
+        <div class="form-group">
+          {{ staff_set.empty_form.user.label_tag }}
+          {{ staff_set.empty_form.user }}
         </div>
-        <div class="col-xs-12 col-sm-5">
-          <div class="form-group">
-            {{ staff_set.empty_form.user_role.label_tag }}
-            <div class="input-group">
-              {{ staff_set.empty_form.user_role }}
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-danger form-row-remove-btn">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </span>
-            </div>
+      </div>
+      <div class="col-xs-12 col-sm-5">
+        <div class="form-group">
+          {{ staff_set.empty_form.user_role.label_tag }}
+          <div class="input-group">
+            {{ staff_set.empty_form.user_role }}
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-danger form-row-remove-btn">
+                <i class="fa fa-trash"></i>
+              </button>
+            </span>
           </div>
         </div>
       </div>
@@ -192,6 +192,7 @@
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
+      // === Добавление новых форм ===
       function addForm(e) {
         e.preventDefault();
         const btn = e.currentTarget;
@@ -206,12 +207,13 @@
         totalFormsInput.value = totalForms + 1;
       }
 
+      // === Удаление форм ===
       function removeForm(e) {
         const btn = e.target.closest(".form-row-remove-btn");
         if (!btn) return;
         const formRow = btn.closest(".form-section, .form-floor, .form-houseuseradmin");
         if (!formRow) return;
-        const deleteInput = formRow.querySelector(`[name$="-DELETE"]`);
+        const deleteInput = formRow.querySelector('[name$="-DELETE"]');
         if (deleteInput) {
           deleteInput.value = "true";
           formRow.style.display = "none";
@@ -223,17 +225,23 @@
       document.querySelectorAll(".form-row-add-btn").forEach(btn => btn.addEventListener("click", addForm));
       document.body.addEventListener("click", removeForm);
 
+      // === Подстановка роли при выборе пользователя ===
       const userRoles = {
         {
           user_roles_json | safe
         }
       };
+
       document.body.addEventListener("change", function(e) {
-        if (e.target.classList.contains("useradmin-select")) {
-          const roleInput = e.target.closest(".form-houseuseradmin").querySelector(".useradmin-role");
-          roleInput.value = userRoles[e.target.value] || "";
+        if (e.target.matches(".useradmin-select")) {
+          const wrapper = e.target.closest(".form-houseuseradmin");
+          if (!wrapper) return;
+          const roleInput = wrapper.querySelector(".useradmin-role");
+          if (!roleInput) return;
+          const userId = e.target.value;
+          roleInput.value = userRoles[userId] || "";
         }
       });
     });
   </script>
-{% endblock content %}
+{% endblock %}

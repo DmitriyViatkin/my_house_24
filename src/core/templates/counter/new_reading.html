@@ -1,15 +1,15 @@
 {% extends "index.html" %}
 
 {% block content %}
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Новое показание</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:counters_list' %}">Счетчики</a>
+          <a href="/admin/counter-data/counters">Счетчики</a>
         </li>
         <li class="active">Новое показание</li>
       </ul>
@@ -26,7 +26,7 @@
                 {{ form.counter_number }}
                 {% if form.counter_number.errors %}<div class="text-danger">{{ form.counter_number.errors }}</div>{% endif %}
               </div>
-              <!-- Дата -->
+              <!-- Дата (если сделаешь редактируемой в модели) -->
               <div class="form-group">
                 <label for="id_date">Дата</label>
                 <input type="date" name="date" id="id_date" class="form-control" />
@@ -38,6 +38,7 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12 col-sm-6">
+                <!-- Дом -->
                 <div class="form-group">
                   {{ form.house.label_tag }}
                   {{ form.house }}
@@ -50,6 +51,7 @@
                   {{ form.apartment.label_tag }}
                   {{ form.apartment }}
                 </div>
+                <!-- Счётчик (услуга) -->
                 <div class="form-group">
                   {{ form.service.label_tag }}
                   {{ form.service }}
@@ -57,11 +59,13 @@
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
+                <!-- Статус -->
                 <div class="form-group">
                   {{ form.status.label_tag }}
                   {{ form.status }}
                   {% if form.status.errors %}<div class="text-danger">{{ form.status.errors }}</div>{% endif %}
                 </div>
+                <!-- Показания -->
                 <div class="form-group">
                   {{ form.meter_reading.label_tag }}
                   {{ form.meter_reading }}
@@ -94,6 +98,7 @@
       const sectionSelect = document.getElementById("id_section");
       const apartmentSelect = document.getElementById("id_apartment");
 
+      // При выборе дома → подтягиваем секции
       houseSelect.addEventListener("change", function() {
         const houseId = this.value;
         sectionSelect.innerHTML = '<option value="">---------</option>';
@@ -110,6 +115,7 @@
           .catch(err => console.error("Ошибка при загрузке секций:", err));
       });
 
+      //  подтягиваем квартиры
       sectionSelect.addEventListener("change", function() {
         const sectionId = this.value;
         apartmentSelect.innerHTML = '<option value="">---------</option>';
@@ -126,4 +132,4 @@
       });
     });
   </script>
-{% endblock content %}
+{% endblock %}
