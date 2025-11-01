@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+ALLOWED_HOSTS = ["127.0.0.1", "45.94.158.172"]
 
 AUTH_USER_MODEL = "users.User"
 INTERNAL_IPS = ["127.0.0.1"]
