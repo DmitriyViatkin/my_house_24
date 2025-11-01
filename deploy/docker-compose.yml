@@ -1,0 +1,74 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+
+    volumes:
+      - ..:/app
+      - ../media:/app/media
+    env_file:
+      - .env.development
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  celery_worker:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    command: celery -A settings worker -l info
+    volumes:
+      - ..:/app
+    env_file:
+      -  .env.development
+    depends_on:
+      - db
+      - redis
+      - web
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: my_house_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:rw
+      - /etc/letsencrypt/:/etc/letsencrypt/
+      - ./staticfiles_collected:/app/staticfiles_collected:rw
+      - ./media:/app/media:rw
+    depends_on:
+      - web
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env.development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
