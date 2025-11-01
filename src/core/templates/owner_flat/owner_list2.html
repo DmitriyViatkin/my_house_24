@@ -2,16 +2,43 @@
 
 {% load static %}
 
+<style>
+  .label {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .label-success {
+    background-color: #28a745;
+  }
+
+  /* зелёный */
+  .label-danger {
+    background-color: #dc3545;
+  }
+
+  /* красный */
+  .label-warning {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  /* жёлтый */
+</style>
 {% block content %}
   <link rel="stylesheet" href="{% static 'ajax_datatable/css/style.css' %}" />
   <link rel="stylesheet"
         href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 839px;">
     <section class="content-header">
       <h1>Собственники</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="/admin/"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li class="active">Собственники</li>
       </ul>
@@ -22,7 +49,9 @@
           <div class="btn-group pull-right margin-bottom">
             <button type="button"
                     class="btn btn-success dropdown-toggle"
-                    data-toggle="dropdown">
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
               Выберите действие <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
@@ -30,7 +59,9 @@
                 <a href="{% url 'admin:owner_create' %}">Добавить владельца квартиры</a>
               </li>
               <li>
-                <a href="{% url 'admin:send_message' %}?only_debtors=1">Отправить сообщение должникам</a>
+                <a href="{% url 'admin:send_message' %}?only_debtors=1">Отправить
+                  сообщение
+                должникам</a>
               </li>
               <li>
                 <a href="{% url 'admin:send_invitation' %}">Отправить приглашение</a>
@@ -50,14 +81,30 @@
               <table class="table table-bordered table-hover table-striped linkedRow">
                 <thead>
                   <tr>
-                    <th>{{ filter_form.user_id.label_tag }}</th>
-                    <th>{{ filter_form.ФИО.label_tag }}</th>
-                    <th>{{ filter_form.телефон.label_tag }}</th>
-                    <th>{{ filter_form.email.label_tag }}</th>
-                    <th>{{ filter_form.house.label_tag }}</th>
-                    <th>{{ filter_form.Квартира.label_tag }}</th>
-                    <th>{{ filter_form.Дата_добавления.label_tag }}</th>
-                    <th>{{ filter_form.Статус.label_tag }}</th>
+                    <th>
+                      <label>{{ filter_form.user_id.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.ФИО.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.телефон.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.email.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.house.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.Квартира.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.Дата_добавления.label_tag }}</label>
+                    </th>
+                    <th>
+                      <label>{{ filter_form.Статус.label_tag }}</label>
+                    </th>
                   </tr>
                   <tr class="filters">
                     <td>{{ filter_form.user_id }}</td>
@@ -112,7 +159,7 @@
           "{% url 'admin:owner_list_ajax' %}", {
             processing: true,
             serverSide: true,
-            autoWidth: true,
+            autoWidth: false,
             searching: false,
             lengthChange: false,
             scrollX: false,
@@ -148,10 +195,17 @@
           }
         );
 
+        // ✅ обработчик клика по строке
         $('#owner_table').on('click', 'tbody tr', function(e) {
-          const rowId = this.id;
+          const rowId = this.id; // например, "row-14"
           const userId = rowId ? rowId.replace('row-', '') : null;
+          console.log('UserID :', userId)
+          console.log('rowId  :', rowId)
           if (userId) {
+            console.log("Block If ")
+            console.log("Block   /admin/card_user/$", {
+              userId
+            })
             window.location.href = `/admin/card_user/${userId}/`;
           } else {
             console.warn('❌ Не удалось определить userId, rowId =', rowId);
@@ -160,4 +214,4 @@
       });
     })(jQuery);
   </script>
-{% endblock content %}
+{% endblock %}

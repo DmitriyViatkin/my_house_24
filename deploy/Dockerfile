@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Системные библиотеки
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-get install -y netcat-openbsd\
+
     build-essential libcairo2 libpango-1.0-0 libgdk-pixbuf-2.0-0 \
     libffi-dev libgobject-2.0-0 libglib2.0-0 gir1.2-pango-1.0 \
     shared-mime-info libjpeg62-turbo libpng16-16 libxml2 libxslt1.1 \
