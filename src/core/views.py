@@ -3267,35 +3267,38 @@ class ServicesView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        """Process the valid FormSEO and its related tariff formset.
-
-        Saves the SEO form, associates the tariffs with this SEO instance,
-        and handles any deleted objects in the formset.
-
-        Returns:
-            HttpResponseRedirect: Redirects to the success URL if successful.
-            HttpResponse: Re-renders the form with errors if the formset is invalid.
-
-        """
+        """Process the valid FormSEO and its related tariff formset."""
         context = self.get_context_data()
         formset = context["formset"]
 
         if formset.is_valid():
+            # SEO для страницы — сохраняем отдельно
+            page_seo = form.save()
 
-            self.object = form.save()
-
-
+            # Обрабатываем услуги
             instances = formset.save(commit=False)
             for instance in instances:
+                # Если у услуги нет своего SEO — создаём
+                if not instance.seo_id:
+                    instance.seo = SEO.objects.create(
+                        title=page_seo.title,
+                        description=page_seo.description,
+                        keyword=page_seo.keyword,
+                    )
+                else:
+                    # Если SEO уже есть — можно обновить при необходимости
+                    instance.seo.title = page_seo.title
+                    instance.seo.description = page_seo.description
+                    instance.seo.keyword = page_seo.keyword
+                    instance.seo.save()
 
                 instance.save()
 
-
+            # Удалённые — удаляем
             for obj in formset.deleted_objects:
                 obj.delete()
 
             return redirect(self.success_url)
-
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -3358,40 +3361,42 @@ class TariffsView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        """Process the submitted form when it is valid.
-
-        Args:
-            form (Form): The validated form instance.
-
-        Returns:
-            HttpResponse: Response returned by super().form_valid().
-
-        """
+        """Process the submitted form when it is valid."""
         context = self.get_context_data()
         formset = context["formset"]
 
         if formset.is_valid():
-            # Сохраняем SEO для страницы тарифов (один общий для страницы)
+            # Сохраняем SEO страницы "Услуги" (главный SEO объекта)
             self.object = form.save()
 
-            # Сохраняем тарифы
+            # Обрабатываем связанные ServiceStr
             instances = formset.save(commit=False)
             for instance in instances:
-                # Создаём SEO для каждого тарифа, если его нет
+                # Если у услуги ещё нет SEO — создаём новый
                 if not instance.seo_id:
-                    instance.seo = SEO.objects.create(title=instance.title)
+                    instance.seo = SEO.objects.create(
+                        title=instance.title or "",
+                        description="",
+                        keyword=""
+                    )
+                else:
+                    # Если SEO уже есть — можем обновить (опционально)
+                    instance.seo.title = instance.title
+                    instance.seo.save()
+
                 instance.save()
 
-            # Удаляем отмеченные на удаление
+            # Удаляем отмеченные записи
             for obj in formset.deleted_objects:
+                if obj.seo_id:
+                    obj.seo.delete()  # удаляем связанный SEO, чтобы не было "мусора"
                 obj.delete()
 
             return redirect(self.success_url)
 
+        # Если ошибки — просто перерисовываем форму
         return self.render_to_response(
-            self.get_context_data(form=form, formset=formset)
-        )
-
+            self.get_context_data(form=form, formset=formset))
 class TicketView(
     LoginRequiredMixin, RolePermissionRequiredMixin, FormView, TemplateView
 ):
