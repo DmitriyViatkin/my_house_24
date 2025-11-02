@@ -324,6 +324,31 @@ class Command(BaseCommand):
                 "description": "Description 2",
                 "image": "blocks/block2.jpg",
             },
+            {
+                "title": "Block 3",
+                "description": "Description 3",
+                "image": "blocks/block2.jpg",
+            },
+            {
+                "title": "Block 4",
+                "description": "Description 4",
+                "image": "blocks/block2.jpg",
+            },
+            {
+                "title": "Block 5",
+                "description": "Description 5",
+                "image": "blocks/block2.jpg",
+            },
+            {
+                "title": "Block 6",
+                "description": "Description 6",
+                "image": "blocks/block2.jpg",
+            },
+            {
+                "title": "Block7 ",
+                "description": "Description 7",
+                "image": "blocks/block2.jpg",
+            },
         ]:
             Block.objects.get_or_create(
                 title=block_data["title"],
