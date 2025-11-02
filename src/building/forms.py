@@ -23,7 +23,7 @@ class ApartmentForm(forms.ModelForm):
             attrs={
                 "class": "form-control",
                 "id": "flatform-account_uid",
-                "placeholder": "Personal account",
+                "placeholder": "Лицевой Счёт ",
             }
         ),
     )
@@ -36,7 +36,7 @@ class ApartmentForm(forms.ModelForm):
                 "id": "flatform-user_id",
             }
         ),
-        label="Owner",
+        label="Владелец",
     )
 
     class Meta:
@@ -57,14 +57,14 @@ class ApartmentForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "id": "flatform-flat",
-                    "placeholder": "Apartment number",
+                    "placeholder": "Номер квартиры",
                 }
             ),
             "area": forms.NumberInput(
                 attrs={
                     "class": "form-control",
                     "id": "flatform-square",
-                    "placeholder": "Area (sq.m.)",
+                    "placeholder": "Площадь квартиры",
                 }
             ),
             "house": forms.Select(
@@ -164,7 +164,7 @@ class SectionForm(forms.ModelForm):
         fields = ["name"]
         widgets = {
             "name": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Name"}
+                attrs={"class": "form-control", "placeholder": "Название"}
             )
         }
         labels = {"name": "Название"}
@@ -190,7 +190,7 @@ class StaffForm(forms.ModelForm):
     """Form for creating and updating Staff instances."""
 
     user_role = forms.CharField(
-        label="Role",
+        label="Роль",
         required=False,
         disabled=True,
         widget=forms.TextInput(
@@ -206,7 +206,7 @@ class StaffForm(forms.ModelForm):
         widgets = {
             "user": forms.Select(attrs={"class": "form-control useradmin-select"})
         }
-        labels = {"user": "Full Name"}
+        labels = {"user": "Ф.И.О."}
 
     def __init__(self, *args, user_roles=None, **kwargs):
         """Initialize StaffForm with filtered users and prefill roles."""

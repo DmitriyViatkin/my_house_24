@@ -3281,18 +3281,22 @@ class ServicesView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
         formset = context["formset"]
 
         if formset.is_valid():
-            self.object = form.save()  # зберігаємо SEO
+
+            self.object = form.save()
+
 
             instances = formset.save(commit=False)
             for instance in instances:
-                instance.seo = self.object
+
                 instance.save()
 
-            # видаляємо позначені на видалення
+
             for obj in formset.deleted_objects:
                 obj.delete()
 
             return redirect(self.success_url)
+
+
         return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -3367,26 +3371,26 @@ class TariffsView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
         formset = context["formset"]
 
         if formset.is_valid():
-            # Сохраняем SEO
+            # Сохраняем SEO для страницы тарифов (один общий для страницы)
             self.object = form.save()
 
-            # Сохраняем тарифы с привязкой к SEO
+            # Сохраняем тарифы
             instances = formset.save(commit=False)
             for instance in instances:
-                instance.seo = self.object
+                # Создаём SEO для каждого тарифа, если его нет
+                if not instance.seo_id:
+                    instance.seo = SEO.objects.create(title=instance.title)
                 instance.save()
 
-            # Удаляем то, что отмечено на удаление
+            # Удаляем отмеченные на удаление
             for obj in formset.deleted_objects:
                 obj.delete()
 
             return redirect(self.success_url)
 
-        # Если formset невалидный → показываем ошибки
         return self.render_to_response(
             self.get_context_data(form=form, formset=formset)
         )
-
 
 class TicketView(
     LoginRequiredMixin, RolePermissionRequiredMixin, FormView, TemplateView
