@@ -33,12 +33,12 @@
         <div class="box-header with-border">
           <h3 class="box-title">Просмотр лицевого счета</h3>
           <div class="box-tools">
-            <a href="{% url 'admin:create_account_transaction' 'in' account.id %}"
+            <a href="{% url 'admin:receipt_statement_pc'  account.id %}"
                class="btn btn-default btn-sm">
               <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
               <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
-            <a href="{% url 'admin:create_invoice' account.apartment.id %}"
+            <a href="{% url 'admin:create_invoice_pc' account.apartment.id %}"
                class="btn btn-default btn-sm">
               <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
               <i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
@@ -116,11 +116,11 @@
                   {% endif %}
                 </p>
                 <p>
-                  <a href="{% url 'admin:account_transactions' account.id %}">Посмотреть приходы</a>
+                  <a href="{% url 'admin:cashbox_list'   %}">Посмотреть приходы</a>
                 </p>
                 <p>
                   {% if account.apartment %}
-                    <a href="{% url 'admin:invoices' account.apartment.id %}">Посмотреть квитанции</a>
+                    <a href="{% url 'admin:invoice'   %}">Посмотреть квитанции</a>
                   {% endif %}
                 </p>
               </div>

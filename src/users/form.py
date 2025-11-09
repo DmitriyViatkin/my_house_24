@@ -108,7 +108,7 @@ class SendMessage(forms.ModelForm):
         widget=autocomplete.ModelSelect2(
             url="admin:flat-autocomplete",
             attrs={"class": "form-control"},
-            forward=["house"],
+            forward=["section"],
         ),
     )
 

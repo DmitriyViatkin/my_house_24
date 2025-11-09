@@ -224,7 +224,6 @@ def get_invoice_data(invoice_id):
 
 
 def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квитанции.xlsm"):
-    """Fill invoice data into Excel template and save to file."""
     data = get_invoice_data(invoice_id)
 
     template_path = (
@@ -236,12 +235,22 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
     wb = load_workbook(template_path, keep_vba=True)
     ws = wb.active
 
+    # ✅ 1) Глобальная замена простых плейсхолдеров {{Key}}
+    placeholder_pattern = re.compile(r"\{\{([^}]+)\}\}")
+    for row in ws.iter_rows():
+        for cell in row:
+            if isinstance(cell.value, str) and "{{" in cell.value:
+                new_val = cell.value
+                for match in placeholder_pattern.findall(cell.value):
+                    if match in data:
+                        new_val = new_val.replace(f"{{{{{match}}}}}", str(data[match]))
+                cell.value = new_val
+
+    # ✅ 2) Поиск строки шаблона услуги
     service_row_idx = None
     for row in ws.iter_rows():
         for cell in row:
-            if isinstance(cell.value, str) and re.search(
-                r"\{\{Услуга(_\d+)?\}\}", cell.value
-            ):
+            if isinstance(cell.value, str) and re.search(r"\{\{Услуга(_\d+)?\}\}", cell.value):
                 service_row_idx = cell.row
                 break
         if service_row_idx:
@@ -253,7 +262,6 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
     template_row = [cell.value for cell in ws[service_row_idx]]
     merged_ranges = [r for r in ws.merged_cells.ranges if r.min_row == service_row_idx]
 
-    # Unmerge using contextlib.suppress
     for m in merged_ranges:
         with suppress(KeyError):
             ws.unmerge_cells(str(m))
@@ -264,29 +272,30 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
     )
 
     services = sorted(
-        [k for k in data if k.startswith("Услуга_")], key=lambda x: int(x.split("_")[1])
+        (k for k in data if k.startswith("Услуга_")), key=lambda x: int(x.split("_")[1])
     )
 
+    # ✅ 3) Вставка строчек услуг
     for idx, _ in enumerate(services):
         row_num = service_row_idx + idx
         ws.insert_rows(row_num, 1)
         for col, template_val in enumerate(template_row, start=1):
             cell = ws.cell(row=row_num, column=col)
-            cell_value = template_val
+            value = template_val
             if isinstance(template_val, str):
-                new_val = re.sub(
+                # Индексация плейсхолдеров _1, _2, _3 ...
+                value = re.sub(
                     r"\{\{([\w\.\-А-Яа-яЁёІіЇїЄє]+)\}\}",
                     lambda m: f"{{{{{m.group(1)}_{idx + 1}}}}}",
                     template_val,
                 )
-                for key, val in data.items():
-                    new_val = new_val.replace(
-                        f"{{{{{key}}}}}", str(val) if val is not None else ""
-                    )
-                cell_value = new_val.strip() or None
-            if cell_value is not None:
-                cell.value = cell_value
+                # Замена значений
+                for k, v in data.items():
+                    value = value.replace(f"{{{{{k}}}}}", str(v) if v is not None else "")
+            cell.value = value.strip() if isinstance(value, str) else value
             cell.border = thin_border
+
+        # Восстанавливаем merge
         for m in merged_ranges:
             ws.merge_cells(
                 start_row=row_num,
@@ -295,9 +304,9 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
                 end_column=m.max_col,
             )
 
-    wb.save(Path(__file__).parent / f"Квитанция_{invoice_id}.xlsm")
-    return Path(__file__).parent / f"Квитанция_{invoice_id}.xlsm"
-
+    output = Path(__file__).parent / f"Квитанция_{invoice_id}.xlsm"
+    wb.save(output)
+    return output
 
 def excel_to_html_openpyxl(xlsx_path, html_path=None, sheet_name=None):
     """Convert Excel sheet to HTML table and save to file."""

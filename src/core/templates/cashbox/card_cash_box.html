@@ -18,7 +18,7 @@
           <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:account_transaction_index' %}">Платежи</a>
+          <a href="{% url 'admin:cashbox_list' %}">Платежи</a>
         </li>
         <li class="active">
           {% if cashbox.payment_articles.record_type == "out" %}

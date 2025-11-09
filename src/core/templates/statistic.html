@@ -13,8 +13,9 @@
           <h2 class="page-header">В вашем обслуживании</h2>
         </div>
       </div>
+
       <div class="row">
-        <!-- Панель домов  -->
+        <!-- Панель домов -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-primary">
             <div class="inner">
@@ -29,7 +30,8 @@
             </a>
           </div>
         </div>
-        <!--  Активных владельцев -->
+
+        <!-- Активных владельцев -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-green">
             <div class="inner">
@@ -44,6 +46,8 @@
             </a>
           </div>
         </div>
+
+        <!-- Заявок мастера в работе -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -58,6 +62,8 @@
             </a>
           </div>
         </div>
+
+        <!-- Квартир -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-primary">
             <div class="inner">
@@ -72,6 +78,8 @@
             </a>
           </div>
         </div>
+
+        <!-- Лицевых счетов -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-green">
             <div class="inner">
@@ -86,6 +94,8 @@
             </a>
           </div>
         </div>
+
+        <!-- Новых заявок мастера -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -101,6 +111,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-lg-8 col-md-7 col-xs-12">
           <div class="box box-default">
@@ -108,10 +119,11 @@
               <h3 class="box-title">График квитанций по месяцам, грн</h3>
             </div>
             <div class="box-body">
-              <canvas id="invoiceChart" style="height: 200px;"></canvas>
+              <canvas id="invoiceChart" style="height: 200px; width: 600px;"></canvas>
             </div>
           </div>
         </div>
+
         <div class="col-lg-4 col-md-5 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-red"><i class="fa fa-money"></i></span>
@@ -120,6 +132,7 @@
               <span class="info-box-number">{{ total_debt }}</span>
             </div>
           </div>
+
           <div class="info-box">
             <span class="info-box-icon bg-blue"><i class="fa fa-money"></i></span>
             <div class="info-box-content">
@@ -127,6 +140,7 @@
               <span class="info-box-number">{{ balance }}</span>
             </div>
           </div>
+
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
             <div class="info-box-content">
@@ -134,22 +148,9 @@
               <span class="info-box-number">{{ cash_balance }}</span>
             </div>
           </div>
-          <!--        <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="fa fa-cog"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Задолженность за месяц, грн</span>
-                <span class="info-box-number">1 156.00</span>
-            </div>
         </div>
-        <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-cog"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Задолженность за квартал, грн</span>
-                <span class="info-box-number">1 156.00</span>
-            </div>
-        </div>-->
-        </div>
-      </div>
+      </div>  <!-- Закрываем этот ряд -->
+
       <div class="row">
         <div class="col-xs-12">
           <div class="box box-default">
@@ -157,16 +158,12 @@
               <h3 class="box-title">График приходов и расходов по кассе, грн (по месяцам)</h3>
             </div>
             <div class="box-body">
-              <div class="chart" style="width: 60%; height: 30%;">
-                <canvas id="barChart2"></canvas>
+              <div class="chart" style="width: 600px; height: 200px; margin: 0 auto;">
+                <canvas id="barChart2" width="600" height="200"></canvas>
                 <div id="barChart2-legend" class="text-center">
                   <ul class="bar-legend">
-                    <li>
-                      <span style="background-color:rgba(0, 166, 90, 1)"></span>Приход
-                    </li>
-                    <li>
-                      <span style="background-color:rgba(221, 75, 57, 1)"></span>Расход
-                    </li>
+                    <li><span style="background-color:rgba(0, 166, 90, 1)"></span>Приход</li>
+                    <li><span style="background-color:rgba(221, 75, 57, 1)"></span>Расход</li>
                   </ul>
                 </div>
               </div>
@@ -174,91 +171,68 @@
           </div>
         </div>
       </div>
+
     </section>
   </div>
+
   <script src="{% static 'path/to/AjaxDatatableViewUtils.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
-    // График приходов/расходов
+    // График приходов/расходов (адаптивный)
     const ctxBar = document.getElementById('barChart2').getContext('2d');
     const barChart2 = new Chart(ctxBar, {
       type: 'bar',
       data: {
-        labels: {
+        labels: {{ chart_labels|safe }},
+        datasets: [
           {
-            chart_labels | safe
-          }
-        },
-        datasets: [{
-          label: 'Приход',
-          backgroundColor: 'rgba(0, 166, 90, 1)',
-          data: {
-            {
-              chart_incoming | safe
-            }
-          }
-        }, {
-          label: 'Расход',
-          backgroundColor: 'rgba(221, 75, 57, 1)',
-          data: {
-            {
-              chart_outgoing | safe
-            }
-          }
-        }]
-      },
-      options: {
-        responsive: false,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: false
+            label: 'Приход',
+            backgroundColor: 'rgba(0, 166, 90, 1)',
+            data: {{ chart_incoming|safe }}
           },
-          y: {
-            stacked: false
-          }
-        }
-      }
-    });
-
-    // График квитанций
-    const ctxInvoice = document.getElementById('invoiceChart').getContext('2d');
-    const invoiceChart = new Chart(ctxInvoice, {
-      type: 'bar',
-      data: {
-        labels: {
           {
-            invoice_chart_labels | safe
+            label: 'Расход',
+            backgroundColor: 'rgba(221, 75, 57, 1)',
+            data: {{ chart_outgoing|safe }}
           }
-        },
-        datasets: [{
-          label: 'Все квитанции',
-          backgroundColor: 'rgba(221, 75, 57, 0.7)',
-          data: {
-            {
-              invoice_chart_total | safe
-            }
-          }
-        }, {
-          label: 'Оплаченные квитанции',
-          backgroundColor: 'rgba(0, 166, 90, 0.7)',
-          data: {
-            {
-              invoice_chart_paid | safe
-            }
-          }
-        }]
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: {
-            stacked: false
+          x: { stacked: false },
+          y: { stacked: false }
+        }
+      }
+    });
+
+    // График квитанций (фиксированный размер)
+    const ctxInvoice = document.getElementById('invoiceChart').getContext('2d');
+    const invoiceChart = new Chart(ctxInvoice, {
+      type: 'bar',
+      data: {
+        labels: {{ invoice_chart_labels|safe }},
+        datasets: [
+          {
+            label: 'Все квитанции',
+            backgroundColor: 'rgba(221, 75, 57, 0.7)',
+            data: {{ invoice_chart_total|safe }}
           },
-          y: {
-            stacked: false
+          {
+            label: 'Оплаченные квитанции',
+            backgroundColor: 'rgba(0, 166, 90, 0.7)',
+            data: {{ invoice_chart_paid|safe }}
           }
+        ]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+          x: { stacked: false },
+          y: { stacked: false }
         }
       }
     });

@@ -73,8 +73,13 @@
                           <div class="input-group">
                             {{ form.name }}
                             <span class="input-group-btn">
-                              <button type="button" class="btn btn-default form-unit-remove-btn{% if form.instance and form.instance.protected %} disabled{% endif %}"
-                                      {% if form.instance and form.instance.protected %}no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."{% endif %}>
+                              <button
+                                type="button"
+                                class="btn btn-default form-unit-remove-btn{% if form.instance and form.instance.protected %} disabled{% endif %}"
+                                {% if form.instance and form.instance.protected %}
+                                  no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."
+                                {% endif %}
+                              >
                                 <i class="fa fa-trash"></i>
                               </button>
                             </span>
@@ -162,57 +167,102 @@
   </div>
 </div>
 
-<!-- JS for adding/removing forms -->
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function() {
 
-  // --- Удаление услуг ---
+  // === Удаление услуг ===
   $(document).on('click', '.form-service-remove-btn', function() {
-    var formRow = $(this).closest('.form-service');
-    var deleteField = formRow.find('input[type=checkbox][name$="-DELETE"]');
-    if (deleteField.length) {
-      deleteField.prop('checked', true);
-      formRow.hide();
-    } else {
-      formRow.remove();
-    }
+      const formRow = $(this).closest('.form-service');
+      const deleteField = formRow.find('input[type=checkbox][name$="-DELETE"]');
+      if (deleteField.length) {
+          deleteField.prop('checked', true);
+          formRow.hide();
+      } else {
+          formRow.remove();
+      }
   });
 
-  // --- Удаление единиц ---
-  $(document).on('click', '.form-unit-remove-btn', function() {
-    if ($(this).is(':disabled') && $(this).attr('no-delete-msg')) {
-      alert($(this).attr('no-delete-msg'));
-      return;
-    }
-    var formRow = $(this).closest('.form-unit');
-    var deleteField = formRow.find('input[type=checkbox][name$="-DELETE"]');
-    if (deleteField.length) {
-      deleteField.prop('checked', true);
-      formRow.hide();
-    } else {
-      formRow.remove();
-    }
-  });
-
-  // --- Добавление формы услуг ---
+  // === Добавление формы услуг ===
   $('.form-row-add-service-btn').click(function() {
-    var totalForms = $('#id_services-TOTAL_FORMS');
-    var formIndex = parseInt(totalForms.val());
-    var emptyForm = $('#empty_form_template').html().replace(/__prefix__/g, formIndex);
-    $(this).prev('hr').before(emptyForm);
-    totalForms.val(formIndex + 1);
+      const totalForms = $('#id_services-TOTAL_FORMS');
+      const formIndex = parseInt(totalForms.val());
+      const emptyForm = $('#empty_form_template').html().replace(/__prefix__/g, formIndex);
+      $(this).prev('hr').before(emptyForm);
+      totalForms.val(formIndex + 1);
   });
 
-  // --- Добавление формы единиц ---
+  // === Добавление формы единиц ===
   $('.form-row-add-serviceunit-btn').click(function() {
-    var totalForms = $('#id_units-TOTAL_FORMS');
-    var formIndex = parseInt(totalForms.val());
-    var emptyForm = $('#empty_form_unit_template').html().replace(/__prefix__/g, formIndex);
-    $(this).before(emptyForm);
-    totalForms.val(formIndex + 1);
+      const totalForms = $('#id_units-TOTAL_FORMS');
+      const formIndex = parseInt(totalForms.val());
+      const emptyForm = $('#empty_form_unit_template').html().replace(/__prefix__/g, formIndex);
+      $(this).before(emptyForm);
+      totalForms.val(formIndex + 1);
+  });
+
+  // === Удаление единиц с проверкой AJAX ===
+  $(document).on('click', '.form-unit-remove-btn', function(e) {
+      e.preventDefault();
+      const btn = $(this);
+      const formRow = btn.closest('.form-unit');
+      const unitIdInput = formRow.find('input[name$="-id"]');
+      const unitId = unitIdInput.val();
+
+      if (!unitId) {
+          // Новая форма — просто удаляем
+          formRow.remove();
+          return;
+      }
+
+      // AJAX-запрос на проверку
+      $.get("{% url 'admin:check_unit_delete' %}", { unit_id: unitId }, function(data) {
+          if (!data.can_delete) {
+              Swal.fire({
+                  icon: 'warning',
+                  title: 'Удаление невозможно',
+                  text: data.message,
+                  confirmButtonText: 'Понятно',
+                  confirmButtonColor: '#3085d6'
+              });
+          } else {
+              Swal.fire({
+                  title: 'Удалить единицу?',
+                  text: 'Вы действительно хотите удалить эту единицу измерения?',
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: 'Да, удалить',
+                  cancelButtonText: 'Отмена',
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      const deleteField = formRow.find('input[type=checkbox][name$="-DELETE"]');
+                      if (deleteField.length) {
+                          deleteField.prop('checked', true);
+                          formRow.hide();
+                      } else {
+                          formRow.remove();
+                      }
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Удалено',
+                          text: 'Единица помечена на удаление.',
+                          timer: 1000,
+                          showConfirmButton: false
+                      });
+                  }
+              });
+          }
+      });
   });
 
 });
 </script>
+
+
+
 {% endblock %}

@@ -8,10 +8,10 @@
       <h1>{{ tariff.title }}</h1>
       <ul class="breadcrumb">
         <li>
-          <a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> Главная</a>
+          <a href="{% url 'admin:dashboard' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:tariff_index' %}">Тарифы</a>
+          <a href="{% url 'admin:tariff' %}">Тарифы</a>
         </li>
         <li class="active">{{ tariff.description }}</li>
       </ul>

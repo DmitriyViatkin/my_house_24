@@ -30,62 +30,45 @@
             <div class="box-body table-responsive no-padding">
               <form method="post" class="p-2">
                 {% csrf_token %}
-                <table class="table table-bordered table-hover table-striped linkedRow">
-                  <thead>
-                    <tr>
-                      <th>{{ filter_form.counter_number.label_tag }}</th>
-                      <th>{{ filter_form.status.label_tag }}</th>
-                      <th>{{ filter_form.date.label_tag }}</th>
-                      <th>{{ filter_form.month.label_tag }}</th>
-                      <th>{{ filter_form.house.label_tag }}</th>
-                      <th>{{ filter_form.section.label_tag }}</th>
-                      <th>{{ filter_form.apartment_number.label_tag }}</th>
-                      <th>{{ filter_form.service.label_tag }}</th>
-                      <th>{{ filter_form.service_unit.label_tag }}</th>
-                      <th>{{ filter_form.meter_reading.label_tag }}</th>
-                    </tr>
-                    <tr class="filters">
-                      <td>{{ filter_form.counter_number }}</td>
-                      <td>{{ filter_form.status }}</td>
-                      <td>{{ filter_form.date }}</td>
-                      <td>{{ filter_form.month }}</td>
-                      <td>{{ filter_form.house }}</td>
-                      <td>{{ filter_form.section }}</td>
-                      <td>{{ filter_form.apartment_number }}</td>
-                      <td>{{ filter_form.service }}</td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <button type="submit" class="btn btn-primary btn-sm">Поиск</button>
-                        <div class="box-tools">
-                          <a href="{% url 'admin:owners' %}" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span>
-                            <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  </thead>
-                </table>
-              </form>
-              <table id="counter-table"
-                     class="table table-bordered table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>№</th>
-                    <th>Статус</th>
-                    <th>Дата</th>
-                    <th>Месяц/Год</th>
-                    <th>Дом</th>
-                    <th>Секция</th>
-                    <th>№ квартиры</th>
-                    <th>Счетчик</th>
-                    <th>Показания</th>
-                    <th>Ед. изм.</th>
-                    <th>Действия</th>
-                  </tr>
-                </thead>
-              </table>
+                <table id="counter-table" class="table table-bordered table-hover table-striped">
+  <thead>
+  <tr>
+      <th>{{ filter_form.counter_number }}</th>
+      <th>{{ filter_form.status }}</th>
+      <th>{{ filter_form.date }}</th>
+      <th>{{ filter_form.month }}</th>
+      <th>{{ filter_form.house }}</th>
+      <th>{{ filter_form.section }}</th>
+      <th>{{ filter_form.apartment_number }}</th>
+      <th>{{ filter_form.service }}</th>
+      <th></th>
+      <th></th>
+      <th>
+        <button type="submit" class="btn btn-primary btn-sm">Поиск</button>
+        <a href="{% url 'admin:owners' %}" class="btn btn-default btn-sm">
+          <span class="hidden-xs">Очистить</span>
+          <i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+        </a>
+      </th>
+    </tr>
+    <tr>
+      <th>№</th>
+      <th>Статус</th>
+      <th>Дата</th>
+      <th>Месяц/Год</th>
+      <th>Дом</th>
+      <th>Секция</th>
+      <th>№ квартиры</th>
+      <th>Счетчик</th>
+      <th>Показания</th>
+      <th>Ед. изм.</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+
+
+
+</table>
             </div>
           </div>
         </div>

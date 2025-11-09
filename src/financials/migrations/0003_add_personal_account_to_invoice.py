@@ -16,5 +16,8 @@ class Migration(migrations.Migration):
                 null=True,
                 blank=True,
             ),
+
         ),
+
+
     ]

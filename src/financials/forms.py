@@ -339,16 +339,6 @@ class InvoiceForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        """Initialize the form with optional custom queryset filtering.
-
-        This method allows customizing initial field values or queryset for
-        ModelChoiceFields based on runtime parameters passed in `kwargs`.
-
-        Args:
-            *args: Positional arguments passed to the parent `ModelForm`.
-            **kwargs: Keyword arguments passed to the parent `ModelForm`.
-
-        """
         super().__init__(*args, **kwargs)
 
         if not self.instance.pk:
@@ -358,29 +348,24 @@ class InvoiceForm(forms.ModelForm):
             self.fields["invoice_number"].disabled = True
 
         personal_account = getattr(self.instance, "personal_account", None)
-        apartment = (
-            getattr(personal_account, "apartment", None) if personal_account else None
-        )
+        apartment = personal_account.apartment if personal_account else None
 
         # ФИО + телефон
         if apartment and apartment.user:
             self.initial["owner"] = apartment.user.full_name
             self.initial["phone"] = apartment.user.phone
 
-        # ⬇️ Главное отличие — для autocomplete используем self.initial[field] = pk
+        # ✅ ГЛАВНОЕ: ставим initial ОБЪЕКТАМИ, а не pk
         if apartment:
-            self.initial["house"] = apartment.house.pk if apartment.house else None
-            self.initial["section"] = (
-                apartment.section.pk if apartment.section else None
-            )
-            self.initial["flat"] = apartment.pk
+            self.fields["house"].initial = apartment.house
+            self.fields["section"].initial = apartment.section
+            self.fields["flat"].initial = apartment
 
         if personal_account:
-            self.initial["personal_account"] = personal_account.pk
+            self.fields["personal_account"].initial = personal_account
 
-            # ✅ Исправлено: безопасная проверка наличия тарифа
         if getattr(self.instance, "tariff_id", None):
-            self.initial["tariff"] = self.instance.tariff.pk
+            self.fields["tariff"].initial = self.instance.tariff
 
     def save(self, *, commit=True):
         """Save the CashBox instance with optional commit.

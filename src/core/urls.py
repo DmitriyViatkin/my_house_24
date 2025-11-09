@@ -25,10 +25,15 @@ urlpatterns = [
     # 3. cashbox
     path("cashbox", views.CashboxView.as_view(), name="cashbox"),
     path(
-        "cashbox/receipt_statement",
+        "cashbox/receipt_statement/",
         views.ReceiptStatementView.as_view(),
         name="receipt_statement",
     ),
+path(
+    "cashbox/receipt_statement/<int:pk>/",
+    views.ReceiptStatementPcView.as_view(),
+    name="receipt_statement_pc",
+),
     path(
         "cashbox/update_receipt_statement/<int:pk>/",
         views.UpdateReceiptStatementView.as_view(),
@@ -257,6 +262,12 @@ urlpatterns = [
     # ToDo 19. invoice
     path("invoice", views.InvoiceView.as_view(), name="invoice"),
     path("create_invoice", views.CreateInvoiceView.as_view(), name="create_invoice"),
+
+path(
+    "create_invoice_pc/<int:apartment_id>/",
+    views.CreateInvoicePcView.as_view(),
+    name="create_invoice_pc",
+),
     path(
         "invoice/<int:pk>/edit/",
         views.UpdateInvoiceView.as_view(),
@@ -394,4 +405,5 @@ urlpatterns = [
         views.get_apartment_owner_ajax,
         name="get_apartment_owner_ajax",
     ),
+path("ajax/check-unit-delete/", views.check_unit_delete, name="check_unit_delete"),
 ]

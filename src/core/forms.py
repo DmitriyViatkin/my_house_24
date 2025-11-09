@@ -4,7 +4,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from django.forms import modelformset_factory
 from django.utils.timezone import now
-
+from django.core.exceptions import ValidationError
 from src.building.models import Apartment
 from src.building.models import Floor
 from src.building.models import House
@@ -295,6 +295,16 @@ class CounterForm(forms.ModelForm):
             "status",
             "date",
         ]
+        labels = {
+            "counter_number": "Номер счётчика",
+            "meter_reading": "Показания",
+            "service": "Услуга",
+            "house": "Дом",
+            "section": "Секция",
+            "apartment": "Квартира",
+            "status": "Статус",
+            "date": "Дата",
+        }
         widgets = {
             "counter_number": forms.TextInput(attrs={"class": "form-control"}),
             "meter_reading": forms.NumberInput(
@@ -308,7 +318,7 @@ class CounterForm(forms.ModelForm):
         self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
 
-        # Если объект существует (редактирование)
+        # Если редактирование существующего объекта
         if self.instance and self.instance.pk:
             house = self.instance.apartment.section.house
             section = self.instance.apartment.section
@@ -316,31 +326,47 @@ class CounterForm(forms.ModelForm):
             self.fields["section"].queryset = Section.objects.filter(house=house)
             self.fields["section"].initial = section.id
             self.fields["apartment"].queryset = Apartment.objects.filter(
-                section=section
-            )
+                section=section)
             self.fields["apartment"].initial = self.instance.apartment.id
+
         else:
-            # Новый объект, заполняем через GET параметры
-            if self.request:
+            data = kwargs.get("data")
+            house_id = None
+            section_id = None
+
+            if data:
+                # POST
+                house_id = data.get("house")
+                section_id = data.get("section")
+
+            elif self.request:
+                # GET
                 house_id = self.request.GET.get("house")
                 section_id = self.request.GET.get("section")
                 apartment_id = self.request.GET.get("apartment")
 
                 if house_id and house_id.isdigit():
-                    self.initial["house"] = int(house_id)
-                    self.fields["section"].queryset = Section.objects.filter(
-                        house_id=house_id
-                    )
-
+                    self.fields["house"].initial = int(house_id)
                 if section_id and section_id.isdigit():
-                    self.initial["section"] = int(section_id)
-                    self.fields["apartment"].queryset = Apartment.objects.filter(
-                        section_id=section_id
-                    )
-
+                    self.fields["section"].initial = int(section_id)
                 if apartment_id and apartment_id.isdigit():
-                    self.initial["apartment"] = int(apartment_id)
+                    self.fields["apartment"].initial = int(apartment_id)
 
+            # Устанавливаем queryset для секций
+            if house_id and str(house_id).isdigit():
+                self.fields["section"].queryset = Section.objects.filter(
+                    house_id=int(house_id))
+            else:
+                self.fields["section"].queryset = Section.objects.none()
+
+            # Устанавливаем queryset для квартир
+            if section_id and str(section_id).isdigit():
+                self.fields["apartment"].queryset = Apartment.objects.filter(
+                    section_id=int(section_id))
+            else:
+                self.fields["apartment"].queryset = Apartment.objects.none()
+
+            # Для GET и POST: генерация начальных значений
             self.initial.setdefault("counter_number", generate_id_with_random_number())
             self.initial.setdefault("date", now())
 
@@ -509,9 +535,32 @@ class UnitForm(forms.ModelForm):
             "id": forms.HiddenInput(),
         }
 
+class BaseUnitFormSet(forms.BaseModelFormSet):
+    """Custom validation to prevent deleting Units used in Services."""
 
-UnitFormSet = modelformset_factory(Unit, form=UnitForm, can_delete=True, extra=0)
+    def clean(self):
+        """Prevent deletion of Units that are used in Services."""
+        if any(self.errors):
+            return
 
+        for form in self.forms:
+            # Проверяем только формы, отмеченные на удаление
+            if self.can_delete and self._should_delete_form(form):
+                unit = form.instance
+                # Если единица используется — выдаём ошибку
+                if unit.service_set.exists():
+                    raise ValidationError(
+                        f"Невозможно удалить единицу '{unit.name}', "
+                        "так как она используется в услугах."
+                    )
+
+UnitFormSet = modelformset_factory(
+    Unit,
+    form=UnitForm,
+    formset=BaseUnitFormSet,
+    can_delete=True,
+    extra=0,
+)
 
 class ServiceForm1(forms.ModelForm):
     """Form for creating or updating Service instances."""

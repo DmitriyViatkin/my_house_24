@@ -824,6 +824,61 @@ class ExpenseReportCopyView(LoginRequiredMixin, RolePermissionRequiredMixin, Vie
 
         return redirect("admin:update_expense_report", pk=copy.pk)
 
+class ReceiptStatementPcView(LoginRequiredMixin, RolePermissionRequiredMixin, CreateView):
+    """Создание приходного ордера (ReceiptStatement) по лицевому счёту."""
+
+    model = CashBox
+    template_name = "cashbox/income_statement.html"
+    form_class = ReceiptStatementForm
+    success_url = reverse_lazy("admin:cashbox")
+    role_permission = "has_cashbox"
+
+    def get_context_data(self, **kwargs):
+        """Добавляем лицевой счёт в контекст."""
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "cashbox"
+
+        account_id = self.kwargs.get("pk")
+        if account_id:
+            account = PersonalAccount.objects.select_related("apartment", "user").get(pk=account_id)
+            context["account"] = account
+        return context
+
+    def get_initial(self):
+        """Автозаполнение формы по лицевому счёту."""
+        initial = super().get_initial()
+        account_id = self.kwargs.get("pk")
+
+        if account_id:
+            account = PersonalAccount.objects.select_related("apartment", "user").get(pk=account_id)
+
+            # пробуем найти статью с названием "Коммунальный платеж"
+            payment_article = (
+                PaymentArticles.objects.filter(name__icontains="коммун")
+                .filter(record_type="in")
+                .first()
+            )
+
+            initial.update({
+                "owner": account.user,
+                "personal_account": account,
+                "suma": 0,
+                "manager": self.request.user,  # текущий пользователь
+                "payment_articles": payment_article,  # если найдена статья
+            })
+        else:
+            # даже если нет pk — менеджер всё равно текущий
+            initial["manager"] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        """При сохранении также привязываем платёж к счёту."""
+        account_id = self.kwargs.get("pk")
+        if account_id:
+            account = PersonalAccount.objects.get(pk=account_id)
+            form.instance.account = account
+            form.instance.user = account.user
+        return super().form_valid(form)
 
 class ReceiptStatementView(LoginRequiredMixin, RolePermissionRequiredMixin, CreateView):
     """View for creating a new income (receipt) statement in the cashbox."""
@@ -1970,6 +2025,69 @@ class CreateInvoiceView(LoginRequiredMixin, RolePermissionRequiredMixin, CreateV
         return self.render_to_response(
             self.get_context_data(form=form, formset=formset)
         )
+class CreateInvoicePcView(LoginRequiredMixin, RolePermissionRequiredMixin, CreateView):
+    model = Invoice
+    form_class = InvoiceForm
+    template_name = "invoice/invoice_create.html"
+    success_url = reverse_lazy("admin:invoice")
+    role_permission = "has_invoice"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        account_id = self.kwargs.get("account_id")
+
+        if account_id:
+            account = PersonalAccount.objects.select_related(
+                "apartment",
+                "user",
+                "apartment__house",
+                "apartment__section",
+                "apartment__tariff",
+            ).get(pk=account_id)
+
+            apartment = account.apartment
+            user = account.user
+
+            initial.update({
+                "personal_account": account.pk,
+                "flat": apartment.pk,
+                "house": apartment.house.pk,
+                "section": apartment.section.pk,
+                "tariff": apartment.tariff.pk if apartment.tariff else None,
+                "owner": user.full_name if user else "",
+                "phone": user.phone if user else "",
+            })
+
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account_id = self.kwargs.get("account_id")
+        if account_id:
+            account = PersonalAccount.objects.select_related("apartment", "user").get(pk=account_id)
+            context["account"] = account
+        return context
+
+    def form_valid(self, form):
+        account_id = self.kwargs.get("account_id")
+
+        if account_id:
+            account = PersonalAccount.objects.select_related(
+                "apartment",
+                "user",
+                "apartment__tariff"
+            ).get(pk=account_id)
+
+            form.instance.personal_account = account
+            form.instance.flat = account.apartment
+            form.instance.tariff = account.apartment.tariff  # ✅ Правильно
+
+        form.instance.manager = self.request.user
+
+        if not form.instance.invoice_number:
+            form.instance.invoice_number = generate_id_with_random_number()
+
+        return super().form_valid(form)
 
 
 class UpdateInvoiceView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
@@ -2270,100 +2388,71 @@ class AddTemplateView(LoginRequiredMixin, RolePermissionRequiredMixin, View):
 
 
 def download_invoice(request, invoice_id):
-    """Download an invoice as an Excel file.
-
-    Args:
-        request (HttpRequest): The incoming HTTP request object.
-        invoice_id (int): ID of the invoice to download.
-
-    Returns:
-        FileResponse: Response with the Excel file as attachment.
-
-    Raises:
-        Http404: If the generated invoice file does not exist.
-        HttpResponse: On errors during invoice generation.
-
-    """
-    output_path = None
+    """Download an invoice as an Excel file."""
+    template_name = request.GET.get("template", "Шаблон Квитанции.xlsm")
 
     try:
-        template_name = request.GET.get("template", "Шаблон Квитанции.xlsm")
         output_path = Path(fill_invoice_to_excel(invoice_id, template_name))
 
         if not output_path.exists():
-            error_message = "Файл не найден"
-            raise Http404(error_message)
+            raise Http404("Файл не найден")
 
-        with output_path.open("rb") as file_handle:
-            filename = quote(output_path.name)
-            response = FileResponse(file_handle, as_attachment=True)
-            response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}"
-            response["Content-Type"] = "application/vnd.ms-excel.sheet.macroEnabled.12"
-            return response
+        # Открываем файл и передаём в FileResponse без закрытия
+        file_handle = output_path.open("rb")
+        filename = quote(output_path.name)
+
+        response = FileResponse(file_handle, as_attachment=True)
+        response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}"
+        response["Content-Type"] = "application/vnd.ms-excel.sheet.macroEnabled.12"
+
+        return response
 
     except (FileNotFoundError, OSError) as e:
         return HttpResponse(f"Ошибка при формировании квитанции: {e}", status=500)
 
-    finally:
-        if output_path:
-            try:
-                if output_path.exists():
-                    output_path.unlink()
-            except OSError:
-                logger.exception("Failed to delete temporary file %s", output_path)
-
+from django.http import FileResponse
+from urllib.parse import quote
 
 def download_invoice_pdf(request, invoice_id):
-    """Retrieve and generate a PDF file for the specified invoice.
-
-    Args:
-        request (HttpRequest): The incoming HTTP request.
-        invoice_id (int): The ID of the invoice to download.
-
-    Returns:
-        HttpResponse: PDF file of the generated invoice or error response.
-
-    """
     invoice = get_object_or_404(Invoice, id=invoice_id)
 
     default_template = Template.objects.filter(is_default=True).first()
     if not default_template:
         return HttpResponse("Нет шаблона по умолчанию для квитанции!", status=500)
 
-    xlsx_path = html_path = pdf_path = None
+    paths = []  # список временных файлов для последующей очистки
 
     try:
         # Формируем все временные файлы
-        xlsx_path = Path(
-            fill_invoice_to_excel(invoice_id, template_name=default_template.file.name)
-        )
+        xlsx_path = Path(fill_invoice_to_excel(invoice_id, template_name=default_template.file.name))
+        paths.append(xlsx_path)
+
         html_path = Path(excel_to_html_openpyxl(xlsx_path))
+        paths.append(html_path)
+
         pdf_path = Path(html_to_pdf(html_path))
+        paths.append(pdf_path)
 
-    except (OSError, ValueError) as e:
-        logger.exception("Ошибка при формировании PDF для счёта %s", invoice_id)
-        return HttpResponse(f"Ошибка при формировании PDF: {e}", status=500)
-
-    else:
-        # Используем контекстный менеджер для безопасного открытия файла
+        # Открываем PDF через контекстный менеджер, чтобы гарантированно закрыть файл
         with pdf_path.open("rb") as file_handle:
             filename = quote(f"invoice_{invoice.invoice_number}.pdf")
             response = FileResponse(file_handle, as_attachment=True)
             response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}"
             response["Content-Type"] = "application/pdf"
-        return response
+            return response
+
+    except (OSError, ValueError) as e:
+        logger.exception("Ошибка при формировании PDF для счёта %s", invoice_id)
+        return HttpResponse(f"Ошибка при формировании PDF: {e}", status=500)
 
     finally:
-        # Очистка временных файлов
-        for path in [xlsx_path, html_path, pdf_path]:
-            if path and path.exists():
+        # Очистка всех временных файлов
+        for path in paths:
+            if path.exists():
                 try:
                     path.unlink()
                 except OSError as cleanup_e:
-                    logger.warning(
-                        "Ошибка удаления временного файла %s: %s", path, cleanup_e
-                    )
-
+                    logger.warning("Ошибка удаления временного файла %s: %s", path, cleanup_e)
 
 def send_invoice_email_view(request, invoice_id):
     """Send an invoice email for the given invoice ID.
@@ -2670,19 +2759,21 @@ class UpdateOwnerFlat(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateVie
     model = User
     form_class = CreateOwnerFlatForm
     role_permission = "has_user"
-    success_url = reverse_lazy("admin:owners")
+
+    def get_success_url(self):
+        """Redirect to the owner's card after saving."""
+        return reverse("admin:card_user", kwargs={"pk": self.object.pk})
 
     def get_context_data(self, **kwargs):
         """Add the page title to the context for the template."""
         context = super().get_context_data(**kwargs)
-
         context["active_section"] = "owners"
         return context
 
     def form_valid(self, form):
         """Save form with password hashing and redirect."""
-        form.save()
-        return redirect(self.success_url)
+        self.object = form.save()
+        return redirect(self.get_success_url())
 
 
 class CardUserView(LoginRequiredMixin, RolePermissionRequiredMixin, TemplateView):
@@ -4949,36 +5040,29 @@ class FloorAutocomplete(autocomplete.Select2QuerySetView):
 
 
 class ApartmentAutocomplete(autocomplete.Select2QuerySetView):
-    """Autocomplete view for the Apartment model.
-
-    Provides a queryset and formatted display labels
-    for apartment selection fields using Select2.
-    """
+    """Autocomplete view for the Apartment model."""
 
     def get_queryset(self):
-        """Return the queryset for Apartment autocomplete.
-
-        Retrieves all Apartment objects. You can customize
-        this method to filter results based on user input.
-        """
         qs = Apartment.objects.all()
 
-        # Фильтрация по секции (если передали forward)
+        # Фильтрация по дому
+        house_id = self.forwarded.get("house", None)
+        if house_id:
+            qs = qs.filter(house_id=house_id)
+
+        # Фильтрация по секции
         section_id = self.forwarded.get("section", None)
         if section_id:
             qs = qs.filter(section_id=section_id)
 
+        # Фильтрация по номеру квартиры (поиск)
         if self.q:
             qs = qs.filter(apartment_number__icontains=self.q)
+
         return qs
 
     def get_result_label(self, item):
-        """Return the display label for a given Apartment item.
-
-        Formats the label as: 'Кв. <apartment_number> (<owner>)'.
-        Shows an em dash if the owner is not specified.
-        """
-        owner = item.user.full_name if item.user else "—"
+        owner = item.user.get_full_name() if item.user else "—"
         return f"Кв. {item.apartment_number} ({owner})"
 
 
@@ -5197,3 +5281,20 @@ def get_apartment_owner_ajax(request):
     if apartment and apartment.owner:
         return JsonResponse({"owner": apartment.owner.get_full_name()})
     return JsonResponse({"owner": ""})
+def check_unit_delete(request):
+    unit_id = request.GET.get("unit_id")
+    if not unit_id:
+        return JsonResponse({"error": "Unit ID не указан"}, status=400)
+
+    try:
+        unit = Unit.objects.get(pk=unit_id)
+    except Unit.DoesNotExist:
+        return JsonResponse({"error": "Единица не найдена"}, status=404)
+
+    if unit.service_set.exists():
+        return JsonResponse({
+            "can_delete": False,
+            "message": f"Невозможно удалить единицу '{unit.name}', так как она используется в услугах."
+        })
+    else:
+        return JsonResponse({"can_delete": True})
