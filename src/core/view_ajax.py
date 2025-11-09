@@ -2194,21 +2194,23 @@ class UserAjaxDatatableView(AjaxDatatableView):
             return format_html(status_map.get(r.status, ""))
 
         def actions_handler(r):
-            """Return HTML with edit and delete action buttons.
-
-            Args:
-                r (User): Current user row.
-
-            Returns:
-                str: HTML markup with edit and delete buttons.
-
-            """
             edit_url = reverse("admin:user_update", args=[r.pk])
-            delete_url = reverse("admin:user_delete", args=[r.pk])
             csrf_token = get_token(self.request)
+
+            # Если это текущий пользователь — редактировать можно, удалить нельзя
+            if r.pk == self.request.user.pk:
+                return format_html(
+                    '<a class="btn btn-default btn-sm" href="{}" title="Редактировать">'
+                    '<i class="fa fa-pencil"></i></a> '
+                    '<button class="btn btn-default btn-sm disabled" title="Нельзя удалить самого себя">'
+                    '<i class="fa fa-trash"></i></button>',
+                    edit_url
+                )
+
+
+            delete_url = reverse("admin:user_delete", args=[r.pk])
             return format_html(
-                '<a class="btn btn-default btn-sm" href="{}"'
-                ' title="Редактировать">'
+                '<a class="btn btn-default btn-sm" href="{}" title="Редактировать">'
                 '<i class="fa fa-pencil"></i></a> '
                 '<form method="post" action="{}" style="display:inline;">'
                 '<input type="hidden" name="csrfmiddlewaretoken" value="{}">'
@@ -2222,7 +2224,6 @@ class UserAjaxDatatableView(AjaxDatatableView):
                 delete_url,
                 csrf_token,
             )
-
         def row_url_handler(r):
             """Return the URL used when clicking the row.
 

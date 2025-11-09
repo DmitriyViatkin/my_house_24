@@ -148,7 +148,8 @@ class CabinetLoginForm(AuthenticationForm):
         label="E-mail or User ID",
         widget=forms.TextInput(
             attrs={"class": "form-control", "placeholder": "E-mail or User ID"}
-        ),)
+        ),
+    )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"class": "form-control", "placeholder": "Password"}

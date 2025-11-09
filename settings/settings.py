@@ -85,6 +85,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.static",
                 "src.core.context_processors.user_houses",
+                "src.core.context_processors.new_users_count"
             ],
         },
     },

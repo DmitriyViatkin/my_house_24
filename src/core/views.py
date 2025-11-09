@@ -10,7 +10,7 @@ from io import BytesIO
 from pathlib import Path
 from urllib.parse import quote
 from urllib.parse import urlencode
-
+from django.db.models import Case, When, Value, IntegerField
 import pandas as pd
 from dal import autocomplete
 from django.contrib import messages
@@ -4311,18 +4311,41 @@ class PaymentDetailView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateV
 
 
 class PaymentArticlesView(LoginRequiredMixin, RolePermissionRequiredMixin, ListView):
-    """View for updating a single fixed payment article."""
+    """View for updating a single fixed payment article and handling sorting."""
 
     role_permission = "has_payment_details"
     model = PaymentArticles
     template_name = "system_settings/payment_articles.html"
     queryset = PaymentArticles.objects.all()
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort', None)
+        order = self.request.GET.get('order', 'asc')
+
+        if sort_by == 'record_type':
+
+            queryset = queryset.annotate(
+                record_type_order=Case(
+                    When(record_type='in', then=Value(0)),
+                    When(record_type='out', then=Value(1)),
+                    output_field=IntegerField(),
+                )
+            )
+            prefix = '-' if order == 'desc' else ''
+            queryset = queryset.order_by(f'{prefix}record_type_order')
+
+        return queryset
+
     def get_context_data(self, **kwargs):
-        """Add the page title to the context for the template."""
+        """Add the page title and current sort parameters to the context."""
         context = super().get_context_data(**kwargs)
 
         context["active_section"] = "setings"
+        # Передаємо поточні параметри сортування в шаблон для правильного формування посилань
+        context["current_sort"] = self.request.GET.get('sort', '')
+        context["current_order"] = self.request.GET.get('order', 'asc')
+
         return context
 
 

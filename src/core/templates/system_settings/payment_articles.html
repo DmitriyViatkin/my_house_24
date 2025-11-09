@@ -32,11 +32,18 @@
                                 <thead>
                                     <tr>
                                         <th>Название</th>
-                                        <th>
-                                            <a href="?sort=record_type" data-sort="record_type">
-                                                Приход/расход
-                                            </a>
-                                        </th>
+
+
+<th>
+    {% if current_sort == 'record_type' and current_order == 'asc' %}
+        <a class="asc" href="?sort=record_type&order=desc">Приход/расход</a>
+    {% elif current_sort == 'record_type' and current_order == 'desc' %}
+        <a class="desc" href="?sort=record_type&order=asc">Приход/расход</a>
+    {% else %}
+        <a href="?sort=record_type&order=asc">Приход/расход</a>
+    {% endif %}
+</th>
+
                                         <th style="width: 80px; min-width: 80px">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -45,12 +52,12 @@
                                         <tr data-href="{% url 'admin:edit_payment_article' article.pk %}" data-key="{{ article.pk }}">
                                             <td>{{ article.name }}</td>
                                             <td>
-    {% if article.record_type == "in" %}
-        <span class="text text-green">Приход</span>
-    {% else %}
-        <span class="text text-red">Расход</span>
-    {% endif %}
-</td>
+                                                {% if article.record_type == "in" %}
+                                                    <span class="text text-green">Приход</span>
+                                                {% else %}
+                                                    <span class="text text-red">Расход</span>
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 <div class="btn-group pull-right">
                                                     <a class="btn btn-default btn-sm"

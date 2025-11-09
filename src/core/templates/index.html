@@ -93,10 +93,10 @@
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-child fa-lg"></i>
-                  <span class="label label-warning">74</span>
+                  <span class="label label-warning">{{ NEW_USERS_COUNT }}</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">Новых пользователей: 74</li>
+                  <li class="header">Новых пользователей: {{ NEW_USERS_COUNT }}</li>
                   <li>
                     <ul class="menu">
                       {% for user in new_users %}

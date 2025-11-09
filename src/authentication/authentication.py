@@ -1,6 +1,8 @@
 import logging
+
 from django.contrib.auth.backends import BaseBackend
 from django.db.models import Q
+
 from src.users.models import User
 
 logger = logging.getLogger(__name__)
@@ -19,8 +21,7 @@ class EmailAuthBackend(BaseBackend):
 
         try:
             user = User.objects.get(
-                Q(email__iexact=username) |
-                Q(user_id__iexact=username)
+                Q(email__iexact=username) | Q(user_id__iexact=username)
             )
         except User.DoesNotExist:
             logger.info(f"AUTH backend: user not found for {username}")
@@ -38,4 +39,3 @@ class EmailAuthBackend(BaseBackend):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-
