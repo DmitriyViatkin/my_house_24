@@ -118,10 +118,10 @@ class AdminLoginForm(AuthenticationForm):
     """Authenticate admin users with CAPTCHA."""
 
     captcha = ReCaptchaField()
-    username = forms.EmailField(
-        label="E-mail",
+    username = forms.CharField(
+        label="E-mail or User ID",
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "E-mail"}
+            attrs={"class": "form-control", "placeholder": "E-mail or User ID"}
         ),
     )
     password = forms.CharField(
@@ -144,12 +144,11 @@ class CabinetLoginForm(AuthenticationForm):
     """Authenticate cabinet users with CAPTCHA."""
 
     captcha = ReCaptchaField()
-    username = forms.EmailField(
-        label="E-mail",
+    username = forms.CharField(
+        label="E-mail or User ID",
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "E-mail"}
-        ),
-    )
+            attrs={"class": "form-control", "placeholder": "E-mail or User ID"}
+        ),)
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"class": "form-control", "placeholder": "Password"}

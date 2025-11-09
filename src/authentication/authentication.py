@@ -1,51 +1,41 @@
-"""Custom authentication backend using email instead of username."""
-
-from django.contrib.auth import get_user_model
+import logging
 from django.contrib.auth.backends import BaseBackend
+from django.db.models import Q
+from src.users.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class EmailAuthBackend(BaseBackend):
-    """Authentication backend that allows login via email and password."""
+    """Authentication backend that allows login via email or user_id."""
 
     def authenticate(self, request, username=None, password=None, **kwargs):
-        """Authenticate user by email and password.
+        logger.info(f"AUTH backend START, username={username}")
 
-        Args:
-            request: HttpRequest object (can be None).
-            username (str): Provided username (treated as email).
-            password (str): Provided password.
-            **kwargs: Additional arguments (e.g., email).
+        if not username:
+            return None
 
-        Returns:
-            User instance if authentication succeeds, otherwise None.
-
-        """
-        user_model = get_user_model()
-
-        if username is None:
-            username = kwargs.get("email")
+        username = username.strip()
 
         try:
-            user = user_model.objects.get(email__iexact=username.strip())
-        except user_model.DoesNotExist:
+            user = User.objects.get(
+                Q(email__iexact=username) |
+                Q(user_id__iexact=username)
+            )
+        except User.DoesNotExist:
+            logger.info(f"AUTH backend: user not found for {username}")
             return None
 
         if user.check_password(password):
+            logger.info(f"AUTH backend: SUCCESS login for {user.email}")
             return user
+
+        logger.info(f"AUTH backend: wrong password for {username}")
         return None
 
     def get_user(self, user_id):
-        """Retrieve user instance by ID.
-
-        Args:
-            user_id (int): Primary key of the user.
-
-        Returns:
-            User instance if found, otherwise None.
-
-        """
-        user_model = get_user_model()
         try:
-            return user_model.objects.get(pk=user_id)
-        except user_model.DoesNotExist:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
             return None
+
