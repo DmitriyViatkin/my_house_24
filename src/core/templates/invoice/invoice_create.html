@@ -81,11 +81,7 @@
                   <div class="form-group field-invoice-is_checked">
                     {{ form.conducted }}
                     <label>
-                      <input type="checkbox"
-                             id="invoice-is_checked"
-                             name="Invoice[is_checked]"
-                             value="1"
-                             checked="" />
+
                       Проведена
                     </label>
                     <div class="help-block"></div>
@@ -272,6 +268,188 @@
       </section>
     </div>
     {{ form.media }}
+<script>
+(function($){
+  $(function(){
+
+    // helper: find element by common names, return jQuery
+    function findField(names) {
+      for (let name of names) {
+        // try by id
+        let $byId = $("#id_" + name);
+        if ($byId.length) return $byId;
+        // try by name attribute
+        let $byName = $("[name='" + name + "']");
+        if ($byName.length) return $byName;
+        // try variant with model prefix (e.g. invoice-personal_account)
+        $byName = $("[name$='" + name + "']");
+        if ($byName.length) return $byName;
+      }
+      return $(); // empty
+    }
+
+    // поля (списки имён — на случай, если имя отличается)
+    const $personalAccount = findField(["personal_account", "account", "personalaccount"]);
+    const $owner = findField(["owner"]);
+    const $phone = findField(["phone"]);
+    const $house = findField(["house"]);
+    const $section = findField(["section"]);
+    const $flat = findField(["flat"]);
+    const $tariff = findField(["tariff"]);
+
+    console.log("invoice form fields found:", {
+      personalAccount: $personalAccount.length ? $personalAccount[0].id || $personalAccount.attr('name') : null,
+      owner: $owner.length ? ($owner[0].id || $owner.attr('name')) : null,
+      phone: $phone.length ? ($phone[0].id || $phone.attr('name')) : null,
+      house: $house.length ? ($house[0].id || $house.attr('name')) : null,
+      section: $section.length ? ($section[0].id || $section.attr('name')) : null,
+      flat: $flat.length ? ($flat[0].id || $flat.attr('name')) : null,
+      tariff: $tariff.length ? ($tariff[0].id || $tariff.attr('name')) : null
+    });
+
+    // универсальная функция установки значения в поле (работает для select/select2/hidden inputs)
+    function setSelectValue($el, val, displayText) {
+      if (!$el || !$el.length) return;
+      // если select2
+      if ($el.hasClass('select2-hidden-accessible') || $el.data('select2')) {
+        // если у select нет option с таким value — создаём (нужно чтобы select2 показал текст)
+        if ($el.find("option[value='" + val + "']").length === 0) {
+          if (displayText === undefined) displayText = val;
+          const newOption = new Option(displayText, val, true, true);
+          $el.append(newOption).trigger('change');
+        } else {
+          $el.val(val).trigger('change');
+        }
+        return;
+      }
+
+      // обычный select или input
+      if ($el.is('select')) {
+        // если option есть
+        if ($el.find("option[value='" + val + "']").length) {
+          $el.val(val).trigger('change');
+        } else {
+          // создаём option для видимости
+          if (displayText === undefined) displayText = val;
+          $el.append($('<option>', {value: val, text: displayText}));
+          $el.val(val).trigger('change');
+        }
+        return;
+      }
+
+      // input[type=hidden] или text
+      $el.val(displayText !== undefined ? displayText : val).trigger('input');
+    }
+
+    // универсальная обработка ответа сервера — ищем ключи
+    function applyServerData(data) {
+      console.log("AJAX response for owner:", data);
+
+      // возможные ключи для owner/phone
+      const ownerKeys = ['owner','full_name','fio','name'];
+      const phoneKeys = ['phone','phone_number','mobile'];
+
+      for (let k of ownerKeys) if (data[k] !== undefined) {
+        $owner.val(data[k]);
+        $("#user-fullname").text(data[k]); // текст на странице
+        break;
+      }
+      for (let k of phoneKeys) if (data[k] !== undefined) {
+        $phone.val(data[k]);
+        $("#user-phone").text(data[k]);
+        break;
+      }
+
+      // связные поля — у сервера могут быть разные имена: house/house_id/house_pk
+      function pickKey(obj, candidates){
+        for (let c of candidates) if (obj[c] !== undefined) return obj[c];
+        return undefined;
+      }
+
+      const houseVal = pickKey(data, ['house','house_id','house_pk']);
+      const sectionVal = pickKey(data, ['section','section_id','section_pk']);
+      const flatVal = pickKey(data, ['flat','flat_id','flat_pk','apartment','apartment_id']);
+      const tariffVal = pickKey(data, ['tariff','tariff_id','tariff_pk']);
+      const personalAccountVal = pickKey(data, ['personal_account','account','account_id','personal_account_id']);
+
+      // также можно получить текст для отображения
+      const personalAccountText = data.personal_account_text || data.account_text || data.account_display;
+      const flatText = data.flat_text || data.apartment_text;
+      const houseText = data.house_text;
+      const sectionText = data.section_text;
+      const tariffText = data.tariff_text;
+
+      if (houseVal !== undefined) setSelectValue($house, houseVal, houseText);
+      if (sectionVal !== undefined) setSelectValue($section, sectionVal, sectionText);
+      if (flatVal !== undefined) setSelectValue($flat, flatVal, flatText);
+      if (tariffVal !== undefined) setSelectValue($tariff, tariffVal, tariffText);
+      if (personalAccountVal !== undefined) setSelectValue($personalAccount, personalAccountVal, personalAccountText);
+    }
+
+    // функция: запросить сервер и применить результат
+    function fetchAndApply(params) {
+      console.log("Requesting owner with params:", params);
+      $.ajax({
+        url: "{% url 'admin:get_owner' %}",
+        method: "GET",
+        data: params,
+        dataType: "json",
+        success: function(data) {
+          applyServerData(data);
+        },
+        error: function(xhr, status, err) {
+          console.error("AJAX error:", status, err, xhr.responseText);
+        }
+      });
+    }
+
+    // если поле лицевого счёта найдено — навешиваем обработчики
+    if ($personalAccount && $personalAccount.length) {
+      // если select2 ещё не инициализирован — инициализируем (без опций)
+      try {
+        if (!$personalAccount.data('select2')) {
+          $personalAccount.select2({ width: '100%' });
+        }
+      } catch(e){ /* ignore */ }
+
+      // change — срабатывает для обычных select и для select2
+      $personalAccount.on("change", function(){
+        const val = $(this).val();
+        if (!val) return;
+        // передаём аккаунт — сервер сам решит, что вернуть
+        fetchAndApply({ account: val });
+      });
+
+      // если select2 — также слушаем select2:select (иногда полезно)
+      $personalAccount.on("select2:select", function(e){
+        const id = e && e.params && e.params.data && e.params.data.id;
+        if (id) fetchAndApply({ account: id });
+      });
+    } else {
+      console.warn("Лицевой счет (personal_account) не найден на странице — проверь имя поля.");
+    }
+
+    // навешиваем на смену квартиры — запрос по flat
+    if ($flat && $flat.length) {
+      // ensure select2 init
+      try { if (!$flat.data('select2')) $flat.select2({ width: '100%' }); } catch(e){}
+      $flat.on("change", function(){
+        const v = $(this).val();
+        if (!v) return;
+        fetchAndApply({ flat: v });
+        // обновляем таблицу счетчиков если есть
+        if ($.fn.DataTable && $.fn.DataTable.isDataTable('#counter-table')) {
+          $('#counter-table').DataTable().ajax.reload();
+        }
+      });
+    }
+
+    // Debug helper: let user call manual fetch via console: window.fetchInvoiceOwner({account: '13'})
+    window.fetchInvoiceOwner = fetchAndApply;
+
+  });
+})(jQuery);
+</script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <!-- AjaxDatatable utils -->
     <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
@@ -481,4 +659,7 @@
         });
       });
     </script>
+
+
+
   {% endblock content %}

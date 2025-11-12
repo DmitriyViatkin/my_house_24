@@ -4,7 +4,7 @@ import logging
 from datetime import timedelta
 from decimal import Decimal
 from decimal import InvalidOperation
-
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
@@ -31,6 +31,7 @@ from .form import TicketUserForm
 from .models import Message
 from .models import Ticket
 from .models import User
+from src.core.export_exel import fill_invoice_to_excel, excel_to_html_openpyxl, html_to_pdf
 
 logger = logging.getLogger(__name__)
 
@@ -402,16 +403,27 @@ class PayInvoiceStep2(LoginRequiredMixin, TemplateView):
 
 
 class InvoicePrintView(DetailView):
-    """Render an invoice in printable format."""
-
+    """Generate invoice PDF on the fly and return it in browser."""
     model = Invoice
-    template_name = "invoice/invoice_print.html"
-    context_object_name = "invoice"
+    pk_url_kwarg = "pk"
 
-    def render_to_response(self, context, **response_kwargs):
-        """Render invoice as HTML (placeholder implementation)."""
-        return super().render_to_response(context, **response_kwargs)
+    def get(self, request, *args, **kwargs):
+        invoice = self.get_object()
 
+        # 1️⃣ Генерация Excel в памяти
+        excel_io = fill_invoice_to_excel(invoice_id=invoice.id)
+
+        # 2️⃣ Конвертация Excel в HTML (возвращает строку)
+        html_string = excel_to_html_openpyxl(excel_io)
+
+        # 3️⃣ Конвертация HTML в PDF в памяти
+        pdf_io = html_to_pdf(html_string)
+
+        # 4️⃣ Отправка PDF в браузер
+        pdf_bytes = pdf_io.getvalue()
+        response = HttpResponse(pdf_bytes, content_type="application/pdf")
+        response["Content-Disposition"] = f'inline; filename="Invoice_{invoice.id}.pdf"'
+        return response
 
 class ListTicketsView(LoginRequiredMixin, ListView):
     """Display list of maintenance requests (tickets)."""

@@ -341,31 +341,35 @@ class InvoiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if not self.instance.pk:
+        instance = self.instance
+
+        # --- При создании ---
+        if not instance.pk:
             self.initial["invoice_number"] = generate_id_with_random_number()
             self.initial["mount"] = timezone.now().date()
         else:
             self.fields["invoice_number"].disabled = True
 
-        personal_account = getattr(self.instance, "personal_account", None)
+        # --- Связанная сущность ---
+        personal_account = getattr(instance, "personal_account", None)
         apartment = personal_account.apartment if personal_account else None
 
-        # ФИО + телефон
+        # --- Owner & Phone ---
         if apartment and apartment.user:
             self.initial["owner"] = apartment.user.full_name
             self.initial["phone"] = apartment.user.phone
 
-        # ✅ ГЛАВНОЕ: ставим initial ОБЪЕКТАМИ, а не pk
+        # --- ✅ ВАЖНО: initial ТОЛЬКО ЧЕРЕЗ self.initial ---
         if apartment:
-            self.fields["house"].initial = apartment.house
-            self.fields["section"].initial = apartment.section
-            self.fields["flat"].initial = apartment
+            self.initial["house"] = apartment.house
+            self.initial["section"] = apartment.section
+            self.initial["flat"] = apartment
 
         if personal_account:
-            self.fields["personal_account"].initial = personal_account
+            self.initial["personal_account"] = personal_account
 
-        if getattr(self.instance, "tariff_id", None):
-            self.fields["tariff"].initial = self.instance.tariff
+        if instance.tariff_id:
+            self.initial["tariff"] = instance.tariff
 
     def save(self, *, commit=True):
         """Save the CashBox instance with optional commit.

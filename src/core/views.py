@@ -2035,29 +2035,25 @@ class CreateInvoicePcView(LoginRequiredMixin, RolePermissionRequiredMixin, Creat
     def get_initial(self):
         initial = super().get_initial()
         account_id = self.kwargs.get("account_id")
-
         if account_id:
-            account = PersonalAccount.objects.select_related(
-                "apartment",
-                "user",
-                "apartment__house",
-                "apartment__section",
-                "apartment__tariff",
-            ).get(pk=account_id)
-
-            apartment = account.apartment
-            user = account.user
-
-            initial.update({
-                "personal_account": account.pk,
-                "flat": apartment.pk,
-                "house": apartment.house.pk,
-                "section": apartment.section.pk,
-                "tariff": apartment.tariff.pk if apartment.tariff else None,
-                "owner": user.full_name if user else "",
-                "phone": user.phone if user else "",
-            })
-
+            try:
+                account = PersonalAccount.objects.select_related(
+                    "apartment",
+                    "user",
+                    "apartment__house",
+                    "apartment__section"
+                ).get(pk=account_id)
+                apartment = account.apartment
+                initial["personal_account"] = account
+                initial["flat"] = apartment
+                initial["section"] = apartment.section
+                initial["house"] = apartment.house
+                initial["tariff"] = apartment.tariff
+                if apartment.user:
+                    initial["owner"] = apartment.user.full_name
+                    initial["phone"] = apartment.user.phone
+            except PersonalAccount.DoesNotExist:
+                pass
         return initial
 
     def get_context_data(self, **kwargs):
@@ -5298,3 +5294,29 @@ def check_unit_delete(request):
         })
     else:
         return JsonResponse({"can_delete": True})
+
+def get_account_info(request):
+    account_id = request.GET.get("id")
+    if not account_id:
+        return JsonResponse({"error": "no id"}, status=400)
+
+    try:
+        account = (
+            PersonalAccount.objects
+            .select_related("apartment", "user", "apartment__house", "apartment__section")
+            .get(pk=account_id)
+        )
+    except PersonalAccount.DoesNotExist:
+        return JsonResponse({"error": "not found"}, status=404)
+
+    apartment = account.apartment
+    user = account.user
+
+    return JsonResponse({
+        "house": apartment.house.pk,
+        "section": apartment.section.pk,
+        "flat": apartment.pk,
+        "tariff": apartment.tariff.pk if apartment.tariff else "",
+        "owner": user.full_name if user else "",
+        "phone": user.phone if user else "",
+    })

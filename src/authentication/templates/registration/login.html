@@ -67,64 +67,73 @@
             <a href="#tab_2" data-toggle="tab">Для администрации</a>
           </li>
         </ul>
-        <div class="tab-content">
-          <!-- Кабинет -->
-          <div class="tab-pane {% if active_tab == 'cabinet' %}active{% endif %}"
-               id="tab_1">
-            <div class="login-box-body">
-              <p class="login-box-msg">Вход в личный кабинет</p>
-              <form id="cabinet-login-form"
-                    action="{% url 'login' %}"
-                    method="post"
-                    novalidate>
-                {% csrf_token %}
-                <div class="form-group {% if cabinet_form.username.errors %}has-error{% endif %}">
-                  {{ cabinet_form.username }}
-                  {% for error in cabinet_form.username.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
-                </div>
-                <div class="form-group {% if cabinet_form.password.errors %}has-error{% endif %}">
-                  {{ cabinet_form.password }}
-                  {% for error in cabinet_form.password.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
-                </div>
-                {{ cabinet_form.captcha }}
-                <button type="submit"
-                        name="cabinet_login"
-                        value="1"
-                        class="btn btn-primary btn-block">Вход</button>
-              </form>
-            </div>
-          </div>
-          <!-- Админка -->
-          <div class="tab-pane {% if active_tab == 'admin' %}active{% endif %}"
-               id="tab_2">
-            <div class="login-box-body">
-              <p class="login-box-msg">Вход в панель управления</p>
-              <form id="admin-login-form"
-                    action="{% url 'login' %}"
-                    method="post"
-                    novalidate>
-                {% csrf_token %}
-                <div class="form-group {% if admin_form.username.errors %}has-error{% endif %} input-icon">
-                  {{ admin_form.username }}
-                  <i class="fa fa-envelope"></i>
-                  {% for error in admin_form.username.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
-                </div>
-                <div class="form-group {% if admin_form.password.errors %}has-error{% endif %} input-icon">
-                  {{ admin_form.password }}
-                  <i class="fa fa-lock"></i>
-                  {% for error in admin_form.password.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
-                </div>
-                {{ admin_form.captcha }}
-                <button type="submit"
-                        name="admin_login"
-                        value="1"
-                        class="btn btn-primary btn-block">Вход</button>
-              </form>
-            </div>
-          </div>
+       <div class="tab-content">
+  <!-- Кабинет -->
+  <div class="tab-pane {% if active_tab == 'cabinet' %}active{% endif %}" id="tab_1">
+    <div class="login-box-body">
+      <p class="login-box-msg">Вход в личный кабинет</p>
+      <form id="cabinet-login-form" action="{% url 'login' %}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group {% if cabinet_form.username.errors %}has-error{% endif %}">
+          {{ cabinet_form.username }}
+          {% for error in cabinet_form.username.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
         </div>
-      </div>
+        <div class="form-group {% if cabinet_form.password.errors %}has-error{% endif %}">
+          {{ cabinet_form.password }}
+          {% for error in cabinet_form.password.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+        {{ cabinet_form.captcha }}
+
+        <button type="submit" name="cabinet_login" value="1" class="btn btn-primary btn-block">Вход</button>
+
+        <!-- 🔗 Ссылки под формой -->
+        <div class="text-center" style="margin-top: 10px;">
+          <a href="{% url 'registration' %}">Регистрация</a> |
+          <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <!-- Админка -->
+  <div class="tab-pane {% if active_tab == 'admin' %}active{% endif %}" id="tab_2">
+    <div class="login-box-body">
+      <p class="login-box-msg">Вход в панель управления</p>
+      <form id="admin-login-form" action="{% url 'login' %}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group {% if admin_form.username.errors %}has-error{% endif %} input-icon">
+          {{ admin_form.username }}
+          <i class="fa fa-envelope"></i>
+          {% for error in admin_form.username.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div class="form-group {% if admin_form.password.errors %}has-error{% endif %} input-icon">
+          {{ admin_form.password }}
+          <i class="fa fa-lock"></i>
+          {% for error in admin_form.password.errors %}
+            <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        {{ admin_form.captcha }}
+
+        <button type="submit" name="admin_login" value="1" class="btn btn-primary btn-block">Вход</button>
+
+        <!-- 🔗 Ссылки под формой -->
+        <div class="text-center" style="margin-top: 10px;">
+          <a href="{% url 'registration' %}">Регистрация</a> |
+          <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
     <!-- JS -->
     <script src="{% static 'admin/assets/137cc266/jquery.js' %}"></script>
     <script src="{% static 'admin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>

@@ -2,119 +2,24 @@ import re
 from contextlib import suppress
 from decimal import Decimal
 from html import escape
-from pathlib import Path
+from io import BytesIO
 
 import django
 import pandas as pd
 from django.conf import settings
 from django.db.models import Sum
 from openpyxl import load_workbook
-from openpyxl.styles import Border
-from openpyxl.styles import Side
+from openpyxl.styles import Border, Side
 from weasyprint import HTML
 
 # Setup Django
-BASE_DIR = Path(settings.BASE_DIR)
 django.setup()
 
-from src.financials.models import CashBox
-from src.financials.models import Invoice
-from src.financials.models import PersonalAccount
+from src.financials.models import CashBox, Invoice, PersonalAccount, Template
 from src.services.models import PaymentDetail
 
 
-def export_accounts_to_excel(filename="personal_accounts.xlsx"):
-    """Export personal accounts to Excel and adjust column widths."""
-    accounts = PersonalAccount.objects.select_related(
-        "apartment__user", "apartment__house", "apartment__section", "apartment__floor"
-    ).all()
-
-    data = []
-    for account in accounts:
-        apartment = getattr(account, "apartment", None)
-        cash_sum = (
-            CashBox.objects.filter(personal_account=account).aggregate(
-                total=Sum("sum")
-            )["total"]
-            or 0
-        )
-        row = {
-            "Лицевой счет": account.account_number,
-            "Статус": account.status,
-            "Дом": apartment.house.title if apartment and apartment.house else "",
-            "Секция": apartment.section.name if apartment and apartment.section else "",
-            "Квартира": apartment.apartment_number if apartment else "",
-            "Владелец": account.user.full_name if account.user else "",
-            "Остаток": cash_sum,
-        }
-        data.append(row)
-
-    df = pd.DataFrame(data)
-    df.to_excel(filename, index=False, engine="openpyxl")
-
-    wb = load_workbook(filename)
-    ws = wb.active
-
-    for col in ws.columns:
-        max_length = max(
-            (len(str(cell.value)) for cell in col if cell.value), default=0
-        )
-        ws.column_dimensions[col[0].column_letter].width = max_length + 2
-
-    wb.save(filename)
-
-
-def export_cash_box_to_excel(filename="cash.xlsx"):
-    """Export cashbox records to Excel and adjust column widths."""
-    cash_boxes = CashBox.objects.select_related(
-        "personal_account", "payment_articles", "manager", "owner"
-    ).filter(owner_id=15)
-
-    data = []
-    for cash_box in cash_boxes:
-        row = {
-            "# ": cash_box.cash_box_number,
-            "Дата": cash_box.date,
-            "Приход/Расход": cash_box.payment_articles.record_type,
-            "Статус": "Проведен" if cash_box.is_conducted else "Не проведен",
-            "Статья ": cash_box.payment_articles.name,
-            "КвитанцияУслугаСума": cash_box.suma,
-            "Валюта": "грн",
-            "Владелец": cash_box.owner.full_name if cash_box.owner else "",
-            "Лицевой счёт": cash_box.personal_account.account_number
-            if cash_box.personal_account
-            else "",
-            "Сума": cash_box.suma,
-        }
-        data.append(row)
-
-    df = pd.DataFrame(data)
-    df.to_excel(filename, index=False, engine="openpyxl")
-
-    wb = load_workbook(filename)
-    ws = wb.active
-
-    for col in ws.columns:
-        max_length = max(
-            (len(str(cell.value)) for cell in col if cell.value), default=0
-        )
-        ws.column_dimensions[col[0].column_letter].width = max_length + 2
-
-    wb.save(filename)
-
-
-class InvoiceTemplate:
-    """Store invoice template workbook and worksheet objects."""
-
-    def __init__(self, template_path: str, invoice_obj):
-        self._template_path = template_path
-        self._invoice_obj = invoice_obj
-        self._wb = None
-        self._ws = None
-
-
 def get_invoice_data(invoice_id):
-    """Return invoice data merged into a single dictionary."""
     invoice = Invoice.objects.select_related(
         "personal_account__apartment__house", "tariff"
     ).get(id=invoice_id)
@@ -138,11 +43,7 @@ def get_invoice_data(invoice_id):
     )
     full_address_line = ", ".join(
         part
-        for part in [
-            owner_name,
-            house_address,
-            f"кв. {apartment_num}" if apartment_num else "",
-        ]
+        for part in [owner_name, house_address, f"кв. {apartment_num}" if apartment_num else ""]
         if part
     )
 
@@ -151,24 +52,17 @@ def get_invoice_data(invoice_id):
         "Status": invoice.get_status_display(),
         "Inv_Date": invoice.date.strftime("%d.%m.%Y") if invoice.date else "",
         "Inv_Period": f"{invoice.start_date:%d.%m.%Y} - {invoice.end_date:%d.%m.%Y}"
-        if invoice.start_date and invoice.end_date
-        else "",
+        if invoice.start_date and invoice.end_date else "",
         "Проведена": "Проведена" if invoice.conducted else "Не проведена",
         "Владелец": owner_name,
         "Дом": house_address,
         "Квартира": apartment_num,
         "full_address_line": full_address_line,
-        "Client_Acc": invoice.personal_account.account_number
-        if invoice.personal_account
-        else "",
-        "Телефон": getattr(invoice.personal_account.user, "phone", "")
-        if invoice.personal_account and invoice.personal_account.user
-        else "",
+        "Client_Acc": invoice.personal_account.account_number if invoice.personal_account else "",
+        "Телефон": getattr(invoice.personal_account.user, "phone", "") if invoice.personal_account and invoice.personal_account.user else "",
         "Секция": (
             invoice.personal_account.apartment.section.name
-            if invoice.personal_account
-            and invoice.personal_account.apartment
-            and invoice.personal_account.apartment.section
+            if invoice.personal_account and invoice.personal_account.apartment and invoice.personal_account.apartment.section
             else ""
         ),
         "Payee_Name": payment_detail.description if payment_detail else "",
@@ -177,16 +71,13 @@ def get_invoice_data(invoice_id):
 
     total = Decimal("0")
     for idx, item in enumerate(
-        invoice.items.select_related("tariff_service__service", "tariff_service__unit"),
-        start=1,
+        invoice.items.select_related("tariff_service__service", "tariff_service__unit"), start=1
     ):
         service = item.tariff_service
         row = {
-            f"Услуга_{idx}": service.service.name
-            if service and service.service
-            else "",
+            f"Услуга_{idx}": service.service.name if service and service.service else "",
             f"Количество_{idx}": item.count,
-            f"Тариф_{idx}": item.tariff_service.tariff.title,
+            f"Тариф_{idx}": service.tariff.title if service and service.tariff else "",
             f"Ед._изм_{idx}": service.unit.name if service and service.unit else "",
             f"Цена_{idx}": service.price if service else "",
             f"Сумма_{idx}": item.total,
@@ -194,22 +85,14 @@ def get_invoice_data(invoice_id):
         total += item.total
         data.update(row)
 
-    personal_account_id = (
-        invoice.personal_account.id if invoice.personal_account else None
-    )
+    personal_account_id = invoice.personal_account.id if invoice.personal_account else None
     invoices_total = payments_total = Decimal("0")
     if personal_account_id:
-        invoices = Invoice.objects.filter(
-            personal_account_id=personal_account_id, conducted=True
-        ).prefetch_related("items")
+        invoices = Invoice.objects.filter(personal_account_id=personal_account_id, conducted=True).prefetch_related("items")
         invoices_total = sum(
-            sum(item.total for item in inv.items.all())
-            for inv in invoices
-            if inv.status in ("zero", "counted")
+            sum(item.total for item in inv.items.all()) for inv in invoices if inv.status in ("zero", "counted")
         )
-        payments_total = CashBox.objects.filter(
-            personal_account_id=personal_account_id, is_conducted=True
-        ).aggregate(total=Sum("suma"))["total"] or Decimal("0")
+        payments_total = CashBox.objects.filter(personal_account_id=personal_account_id, is_conducted=True).aggregate(total=Sum("suma"))["total"] or Decimal("0")
 
     data.update(
         {
@@ -219,23 +102,24 @@ def get_invoice_data(invoice_id):
             "Total_Amount": total,
         }
     )
-
     return data
 
 
-def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квитанции.xlsm"):
+def fill_invoice_to_excel(invoice_id):
+    """Generate invoice Excel from DB template in memory."""
     data = get_invoice_data(invoice_id)
 
-    template_path = (
-        Path(settings.BASE_DIR) / "media/templates" / Path(template_name).name
-    )
-    if not template_path.exists():
-        raise FileNotFoundError(f"Template not found: {template_path}")
+    # 🔹 Берем дефолтный шаблон из БД
+    template_obj = Template.objects.filter(is_default=True).first()
+    if not template_obj:
+        raise FileNotFoundError("Default template not found in database")
 
-    wb = load_workbook(template_path, keep_vba=True)
+    file_bytes = template_obj.file.read()
+    template_io = BytesIO(file_bytes)
+    wb = load_workbook(template_io, keep_vba=True)
     ws = wb.active
 
-    # ✅ 1) Глобальная замена простых плейсхолдеров {{Key}}
+    # 🔹 Замена плейсхолдеров
     placeholder_pattern = re.compile(r"\{\{([^}]+)\}\}")
     for row in ws.iter_rows():
         for cell in row:
@@ -246,7 +130,7 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
                         new_val = new_val.replace(f"{{{{{match}}}}}", str(data[match]))
                 cell.value = new_val
 
-    # ✅ 2) Поиск строки шаблона услуги
+    # 🔹 Поиск строки шаблона услуг
     service_row_idx = None
     for row in ws.iter_rows():
         for cell in row:
@@ -267,15 +151,9 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
             ws.unmerge_cells(str(m))
     ws.delete_rows(service_row_idx, 1)
 
-    thin_border = Border(
-        left=Side("thin"), right=Side("thin"), top=Side("thin"), bottom=Side("thin")
-    )
+    thin_border = Border(left=Side("thin"), right=Side("thin"), top=Side("thin"), bottom=Side("thin"))
+    services = sorted((k for k in data if k.startswith("Услуга_")), key=lambda x: int(x.split("_")[1]))
 
-    services = sorted(
-        (k for k in data if k.startswith("Услуга_")), key=lambda x: int(x.split("_")[1])
-    )
-
-    # ✅ 3) Вставка строчек услуг
     for idx, _ in enumerate(services):
         row_num = service_row_idx + idx
         ws.insert_rows(row_num, 1)
@@ -283,38 +161,30 @@ def fill_invoice_to_excel(invoice_id=11, template_name="Шаблон Квита�
             cell = ws.cell(row=row_num, column=col)
             value = template_val
             if isinstance(template_val, str):
-                # Индексация плейсхолдеров _1, _2, _3 ...
                 value = re.sub(
                     r"\{\{([\w\.\-А-Яа-яЁёІіЇїЄє]+)\}\}",
                     lambda m: f"{{{{{m.group(1)}_{idx + 1}}}}}",
                     template_val,
                 )
-                # Замена значений
                 for k, v in data.items():
                     value = value.replace(f"{{{{{k}}}}}", str(v) if v is not None else "")
             cell.value = value.strip() if isinstance(value, str) else value
             cell.border = thin_border
 
-        # Восстанавливаем merge
         for m in merged_ranges:
-            ws.merge_cells(
-                start_row=row_num,
-                start_column=m.min_col,
-                end_row=row_num,
-                end_column=m.max_col,
-            )
+            ws.merge_cells(start_row=row_num, start_column=m.min_col, end_row=row_num, end_column=m.max_col)
 
-    output = Path(__file__).parent / f"Квитанция_{invoice_id}.xlsm"
-    wb.save(output)
-    return output
+    output_io = BytesIO()
+    wb.save(output_io)
+    output_io.seek(0)
+    return output_io
 
-def excel_to_html_openpyxl(xlsx_path, html_path=None, sheet_name=None):
-    """Convert Excel sheet to HTML table and save to file."""
-    xlsx_path = Path(xlsx_path)
-    html_path = html_path or xlsx_path.with_suffix(".html")
 
-    wb = load_workbook(xlsx_path, read_only=False, data_only=True)
-    ws = wb[sheet_name] if sheet_name else wb.active
+def excel_to_html_openpyxl(xlsx_io):
+    """Convert Excel (BytesIO) to HTML string."""
+    xlsx_io.seek(0)
+    wb = load_workbook(xlsx_io, read_only=False, data_only=True)
+    ws = wb.active
 
     merged_cells_map = {}
     for merged in ws.merged_cells.ranges:
@@ -354,12 +224,10 @@ def excel_to_html_openpyxl(xlsx_path, html_path=None, sheet_name=None):
         rows_html.append("<tr>" + "".join(cells_html) + "</tr>")
 
     html_table = "<table>\n" + "\n".join(rows_html) + "\n</table>"
-
     page = f"""<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>{xlsx_path.name}</title>
 <style>
   table {{ border-collapse: collapse; width: 100%; }}
   td {{ border: 1px solid #ddd; padding: 6px; vertical-align: top; }}
@@ -369,14 +237,12 @@ def excel_to_html_openpyxl(xlsx_path, html_path=None, sheet_name=None):
 {html_table}
 </body>
 </html>"""
-
-    html_path.open("w", encoding="utf-8").write(page)
-    return html_path
+    return page
 
 
-def html_to_pdf(html_path, pdf_path=None):
-    """Convert HTML file to PDF and save to file."""
-    html_path = Path(html_path)
-    pdf_path = Path(pdf_path) if pdf_path else html_path.with_suffix(".pdf")
-    HTML(str(html_path)).write_pdf(str(pdf_path))
-    return pdf_path
+def html_to_pdf(html_string):
+    """Convert HTML string to PDF in memory (BytesIO)."""
+    pdf_io = BytesIO()
+    HTML(string=html_string).write_pdf(pdf_io)
+    pdf_io.seek(0)
+    return pdf_io

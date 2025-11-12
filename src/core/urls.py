@@ -112,6 +112,7 @@ path(
         view_ajax.InvoiceCounterAjax.as_view(),
         name="counter_ajax_items",
     ),
+path("ajax/account-info/", views.get_account_info, name="ajax-account-info"),
     path(
         "invoice/tariff_service_info/",
         views.get_tariff_service_info,
@@ -264,7 +265,7 @@ path(
     path("create_invoice", views.CreateInvoiceView.as_view(), name="create_invoice"),
 
 path(
-    "create_invoice_pc/<int:apartment_id>/",
+    "create_invoice_pc/<int:account_id>/",
     views.CreateInvoicePcView.as_view(),
     name="create_invoice_pc",
 ),

@@ -5,7 +5,7 @@ and privacy policy page.
 """
 
 import logging
-
+from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_backends
 from django.contrib.auth import login
@@ -198,3 +198,28 @@ class CustomLoginView(LoginView):
     def _authenticate_user(username, password):
         """Authenticate user with given credentials."""
         return authenticate(username=username, password=password)
+
+
+
+class CustomPasswordResetView(auth_views.PasswordResetView):
+    """Форма для введення email для скидання пароля."""
+    template_name = "registration/password_resets.html"
+    email_template_name = "registration/password_reset_emails.html"
+    subject_template_name = "registration/password_reset_subject.txt"
+    success_url = reverse_lazy("password_reset_done")
+
+
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    """Сторінка після відправлення листа."""
+    template_name = "registration/password_reset_dones.html"
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    """Сторінка для введення нового пароля (після кліку з email)."""
+    template_name = "registration/password_reset_confirm.html"
+    success_url = reverse_lazy("password_reset_complete")
+
+
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    """Сторінка після успішного скидання пароля."""
+    template_name = "registration/password_reset_complete.html"
