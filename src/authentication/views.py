@@ -5,6 +5,9 @@ and privacy policy page.
 """
 
 import logging
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_backends
@@ -231,11 +234,11 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
 
         context = {
             "email": email,
-            "user": user,  # ← обов'язково
+            "user": user,  # ← передаємо у шаблон
             "protocol": "https",
             "domain": self.request.get_host(),
-            "uid": None,  # якщо потрібно для password_reset_confirm
-            "token": None,  # якщо потрібно для password_reset_confirm
+            "uid": None,
+            "token": None,
             "site_name": "My House 24",
         }
 
