@@ -224,19 +224,30 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
 
     def form_valid(self, form: PasswordResetForm):
         email = form.cleaned_data.get("email")
-        logger.info(f"Password reset requested for email: {email}")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
 
-        # Викликаємо Celery task
+        context = {
+            "email": email,
+            "user": user,  # ← обов'язково
+            "protocol": "https",
+            "domain": self.request.get_host(),
+            "uid": None,  # якщо потрібно для password_reset_confirm
+            "token": None,  # якщо потрібно для password_reset_confirm
+            "site_name": "My House 24",
+        }
+
         self.send_mail(
             self.subject_template_name,
             self.email_template_name,
-            {"email": email},
+            context,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to_email=email,
         )
 
         response = super().form_valid(form)
-        logger.info("Password reset form processed successfully")
         return response
 
 
