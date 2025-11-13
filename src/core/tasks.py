@@ -211,6 +211,7 @@ def send_password_reset_email(self, subject, message, recipient_list):
         message (str): Текст письма (ссылки для сброса)
         recipient_list (list): Список email получателей
     """
+    print("Tekst ")
     try:
         send_mail(
             subject=subject,
