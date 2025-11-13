@@ -20,7 +20,7 @@ from django.views.generic import TemplateView
 from .forms import AdminLoginForm
 from .forms import CabinetLoginForm
 from .forms import RegistrationForm
-
+from django.contrib.auth.forms import PasswordResetForm
 logger = logging.getLogger(__name__)
 
 
@@ -207,6 +207,13 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
     email_template_name = "registration/password_reset_emails.html"
     subject_template_name = "registration/password_reset_subject.txt"
     success_url = reverse_lazy("password_reset_done")
+
+    def form_valid(self, form: PasswordResetForm):
+        logger.info(
+            f"Password reset requested for email: {form.cleaned_data.get('email')}")
+        response = super().form_valid(form)
+        logger.info("Password reset form processed successfully")
+        return response
 
 
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
