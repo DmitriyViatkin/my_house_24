@@ -66,13 +66,7 @@ services:
     networks:
       - app-network
 
-  flower:
-    image: mher/flower:latest
-    command: flower --broker=redis://redis:6379/0 --port=5555 --address=0.0.0.0
-    ports:
-      - "5555:5555"
-    networks:
-      - app-network
+
 
 networks:
   app-network:
