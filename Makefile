@@ -73,6 +73,12 @@ start:
 	python manage.py add-rolle
 	python manage.py runserver 0.0.0.0:8000
 
+start-gunicorn:
+	@echo "🚀 Запуск Django через Gunicorn..."
+	$(PYTHON) $(MANAGE) migrate --noinput
+	$(PYTHON) $(MANAGE) collectstatic --noinput
+	$(PYTHON) $(MANAGE) add_rolle || true
+	gunicorn settings.wsgi:application --bind 0.0.0.0:8000 --workers 4
 start-prod:
 	@echo "🚀 Запуск в продакшн-режиме..."
 	$(PYTHON) $(MANAGE) migrate --noinput
