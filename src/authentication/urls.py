@@ -16,7 +16,7 @@ urlpatterns = [
     # --- Восстановление пароля ---
     path(
         "password_reset/",
-        views.CustomPasswordResetView.as_view(
+        views.PasswordResetView.as_view(
 
         ),
         name="password_reset",

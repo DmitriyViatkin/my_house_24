@@ -202,7 +202,7 @@ class CustomLoginView(LoginView):
 
 
 
-class CustomPasswordResetView(auth_views.PasswordResetView):
+class PasswordResetView(auth_views.PasswordResetView):
     """Форма для введення email для скидання пароля."""
     template_name = "registration/password_resets.html"
     email_template_name = "registration/password_reset_emails.html"
@@ -223,8 +223,18 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
         send_password_reset_email.delay(subject, message, [to_email])
 
     def form_valid(self, form: PasswordResetForm):
-        logger.info(
-            f"Password reset requested for email: {form.cleaned_data.get('email')}")
+        email = form.cleaned_data.get("email")
+        logger.info(f"Password reset requested for email: {email}")
+
+        # Викликаємо Celery task
+        self.send_mail(
+            self.subject_template_name,
+            self.email_template_name,
+            {"email": email},
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to_email=email,
+        )
+
         response = super().form_valid(form)
         logger.info("Password reset form processed successfully")
         return response
