@@ -29,3 +29,26 @@ def debug_task(self):
     Useful for verifying that Celery is configured correctly.
     """
     logging.getLogger(__name__).info("Celery request: %s", self.request)
+
+
+@shared_task(bind=True, ignore_result=True)
+def send_password_reset_email(self, subject, message, recipient_list):
+    """
+    Celery task to send password reset email asynchronously.
+
+    Args:
+        subject (str): Тема письма
+        message (str): Текст письма (ссылки для сброса)
+        recipient_list (list): Список email получателей
+    """
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+        logger.info("Password reset email sent to: %s", recipient_list)
+    except Exception as e:
+        logger.error("Failed to send password reset email: %s", e)

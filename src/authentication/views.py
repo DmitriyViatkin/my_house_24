@@ -208,6 +208,19 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
     subject_template_name = "registration/password_reset_subject.txt"
     success_url = reverse_lazy("password_reset_done")
 
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        """
+        Используем Celery для отправки письма.
+        """
+        from django.template.loader import render_to_string
+
+        subject = render_to_string(subject_template_name, context).strip()
+        message = render_to_string(email_template_name, context)
+
+        # Создаём асинхронную задачу Celery
+        send_password_reset_email.delay(subject, message, [to_email])
+
     def form_valid(self, form: PasswordResetForm):
         logger.info(
             f"Password reset requested for email: {form.cleaned_data.get('email')}")
