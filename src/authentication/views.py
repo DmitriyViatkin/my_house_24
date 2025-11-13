@@ -232,16 +232,25 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
         except User.DoesNotExist:
             user = None
 
+        # Генеруємо uid та токен лише якщо користувач існує
+        if user:
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+        else:
+            uid = None
+            token = None
+
         context = {
             "email": email,
-            "user": user,  # ← передаємо у шаблон
+            "user": user,
             "protocol": "https",
             "domain": self.request.get_host(),
-            "uid": None,
-            "token": None,
+            "uid": uid,
+            "token": token,
             "site_name": "My House 24",
         }
 
+        # Виклик Celery task
         self.send_mail(
             self.subject_template_name,
             self.email_template_name,
