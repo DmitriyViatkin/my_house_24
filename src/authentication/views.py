@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 from django.views.generic import TemplateView
-
+from django.conf import settings
 from .forms import AdminLoginForm
 from .forms import CabinetLoginForm
 from .forms import RegistrationForm
