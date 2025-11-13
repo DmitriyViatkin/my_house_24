@@ -19,7 +19,10 @@ from src.financials.models import Template
 from src.users.models import Message
 
 User = get_user_model()
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 @shared_task
 def send_user_message(title, description, user_id=None, sender_id=None):
@@ -196,3 +199,26 @@ def send_broadcast_email(  # noqa: PLR0913
     message_obj.save()
 
     return f"Email '{subject}' successfully sent to {len(recipient_list)} users."
+
+
+@shared_task(bind=True, ignore_result=True)
+def send_password_reset_email(self, subject, message, recipient_list):
+    """
+    Celery task to send password reset email asynchronously.
+
+    Args:
+        subject (str): Тема письма
+        message (str): Текст письма (ссылки для сброса)
+        recipient_list (list): Список email получателей
+    """
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+        logger.info("Password reset email sent to: %s", recipient_list)
+    except Exception as e:
+        logger.error("Failed to send password reset email: %s", e)
