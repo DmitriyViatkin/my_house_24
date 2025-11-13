@@ -20,6 +20,7 @@ from django.views.generic import TemplateView
 from .forms import AdminLoginForm
 from .forms import CabinetLoginForm
 from .forms import RegistrationForm
+from src.core.tasks import send_password_reset_email
 from django.contrib.auth.forms import PasswordResetForm
 logger = logging.getLogger(__name__)
 
