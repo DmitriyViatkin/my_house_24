@@ -8,7 +8,6 @@ services:
     command: make start-prod
     env_file:
       - .env.production
-
     depends_on:
       - db
       - redis
@@ -66,13 +65,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
+
   flower:
-    image: mher/flower
+    image: mher/flower:latest
+    environment:
+      - FLOWER_PORT=5555
     command: flower --broker=redis://redis:6379/0
     ports:
       - "5555:5555"
+    depends_on:
+      - redis
+      - celery_worker
     networks:
       - app-network
+
 networks:
   app-network:
     driver: bridge
