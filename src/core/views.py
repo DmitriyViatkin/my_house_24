@@ -2299,88 +2299,113 @@ class AddTemplateView(LoginRequiredMixin, RolePermissionRequiredMixin, View):
     role_permission = "has_invoice"
 
     def get_context_data(self, **kwargs):
-        """Get context data for rendering the template.
-
-        Adds the active section name for template highlighting.
-
-        Returns:
-            dict: Context dictionary for rendering.
-
-        """
+        """Add active section info for highlighting."""
         context = super().get_context_data(**kwargs)
         context["active_section"] = "invoice"
         return context
 
     def get(self, request):
-        """Handle GET requests to display all invoice templates.
-
-        Returns:
-            HttpResponse: Rendered template with formset of templates.
-
-        """
+        """Display all invoice templates."""
         formset = TemplateFormSet(queryset=Template.objects.all())
         return render(request, self.template_name, {"formset": formset})
 
     def post(self, request):
-        """Handle POST requests to create or update invoice templates.
-
-        Validates the formset, saves valid forms, and re-renders with errors if invalid.
-
-        Args:
-            request (HttpRequest): The request object containing POST data and FILES.
-
-        Returns:
-        HttpResponse: Rendered template with formset and potential validation errors.
-
-        """
-        logger.debug("POST data: %s", request.POST)
-        logger.debug("FILES data: %s", request.FILES)
+        """Создание или обновление шаблонов."""
+        logger.debug("Received POST data: %s", request.POST.dict())
 
         formset = TemplateFormSet(
-            request.POST, request.FILES, queryset=Template.objects.all()
+            request.POST,
+            request.FILES,
+            queryset=Template.objects.all()
         )
 
         self._allow_empty_forms(formset)
 
+        # 🔹 Определяем, какой шаблон выбран по радио
+        selected_default_id = request.POST.get("default_template")
+        logger.debug("Selected default template ID: %s", selected_default_id)
+
         if formset.is_valid():
-            logger.debug("Formset valid. Saving instances...")
-            self._save_formset_with_default_check(formset)
-            logger.debug("Redirecting after saving formset")
+            instances = formset.save(commit=False)
+
+            # 🔹 Сбрасываем флаг is_default у всех
+            Template.objects.update(is_default=False)
+
+            # 🔹 Присваиваем is_default=True выбранному
+            if selected_default_id:
+                try:
+                    selected_template = Template.objects.get(pk=selected_default_id)
+                    selected_template.is_default = True
+                    selected_template.save(update_fields=["is_default"])
+                    logger.info("Template '%s' назначен по умолчанию",
+                                selected_template.name)
+                except Template.DoesNotExist:
+                    logger.warning("Выбранный шаблон (ID=%s) не найден",
+                                   selected_default_id)
+
+            # 🔹 Сохраняем остальные шаблоны
+            for instance in instances:
+                instance.save()
+            formset.save_m2m()
+
+            # 🔹 Удаляем отмеченные
+            for deleted in formset.deleted_objects:
+                deleted.delete()
+
             return redirect(self.success_url)
 
+        # Если невалидно — логируем ошибки
         self._log_form_errors(formset)
         return render(request, self.template_name, {"formset": formset})
 
     def _allow_empty_forms(self, formset):
-        """Allow empty forms for new objects."""
+        """Allow empty forms for new templates."""
         for form in formset.forms:
             if not form.instance.pk:
                 form.empty_permitted = True
 
     def _save_formset_with_default_check(self, formset):
-        """Save formset and enforce single default template."""
+        """Save formset and ensure only one template is default."""
         instances = formset.save(commit=False)
+        logger.debug("Saving %d instances...", len(instances))
 
-        if any(inst.is_default for inst in instances):
-            for inst in instances:
-                if inst.is_default:
-                    Template.objects.exclude(pk=inst.pk).update(is_default=False)
-                    break
+        # Проверяем наличие дефолтного шаблона
+        default_templates = [inst for inst in instances if
+                             getattr(inst, "is_default", False)]
+        if default_templates:
+            logger.debug("Found default template(s): %s",
+                         [t.name for t in default_templates])
+            Template.objects.exclude(pk__in=[t.pk for t in default_templates]).update(
+                is_default=False)
+        else:
+            logger.debug("No default template marked among saved instances.")
 
         for instance in instances:
+            file_field = getattr(instance, "file", None)
+            if file_field:
+                logger.debug("Template '%s': file name before save — %s", instance.name,
+                             file_field.name)
             instance.save()
+            if file_field:
+                logger.debug("Template '%s' saved. File path: %s", instance.name,
+                             instance.file.path if instance.file else "None")
+
         formset.save_m2m()
 
-        for instance in formset.deleted_objects:
-            logger.debug("Deleting instance id=%s, name=%s", instance.pk, instance.name)
-            instance.delete()
+        for deleted in formset.deleted_objects:
+            logger.info("Deleting template id=%s, name=%s", deleted.pk, deleted.name)
+            deleted.delete()
 
     def _log_form_errors(self, formset):
-        """Log validation errors for debugging."""
-        logger.debug("Formset not valid. Errors:")
-        for i, form in enumerate(formset):
+        """Detailed formset error logging."""
+        logger.warning("Template formset invalid — total errors: %d",
+                       len(formset.errors))
+        for i, form in enumerate(formset.forms):
             if form.errors:
-                logger.debug("Form %d errors: %s", i, form.errors)
+                logger.warning("Form #%d errors: %s", i, form.errors)
+            if form.non_field_errors():
+                logger.warning("Form #%d non-field errors: %s", i,
+                               form.non_field_errors())
 
 
 def download_invoice(request, invoice_id):

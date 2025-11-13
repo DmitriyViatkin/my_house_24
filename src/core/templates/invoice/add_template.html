@@ -23,53 +23,95 @@
         </div>
         <div class="box-body">
           <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ formset.management_form }}
-            {% for form in formset %}
-                  <div class="card p-3 mb-3 border-rounded">
-                    <div class="row align-items-center">
-                      <!-- Название шаблона -->
-                      <div class="col-sm-4">
-                        <div class="form-group mb-0">{{ form.name }}</div>
-                      </div>
-                      <!-- Файл -->
-                      <div class="col-sm-4">
-                        <div class="form-group mb-0">{{ form.file }}</div>
-                      </div>
-                      <!-- По умолчанию (радио) -->
-                      <div class="col-sm-2 text-center">
-    <label style="cursor: pointer;">
-        <input type="radio"
-               name="default_template"
-               value="{{ form.instance.id }}"
-               {% if form.instance.is_default %}checked{% endif %}>
-        <span class="ms-1 text-primary">назначить по умолчанию</span>
-    </label>
-</div>
-                      <!-- Кнопка удаления -->
-                      {% if form.instance.pk %}
-                        <div class="col-sm-2 text-center">
-                          <a href="#"
-                             class="btn btn-danger btn-sm mb-0"
-                             onclick="return confirm('Удалить этот шаблон?');">
-                            <i class="fa fa-trash"></i> Удалить
-                          </a>
-                        </div>
-                      {% endif %}
-                    </div>
-                    {% if form.non_field_errors %}<div class="text-danger mt-2">{{ form.non_field_errors }}</div>{% endif %}
-                  </div>
-                {% endfor %}
+  {% csrf_token %}
+  {{ formset.management_form }}
 
-            <div class="text-center mt-3">
-              <a href="{% url 'admin:add_template' %}" class="btn btn-default">Отменить</a>
-              <button type="submit" class="btn btn-success">
-                <i class="fa fa-save"></i> Сохранить
-              </button>
-            </div>
-          </form>
+  {% for form in formset %}
+    <div class="card p-3 mb-3 border-rounded">
+      <div class="row align-items-center">
+
+        <!-- ВАЖНО: скрытые служебные поля -->
+        {{ form.id }}
+        {{ form.DELETE }}
+        {{ form.ORDER }}
+
+        <!-- Название шаблона -->
+        <div class="col-sm-4">
+          <div class="form-group mb-0">{{ form.name }}</div>
+        </div>
+
+        <!-- Файл -->
+        <div class="col-sm-4">
+          <div class="form-group mb-0">
+            {{ form.file }}
+            {% if form.instance.file %}
+              <div class="mt-1">
+                <small class="text-muted">Текущий файл:
+                  <a href="{{ form.instance.file.url }}" target="_blank">{{ form.instance.file.name }}</a>
+                </small>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Радио: шаблон по умолчанию -->
+        <div class="col-sm-2 text-center">
+          <label style="cursor: pointer;">
+            <input type="radio"
+                   name="default_template"
+                   value="{{ form.instance.id }}"
+                   {% if form.instance.is_default %}checked{% endif %}>
+            <span class="ms-1 text-primary">по умолчанию</span>
+          </label>
+        </div>
+
+        <!-- Кнопка удаления -->
+        {% if form.instance.pk %}
+          <div class="col-sm-2 text-center">
+            <a href="#" class="btn btn-danger btn-sm mb-0"
+               onclick="return confirm('Удалить этот шаблон?');">
+              <i class="fa fa-trash"></i> Удалить
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if form.errors %}
+        <div class="text-danger mt-2">{{ form.errors }}</div>
+      {% endif %}
+      {% if form.non_field_errors %}
+        <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <div class="text-center mt-3">
+    <a href="{% url 'admin:add_template' %}" class="btn btn-default">Отменить</a>
+    <button type="submit" class="btn btn-success">
+      <i class="fa fa-save"></i> Сохранить
+    </button>
+  </div>
+</form>
+
         </div>
       </div>
     </section>
   </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const radios = document.querySelectorAll('input[type="radio"][name$="is_default"]');
+  radios.forEach(radio => {
+    radio.addEventListener("change", e => {
+      if (e.target.checked && e.target.value === "True") {
+        radios.forEach(r => {
+          if (r !== e.target && r.value === "True") {
+            r.checked = false;
+          }
+        });
+      }
+    });
+  });
+});
+</script>
 {% endblock  %}

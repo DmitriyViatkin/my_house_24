@@ -45,7 +45,10 @@ class TemplateForm(forms.ModelForm):
                 }
             ),
             "file": forms.FileInput(attrs={"class": "form-control-file"}),
-            "is_default": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "is_default": forms.RadioSelect(
+                choices=[(True, "Да"), (False, "Нет")],
+                attrs={"class": "form-check-input"},
+            ),
         }
         labels = {
             "name": "Название шаблона",

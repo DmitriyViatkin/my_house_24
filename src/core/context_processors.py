@@ -41,15 +41,14 @@ def new_users_count(request):
     """
     count = 0
     try:
-        count = User.objects.filter(status='new').count()
+        count = User.objects.filter(status='new', is_staff=False).count()
 
-        # --- Правильне логування ---
-        # Використовуйте logger.info() замість print()
+
         logger.info(f"Кількість нових користувачів (Context Processor): {count}")
-        # ---------------------------
+
 
     except Exception as e:
-        # Для помилок використовуйте logger.error()
+
         logger.error(f"Помилка при отриманні кількості нових користувачів: {e}",
                      exc_info=True)
         count = 0
