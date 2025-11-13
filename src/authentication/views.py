@@ -202,7 +202,7 @@ class CustomLoginView(LoginView):
 
 
 
-class PasswordResetView(auth_views.PasswordResetView):
+class CustomPasswordResetView(auth_views.PasswordResetView):
     """Форма для введення email для скидання пароля."""
     template_name = "registration/password_resets.html"
     email_template_name = "registration/password_reset_emails.html"
