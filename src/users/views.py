@@ -226,25 +226,36 @@ class CabinetView(LoginRequiredMixin, TemplateView):
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
-    """Display the user's profile page."""
+    """Display the user's (or another user's) profile page."""
 
     template_name = "profile.html"
 
+    def get_user_object(self):
+        """Return either the user from URL or current user."""
+        pk = self.kwargs.get("pk")
+        if pk:
+            # показываем пользователя по pk
+            return get_object_or_404(User, pk=pk)
+        return self.request.user
+
     def get_context_data(self, **kwargs):
-        """Add user, apartments, and houses to context."""
         context = super().get_context_data(**kwargs)
+
+        user = self.get_user_object()
+
         context["page_title"] = "Profile"
-        user = self.request.user
+        context["user"] = user
+
         apartments = user.apartments.select_related(
             "house", "section", "floor", "account"
         )
-        context["user"] = user
+
         context["apartments"] = apartments
         context["houses"] = {apt.house for apt in apartments}
         context["sections"] = {apt.section for apt in apartments}
         context["active_section"] = "profile"
-        return context
 
+        return context
 
 class TariffView(LoginRequiredMixin, TemplateView):
     """Display tariff details for a specific apartment."""

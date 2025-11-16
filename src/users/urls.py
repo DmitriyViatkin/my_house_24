@@ -26,6 +26,7 @@ urlpatterns = [
         name="invoice_print",
     ),
     path("profile/", views.ProfileView.as_view(), name="profile"),
+    path("profile/<int:pk>/", views.ProfileView.as_view(), name="profil"),
     path("profile/tickets_list/", views.ListTicketsView.as_view(), name="tickets_list"),
     path("tickets_list/add_ticket/", views.AddTicketsView.as_view(), name="add_ticket"),
     path(

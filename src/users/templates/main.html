@@ -101,48 +101,50 @@
                 </ul>
               </li>
               <!-- User Account -->
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  {% if user.image %}
-                    <img class="profile-user-img img-responsive img-circle user-image"
-                         src="{{ user.image.url }}?w=25&h=25&fit=crop"
-                         alt="{{ user.full_name }}" />
-                  {% else %}
-                    <img class="profile-user-img img-responsive img-circle user-image"
-                         src="{% static 'images/default_avatar.jpg' %}?w=25&h=25&fit=crop"
-                         alt="Аватар" />
-                  {% endif %}
-                  <span class="hidden-xs">{{ user.full_name }}</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="user-header">
-                    {% if user.image %}
+                <li class="dropdown user user-menu">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {% if request.user.image %}
                       <img class="profile-user-img img-responsive img-circle user-image"
-                           src="{{ user.image.url }}?w=160&h=160&fit=crop"
-                           alt="{{ user.full_name }}" />
+                           src="{{ request.user.image.url }}?w=25&h=25&fit=crop"
+                           alt="{{ request.user.full_name }}" />
                     {% else %}
                       <img class="profile-user-img img-responsive img-circle user-image"
-                           src="{% static 'images/default_avatar.jpg' %}?w=160&h=160&fit=crop"
+                           src="{% static 'images/default_avatar.jpg' %}?w=25&h=25&fit=crop"
                            alt="Аватар" />
                     {% endif %}
-                    <p>{{ user.full_name }}</p>
-                  </li>
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a class="btn btn-default btn-flat" href="{% url 'profile' %}">Профиль</a>
-                    </div>
-                    <div class="pull-right">
-                      <form id="logout-form"
-                            action="{% url 'logout' %}"
-                            method="post"
-                            class="hidden-form">
-                        {% csrf_token %}
-                      </form>
-                      <a class="btn btn-default btn-flat"
-                         href="#"
-                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
-                    </div>
-                  </li>
+                    <span class="hidden-xs">{{ request.user.full_name }}</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li class="user-header">
+                      {% if request.user.image %}
+                        <img class="profile-user-img img-responsive img-circle user-image"
+                             src="{{ request.user.image.url }}?w=160&h=160&fit=crop"
+                             alt="{{ request.user.full_name }}" />
+                      {% else %}
+                        <img class="profile-user-img img-responsive img-circle user-image"
+                             src="{% static 'images/default_avatar.jpg' %}?w=160&h=160&fit=crop"
+                             alt="Аватар" />
+                      {% endif %}
+                      <p>{{ request.user.full_name }}</p>
+                    </li>
+                    <li class="user-footer">
+                      <div class="pull-left">
+                        <a class="btn btn-default btn-flat" href="{% url 'profile' %}">Профиль</a>
+                      </div>
+                      <div class="pull-right">
+                        <form id="logout-form"
+                              action="{% url 'logout' %}"
+                              method="post"
+                              class="hidden-form">
+                          {% csrf_token %}
+                        </form>
+                        <a class="btn btn-default btn-flat"
+                           href="#"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
                 </ul>
               </li>
             </ul>
