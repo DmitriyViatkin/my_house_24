@@ -2822,7 +2822,7 @@ class CardUserView(LoginRequiredMixin, RolePermissionRequiredMixin, TemplateView
         user_id = self.kwargs.get("pk")
         card_user = get_object_or_404(User, pk=user_id)
 
-        # подгружаем связанные квартиры
+
         apartments = card_user.apartments.prefetch_related(
             "house", "section", "floor", "account"
         )
