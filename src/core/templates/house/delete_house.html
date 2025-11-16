@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block body %}
+{% block content %}
   <div class="content-wrapper">
     <section class="content-header">
       <h1>Удаление дома</h1>
@@ -9,7 +9,7 @@
           <a href="{% url 'admin:home' %}"><i class="fa fa-home"></i> Главная</a>
         </li>
         <li>
-          <a href="{% url 'admin:house_index' %}">Дома</a>
+          <a href="{% url 'admin:house' %}">Дома</a>
         </li>
         <li class="active">Удаление дома</li>
       </ul>
@@ -26,10 +26,10 @@
           <form method="post" action="{% url 'admin:delete_house' house.id %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Удалить</button>
-            <a href="{% url 'admin:house_index' %}" class="btn btn-default">Отмена</a>
+            <a href="{% url 'admin:house' %}" class="btn btn-default">Отмена</a>
           </form>
         </div>
       </div>
     </section>
   </div>
-{% endblock body %}
+{% endblock  %}

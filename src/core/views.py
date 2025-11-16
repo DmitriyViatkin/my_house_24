@@ -51,7 +51,7 @@ from src.building.forms import SectionFormSet
 from src.building.forms import StaffFormSet
 from src.building.models import Apartment
 from src.building.models import Floor
-from src.building.models import House
+from src.building.models import House, Staff
 from src.building.models import Section
 from src.core.forms import UserSendMessage
 from src.core.generator import generate_id_with_random_number
@@ -1260,48 +1260,68 @@ class AddCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, FormView):
     def get_initial(self):
         initial = super().get_initial()
         params = self.request.GET
+
         logger.debug("GET params: %s", params)
+
         if params.get("house"):
             initial["house"] = params["house"]
+
         if params.get("section"):
             initial["section"] = params["section"]
+
         if params.get("apartment"):
             initial["apartment"] = params["apartment"]
+
         logger.debug("Initial form data: %s", initial)
         return initial
 
     def form_valid(self, form):
         logger.debug("Form is valid: %s", form.cleaned_data)
+
         instance = form.save(commit=False)
 
         if not instance.date:
             instance.date = timezone.now().date()
-            logger.debug("Date not provided, set to now: %s", instance.date)
+            logger.debug("Date auto-set: %s", instance.date)
 
         try:
             instance.save()
             logger.info("[FORM SAVE] Counter saved: %s (ID=%s)", instance, instance.pk)
         except Exception as e:
-            logger.error("[FORM SAVE] Error saving counter: %s", e)
+            logger.error("[FORM SAVE] Error: %s", e)
             raise
 
         self.object = instance
 
+        # ----------------------------------------------------
+        # КНОПКА "СОХРАНИТЬ И ДОБАВИТЬ"
+        # ----------------------------------------------------
         if "action_save_add" in self.request.POST:
-            query = urlencode(
-                {
-                    "house": instance.apartment.section.house.id,
-                    "section": instance.apartment.section.id,
-                    "apartment": instance.apartment.id,
-                }
-            )
-            logger.debug("Redirecting to add another counter with query: %s", query)
-            return redirect(f"{reverse('admin:counters_add')}?{query}")
 
+            current_apartment = instance.apartment
+            # ПЕРЕДАЁМ пользователя в функцию
+            next_apartment = get_next_apartment(current_apartment, self.request.user)
+
+            if next_apartment:
+                query = urlencode(
+                    {
+                        "house": next_apartment.section.house.id,
+                        "section": next_apartment.section.id,
+                        "apartment": next_apartment.id,
+                    }
+                )
+                logger.debug("Redirecting to NEXT apartment: %s", query)
+                return redirect(f"{reverse('admin:counters_add')}?{query}")
+
+            # Дальше квартир нет → пустая форма
+            logger.debug("No next apartment — opening empty form")
+            return redirect(reverse("admin:counters_add"))
+
+        # обычное сохранение
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        logger.warning("[FORM INVALID] Form errors: %s", form.errors)
+        logger.warning("[FORM INVALID] Errors: %s", form.errors)
         return super().form_invalid(form)
 
     def get_success_url(self):
@@ -1310,13 +1330,9 @@ class AddCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, FormView):
         return url
 
 
-class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
-    """Update a Counter object.
 
-    If a primary key (pk) is provided in the URL, edits an existing Counter.
-    Otherwise, creates a new Counter object with a default date.
-    Access is restricted by user role.
-    """
+class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateView):
+    """Update a Counter object."""
 
     model = Counter
     template_name = "counter/new_reading.html"
@@ -1324,40 +1340,40 @@ class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateV
     role_permission = "has_counter"
 
     def get_context_data(self, **kwargs):
-        """Add context data for the Counter update view."""
         context = super().get_context_data(**kwargs)
         context["active_section"] = "counters"
         logger.debug("[CONTEXT DATA] Context prepared: %s", context)
         return context
 
     def get_object(self, queryset=None):
-        """Retrieve the Counter object to edit, or create a new one."""
         pk = self.kwargs.get("pk")
         if pk:
             obj = get_object_or_404(Counter, pk=pk)
             logger.debug("[GET OBJECT] Editing Counter: %s (ID=%s)", obj, obj.pk)
             return obj
-        # Create new object with default date
-        obj = Counter(date=timezone.now())
-        obj.counter_number = generate_id_with_random_number()
+
+        # Создание нового (как Add)
+        obj = Counter(
+            date=timezone.now(),
+            counter_number=generate_id_with_random_number()
+        )
         logger.debug("[GET OBJECT] Creating new Counter: %s", obj)
         return obj
 
     def get_form_kwargs(self):
-        """Pass request to the form and log kwargs."""
         kwargs = super().get_form_kwargs()
         kwargs["request"] = self.request
         logger.debug("[FORM KWARGS] %s", kwargs)
         return kwargs
 
     def form_valid(self, form):
-        """Handle valid form submission and save the Counter instance."""
         instance = form.save(commit=False)
 
         if not instance.counter_number:
             instance.counter_number = generate_id_with_random_number()
             logger.debug(
-                "[FORM VALID] Generated new counter_number: %s", instance.counter_number
+                "[FORM VALID] Generated new counter_number: %s",
+                instance.counter_number,
             )
 
         if not instance.date:
@@ -1365,33 +1381,54 @@ class UpdateCounterView(LoginRequiredMixin, RolePermissionRequiredMixin, UpdateV
             logger.debug("[FORM VALID] Set current date: %s", instance.date)
 
         instance.save()
-        self.object = instance  # нужно для get_success_url
+        self.object = instance
         logger.debug(
-            "[FORM SAVE] Counter saved or updated: %s (ID=%s)", instance, instance.pk
+            "[FORM SAVE] Counter saved or updated: %s (ID=%s)",
+            instance,
+            instance.pk,
         )
 
+        # ----------------------------------------------------
+        #   ОБРАБОТКА КНОПКИ "СОХРАНИТЬ И ДОБАВИТЬ"
+        # ----------------------------------------------------
         if "action_save_add" in self.request.POST:
-            logger.debug("[FORM VALID] User clicked 'save and add'. Redirecting...")
-            return redirect("admin:counters_add")
+            logger.debug("[FORM VALID] Save & Add clicked")
+
+            current_apartment = instance.apartment
+            next_apartment = get_next_apartment(current_apartment)
+
+            if next_apartment:
+                query = urlencode(
+                    {
+                        "house": next_apartment.house.id,
+                        "section": next_apartment.section.id,
+                        "apartment": next_apartment.id,
+                    }
+                )
+                logger.debug("[FORM VALID] Redirect to NEXT apartment: %s", query)
+                return redirect(f"{reverse('admin:counters_add')}?{query}")
+
+            # больше квартир нет → пустая форма
+            logger.debug("[FORM VALID] No next apartment — empty form")
+            return redirect(reverse("admin:counters_add"))
 
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        """Handle invalid form submission with detailed debug."""
         logger.debug("[FORM INVALID] Form errors: %s", form.errors.as_json())
         logger.debug("[FORM INVALID] Bound data: %s", form.data)
         logger.debug(
             "[FORM INVALID] Form field querysets: %s",
-            {f: getattr(form.fields[f], "queryset", "N/A") for f in form.fields},
+            {f: getattr(form.fields[f], "queryset", None) for f in form.fields},
         )
         return super().form_invalid(form)
 
     def get_success_url(self):
-        """Redirect to the list of counters for the apartment."""
         if hasattr(self, "object") and self.object.apartment:
             url = reverse("admin:counters", args=[self.object.apartment.id])
             logger.debug("[SUCCESS URL] Redirecting to: %s", url)
             return url
+
         url = reverse("admin:counters_add")
         logger.debug("[SUCCESS URL] Fallback redirect to: %s", url)
         return url
@@ -1814,7 +1851,7 @@ class HouseDeleteView(LoginRequiredMixin, RolePermissionRequiredMixin, DeleteVie
     """View for deleting a house."""
 
     model = House
-    template_name = "house/house_confirm_delete.html"
+    template_name = "house/delete_house.html"
     success_url = reverse_lazy("admin:house")
     role_permission = "has_house"
 
@@ -5345,3 +5382,98 @@ def get_account_info(request):
         "owner": user.full_name if user else "",
         "phone": user.phone if user else "",
     })
+
+
+
+
+
+
+
+def get_next_apartment(current_apartment, user):
+    """
+    Возвращает следующую квартиру по порядку среди домов,
+    к которым пользователь имеет доступ как staff.
+    """
+
+    # дома, где пользователь обслуживает
+    allowed_house_ids = (
+        Staff.objects
+        .filter(user=user)
+        .values_list("house_id", flat=True)
+    )
+
+    if not allowed_house_ids:
+        return None
+
+    section = current_apartment.section
+    house = section.house
+    apt_num = current_apartment.apartment_number
+
+    # -------------------------------------------------------------
+    # 1) Следующая квартира в этой секции
+    # -------------------------------------------------------------
+    next_in_section = (
+        Apartment.objects
+        .filter(section=section, apartment_number__gt=apt_num)
+        .order_by("apartment_number")
+        .first()
+    )
+
+    if next_in_section:
+        return next_in_section
+
+    # -------------------------------------------------------------
+    # 2) Первая квартира следующей секции в ЭТОМ же доме
+    # -------------------------------------------------------------
+    next_section = (
+        Section.objects
+        .filter(house=house, id__gt=section.id)
+        .order_by("id")
+        .first()
+    )
+
+    if next_section:
+        first_in_next_section = (
+            Apartment.objects
+            .filter(section=next_section)
+            .order_by("apartment_number")
+            .first()
+        )
+        if first_in_next_section:
+            return first_in_next_section
+
+    # -------------------------------------------------------------
+    # 3) Следующий дом, в котором пользователь = staff
+    # -------------------------------------------------------------
+    next_house = (
+        House.objects
+        .filter(id__gt=house.id, id__in=allowed_house_ids)
+        .order_by("id")
+        .first()
+    )
+
+    if not next_house:
+        return None
+
+    # первая секция следующего доступного дома
+    first_section_next_house = (
+        Section.objects
+        .filter(house=next_house)
+        .order_by("id")
+        .first()
+    )
+
+    if not first_section_next_house:
+        return None
+
+    # первая квартира этой секции
+    first_apartment_next_house = (
+        Apartment.objects
+        .filter(section=first_section_next_house)
+        .order_by("apartment_number")
+        .first()
+    )
+
+    return first_apartment_next_house
+
+
